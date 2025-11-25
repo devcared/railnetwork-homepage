@@ -1,26 +1,145 @@
-@import "tailwindcss";
+/* stylelint-disable */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable */
+
+/* DBScreenHead Fonts */
+@font-face {
+  font-family: "DBScreenHead";
+  src: url("/fonts/dbscreenhead-black.woff2") format("woff2"),
+    url("/fonts/dbscreenhead-black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenHead";
+  src: url("/fonts/dbscreenhead-light.woff2") format("woff2"),
+    url("/fonts/dbscreenhead-light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenHead";
+  src: url("/fonts/dbscreenhead-regular.woff2") format("woff2"),
+    url("/fonts/dbscreenhead-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* DBScreenSans Fonts */
+@font-face {
+  font-family: "DBScreenSans";
+  src: url("/fonts/dbscreensans-bold.woff2") format("woff2"),
+    url("/fonts/dbscreensans-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenSans";
+  src: url("/fonts/dbscreensans-medium.woff2") format("woff2"),
+    url("/fonts/dbscreensans-medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenSans";
+  src: url("/fonts/dbscreensans-regular.woff2") format("woff2"),
+    url("/fonts/dbscreensans-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenSans";
+  src: url("/fonts/dbscreensans-semibold.woff2") format("woff2"),
+    url("/fonts/dbscreensans-semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenSansDigital";
+  src: url("/fonts/dbscreensans-digitalregular.woff2") format("woff2"),
+    url("/fonts/dbscreensans-digitalregular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* DBScreenSansCond Fonts */
+@font-face {
+  font-family: "DBScreenSansCond";
+  src: url("/fonts/dbscreensanscond-bold.woff2") format("woff2"),
+    url("/fonts/dbscreensanscond-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenSansCond";
+  src: url("/fonts/dbscreensanscond-regular.woff2") format("woff2"),
+    url("/fonts/dbscreensanscond-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* DBScreenNews Fonts */
+@font-face {
+  font-family: "DBScreenNews";
+  src: url("/fonts/secondary/dbscreennews-bold.woff2") format("woff2"),
+    url("/fonts/secondary/dbscreennews-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DBScreenNews";
+  src: url("/fonts/secondary/dbscreennews-regular.woff2") format("woff2"),
+    url("/fonts/secondary/dbscreennews-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  color-scheme: light;
+  --db-red: #e2001a;
+  --db-gray: #333b46;
+  --page-bg: #f3f6fb;
+  --font-db-screenhead: "DBScreenHead", sans-serif;
+  --font-db-screensans: "DBScreenSans", sans-serif;
+  --font-db-screensans-digital: "DBScreenSansDigital", sans-serif;
+  --font-db-screensanscond: "DBScreenSansCond", sans-serif;
+  --font-db-screennews: "DBScreenNews", sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--db-gray);
+  font-family: var(--font-db-screensans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+.surface-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background-color: #fff;
+  box-shadow: 0 25px 60px -30px rgba(15, 23, 42, 0.35);
 }
