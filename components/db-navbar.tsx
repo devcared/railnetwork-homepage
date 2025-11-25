@@ -132,7 +132,7 @@ export default function DbNavbar({ session }: DbNavbarProps) {
           >
             <Link href="/" className="flex items-center gap-2" aria-label="Startseite">
               <Image
-                src="/logo.svg"
+                src="/Logo.svg"
                 alt="Railnetwork.app"
                 width={180}
                 height={90}

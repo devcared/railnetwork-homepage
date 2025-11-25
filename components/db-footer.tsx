@@ -64,7 +64,7 @@ export default function DbFooter() {
           {/* Logo & Description */}
           <div className="lg:col-span-1">
             <Link href="/" className="mb-4 inline-block" aria-label="Startseite">
-              <Image src="/logo.svg" alt="Railnetwork.app" width={180} height={90} />
+              <Image src="/Logo.svg" alt="Railnetwork.app" width={180} height={90} />
             </Link>
             <p className="mt-4 text-sm text-slate-600">
               Moderne Rail Infrastructure Platform für intelligente Schienennetze.
