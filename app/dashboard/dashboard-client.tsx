@@ -15,8 +15,32 @@ import Sheet, {
   SheetTitle,
   SheetDescription,
 } from "@/components/sheet";
-import type { Project, Notification as DashboardNotification } from "@/lib/models";
+import type { Project } from "@/lib/models";
 import Link from "next/link";
+import {
+  Box,
+  Flex,
+  VStack,
+  HStack,
+  Text,
+  Button,
+  IconButton,
+  Badge,
+  ProgressRoot,
+  ProgressTrack,
+  ProgressRange,
+  SimpleGrid,
+  CardRoot,
+  CardHeader,
+  CardBody,
+  Input,
+  Textarea,
+  Spinner,
+  Center,
+  Separator,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import {
   Plus,
   BarChart3,
@@ -27,15 +51,12 @@ import {
   Activity,
   ChevronRight,
   TrendingUp,
-  Bell,
-  BellRing,
   Zap,
   FileText,
   Cpu,
   HardDrive,
   Network,
   CheckCircle,
-  XCircle,
 } from "lucide-react";
 
 type DashboardClientProps = {
@@ -52,18 +73,16 @@ export default function DashboardClient({ session }: DashboardClientProps) {
     alerts,
     notifications,
     unreadCount,
-    refresh,
     actions,
   } = useDashboard({ session });
 
-  const { currentVersion, serverVersion } = useAppVersion();
+  const { currentVersion } = useAppVersion();
 
   const [showCreateProject, setShowCreateProject] = useState(false);
   const [showProjectDetails, setShowProjectDetails] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [newProjectName, setNewProjectName] = useState("");
   const [newProjectDescription, setNewProjectDescription] = useState("");
-  const [pendingNotificationAction, setPendingNotificationAction] = useState<string | null>(null);
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,111 +119,64 @@ export default function DashboardClient({ session }: DashboardClientProps) {
   const getActivityIcon = (status: string) => {
     switch (status) {
       case "success":
-        return <BarChart3 className="h-5 w-5" />;
+        return <BarChart3 size={20} />;
       case "info":
-        return <Info className="h-5 w-5" />;
+        return <Info size={20} />;
       default:
-        return <CheckCircle2 className="h-5 w-5" />;
+        return <CheckCircle2 size={20} />;
     }
   };
-
-  const notificationToneMap: Record<
-    DashboardNotification["type"],
-    {
-      label: string;
-      accent: string;
-      ring: string;
-      icon: React.ReactNode;
-    }
-  > = {
-    success: {
-      label: "Erfolg",
-      accent: "text-emerald-600",
-      ring: "bg-emerald-50 text-emerald-600 ring-emerald-100",
-      icon: <CheckCircle2 className="h-4 w-4" />,
-    },
-    warning: {
-      label: "Warnung",
-      accent: "text-amber-600",
-      ring: "bg-amber-50 text-amber-600 ring-amber-100",
-      icon: <AlertTriangle className="h-4 w-4" />,
-    },
-    error: {
-      label: "Fehler",
-      accent: "text-red-600",
-      ring: "bg-red-50 text-red-600 ring-red-100",
-      icon: <XCircle className="h-4 w-4" />,
-    },
-    info: {
-      label: "Info",
-      accent: "text-blue-600",
-      ring: "bg-blue-50 text-blue-600 ring-blue-100",
-      icon: <Info className="h-4 w-4" />,
-    },
-  };
-
-  const handleNotificationAction = async (
-    notificationId: string,
-    action: "read" | "delete"
-  ) => {
-    if (!notificationId) return;
-    setPendingNotificationAction(`${action}-${notificationId}`);
-    try {
-      if (action === "read") {
-        await fetch(`/api/dashboard/notifications/${notificationId}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ read: true }),
-        });
-      } else {
-        await fetch(`/api/dashboard/notifications/${notificationId}`, {
-          method: "DELETE",
-        });
-      }
-      await refresh.notifications();
-    } catch (error) {
-      console.error("Failed to update notification:", error);
-    } finally {
-      setPendingNotificationAction(null);
-    }
-  };
-
-  const handleMarkAllNotifications = async () => {
-    try {
-      await fetch("/api/dashboard/notifications/read-all", { method: "POST" });
-      await refresh.notifications();
-    } catch (error) {
-      console.error("Failed to mark all notifications as read:", error);
-    }
-  };
-
-  const displayedNotifications = notifications.slice(0, 4);
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-[#e2001a]"></div>
-          <p className="mt-4 text-sm text-slate-600">Lade Dashboard...</p>
-        </div>
-      </div>
+      <Center minH="100vh">
+        <VStack gap={4}>
+          <Spinner size="xl" color="brand.500" />
+          <Text fontSize="sm" color="gray.600" className="dark:text-gray-400">
+            Lade Dashboard...
+          </Text>
+        </VStack>
+      </Center>
     );
   }
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
+      <Box minH="100vh" bg="white" className="dark:bg-gray-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
-          <div className="px-6 py-3 lg:px-8">
-            <div className="flex items-center justify-between">
+        <Box
+          as="header"
+          position="sticky"
+          top={0}
+          zIndex={30}
+          borderBottomWidth="1px"
+          borderColor="gray.200"
+          className="dark:border-gray-700/60"
+          bg="white"
+          className="dark:bg-gray-900"
+        >
+          <Box px={{ base: 6, lg: 8 }} py={3}>
+            <Flex align="center" justify="space-between">
               <Breadcrumbs />
-              <div className="flex items-center gap-2">
+              <HStack gap={2}>
                 {currentVersion && (
-                  <div className="hidden items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-2 py-1 text-xs font-medium text-slate-600 dark:text-slate-400 sm:flex">
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-                    <span>v{currentVersion.substring(0, 8)}</span>
-                  </div>
+                  <HStack
+                    display={{ base: "none", sm: "flex" }}
+                    gap={1.5}
+                    borderRadius="md"
+                    borderWidth="1px"
+                    borderColor="gray.200"
+                    className="dark:border-gray-700/60"
+                    bg="white"
+                    className="dark:bg-gray-800"
+                    px={2}
+                    py={1}
+                  >
+                    <Box h={1.5} w={1.5} borderRadius="full" bg="emerald.500" />
+                    <Text fontSize="xs" fontWeight="medium" color="gray.600" className="dark:text-gray-400">
+                      v{currentVersion.substring(0, 8)}
+                    </Text>
+                  </HStack>
                 )}
                 <ThemeToggle />
                 <Notifications
@@ -212,19 +184,32 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     ...n,
                     createdAt: typeof n.createdAt === "string" ? n.createdAt : n.createdAt.toISOString(),
                   }))}
-                  initialUnreadCount={unreadCount}  
+                  initialUnreadCount={unreadCount}
                 />
-                <button
+                <Button
+                  display={{ base: "none", sm: "flex" }}
+                  size="sm"
+                  variant="outline"
                   onClick={() => setShowCreateProject(true)}
-                  className="hidden items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
+                  borderRadius="md"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  bg="white"
+                  color="gray.700"
+                  _hover={{ bg: "gray.50" }}
+                  fontSize="xs"
+                  fontWeight="medium"
                 >
-                  <Plus className="h-3.5 w-3.5" />
-                  Neues Projekt
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
+                  <HStack gap={1.5}>
+                    <Plus size={14} />
+                    <Text>Neues Projekt</Text>
+                  </HStack>
+                </Button>
+              </HStack>
+            </Flex>
+          </Box>
+        </Box>
 
         {/* Create Project Sheet */}
         <Sheet
@@ -241,52 +226,77 @@ export default function DashboardClient({ session }: DashboardClientProps) {
           </SheetHeader>
           <form onSubmit={handleCreateProject}>
             <SheetContent>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <VStack gap={4} align="stretch">
+                <Box>
+                  <Text fontSize="sm" fontWeight="medium" color="gray.700" className="dark:text-gray-300" mb={1}>
                     Projektname *
-                  </label>
-                  <input
+                  </Text>
+                  <Input
                     type="text"
                     value={newProjectName}
                     onChange={(e) => setNewProjectName(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                     placeholder="z.B. Hamburg Hbf Modernisierung"
                     required
+                    borderRadius="lg"
+                    borderWidth="1px"
+                    borderColor="gray.200"
+                    className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
+                    bg="white"
+                    color="gray.900"
+                    _focus={{ borderColor: "brand.500", ring: "2px", ringColor: "brand.500", ringOpacity: 0.2 }}
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                </Box>
+                <Box>
+                  <Text fontSize="sm" fontWeight="medium" color="gray.700" className="dark:text-gray-300" mb={1}>
                     Beschreibung
-                  </label>
-                  <textarea
+                  </Text>
+                  <Textarea
                     value={newProjectDescription}
                     onChange={(e) => setNewProjectDescription(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                     placeholder="Optionale Beschreibung..."
                     rows={4}
+                    borderRadius="lg"
+                    borderWidth="1px"
+                    borderColor="gray.200"
+                    className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
+                    bg="white"
+                    color="gray.900"
+                    _focus={{ borderColor: "brand.500", ring: "2px", ringColor: "brand.500", ringOpacity: 0.2 }}
                   />
-                </div>
-              </div>
+                </Box>
+              </VStack>
             </SheetContent>
             <SheetFooter>
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => {
                   setShowCreateProject(false);
                   setNewProjectName("");
                   setNewProjectDescription("");
                 }}
-                className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
+                borderRadius="lg"
+                borderWidth="1px"
+                borderColor="gray.200"
+                className="dark:border-gray-700/60"
+                bg="white"
+                className="dark:bg-gray-800"
+                color="gray.700"
+                className="dark:text-gray-300"
+                _hover={{ bg: "gray.50" }}
+                className="dark:hover:bg-gray-700"
               >
                 Abbrechen
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                className="rounded-lg bg-[#e2001a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c10015]"
+                bg="brand.500"
+                color="white"
+                _hover={{ bg: "brand.600" }}
+                borderRadius="lg"
               >
                 Erstellen
-              </button>
+              </Button>
             </SheetFooter>
           </form>
         </Sheet>
@@ -306,521 +316,1101 @@ export default function DashboardClient({ session }: DashboardClientProps) {
               </SheetDescription>
             </SheetHeader>
             <SheetContent>
-              <div className="space-y-6">
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <VStack gap={6} align="stretch">
+                <Box>
+                  <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                     Beschreibung
-                  </label>
-                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                  </Text>
+                  <Text mt={2} fontSize="sm" color="gray.700" className="dark:text-gray-300">
                     {selectedProject.description || "Keine Beschreibung vorhanden"}
-                  </p>
-                </div>
+                  </Text>
+                </Box>
 
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <Box>
+                  <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                     Fortschritt
-                  </label>
-                  <div className="mt-2">
-                    <div className="mb-2 flex items-center justify-between">
-                      <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  </Text>
+                  <VStack gap={2} mt={2} align="stretch">
+                    <Flex align="center" justify="space-between">
+                      <Text fontSize="sm" fontWeight="semibold" color="gray.900" className="dark:text-gray-100">
                         {selectedProject.progress}%
-                      </span>
-                    </div>
-                    <div className="h-3 w-full rounded-full bg-slate-200 dark:bg-slate-700">
-                      <div
-                        className="h-3 rounded-full bg-[#e2001a] transition-all"
-                        style={{ width: `${selectedProject.progress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
+                      </Text>
+                    </Flex>
+                    <ProgressRoot value={selectedProject.progress} borderRadius="full" h={3}>
+                      <ProgressTrack bg="gray.200" className="dark:bg-gray-700" borderRadius="full">
+                        <ProgressRange bg="brand.500" borderRadius="full" />
+                      </ProgressTrack>
+                    </ProgressRoot>
+                  </VStack>
+                </Box>
 
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <Box>
+                  <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                     Status
-                  </label>
-                  <div className="mt-2">
-                    <span
-                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                  </Text>
+                  <Box mt={2}>
+                    <Badge
+                      borderRadius="full"
+                      px={3}
+                      py={1}
+                      fontSize="xs"
+                      fontWeight="semibold"
+                      bg={
                         selectedProject.status === "active"
-                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+                          ? "green.100"
                           : selectedProject.status === "completed"
-                            ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400"
-                            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                      }`}
+                            ? "blue.100"
+                            : "gray.100"
+                      }
+                      className={
+                        selectedProject.status === "active"
+                          ? "dark:bg-green-900/30"
+                          : selectedProject.status === "completed"
+                            ? "dark:bg-blue-900/30"
+                            : "dark:bg-gray-800"
+                      }
+                      color={
+                        selectedProject.status === "active"
+                          ? "green.700"
+                          : selectedProject.status === "completed"
+                            ? "blue.700"
+                            : "gray.700"
+                      }
+                      className={
+                        selectedProject.status === "active"
+                          ? "dark:text-green-400"
+                          : selectedProject.status === "completed"
+                            ? "dark:text-blue-400"
+                            : "dark:text-gray-300"
+                      }
                     >
                       {selectedProject.status === "active"
                         ? "Aktiv"
                         : selectedProject.status === "completed"
                           ? "Abgeschlossen"
                           : selectedProject.status}
-                    </span>
-                  </div>
-                </div>
+                    </Badge>
+                  </Box>
+                </Box>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                  <GridItem>
+                    <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                       Erstellt am
-                    </label>
-                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
-                      {new Date(selectedProject.createdAt).toLocaleDateString(
-                        "de-DE",
-                        {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        }
-                      )}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    </Text>
+                    <Text mt={2} fontSize="sm" color="gray.700" className="dark:text-gray-300">
+                      {new Date(selectedProject.createdAt).toLocaleDateString("de-DE", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </Text>
+                  </GridItem>
+                  <GridItem>
+                    <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                       Zuletzt aktualisiert
-                    </label>
-                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
-                      {new Date(selectedProject.updatedAt).toLocaleDateString(
-                        "de-DE",
-                        {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        }
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                    </Text>
+                    <Text mt={2} fontSize="sm" color="gray.700" className="dark:text-gray-300">
+                      {new Date(selectedProject.updatedAt).toLocaleDateString("de-DE", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </Text>
+                  </GridItem>
+                </Grid>
+              </VStack>
             </SheetContent>
             <SheetFooter>
-              <button
+              <Button
+                variant="outline"
                 onClick={() => setShowProjectDetails(false)}
-                className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
+                borderRadius="lg"
+                borderWidth="1px"
+                borderColor="gray.200"
+                className="dark:border-gray-700/60"
+                bg="white"
+                className="dark:bg-gray-800"
+                color="gray.700"
+                className="dark:text-gray-300"
+                _hover={{ bg: "gray.50" }}
+                className="dark:hover:bg-gray-700"
               >
                 Schließen
-              </button>
-              <Link
-                href={`/dashboard/projects/${selectedProject.id}`}
-                className="rounded-lg bg-[#e2001a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c10015]"
+              </Button>
+              <Button
+                asChild
+                bg="brand.500"
+                color="white"
+                _hover={{ bg: "brand.600" }}
+                borderRadius="lg"
               >
-                Vollständige Ansicht
-              </Link>
+                <Link href={`/dashboard/projects/${selectedProject.id}`}>
+                  Vollständige Ansicht
+                </Link>
+              </Button>
             </SheetFooter>
           </Sheet>
         )}
 
         {/* Dashboard Content */}
-        <div className="px-6 py-6 lg:px-8 lg:py-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="space-y-6 lg:space-y-8">
-            {/* Stats Cards */}
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-[#e2001a]/30 dark:hover:border-[#e2001a]/40">
-                <div className="relative flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
-                      Aktive Projekte
-                    </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                      {stats?.activeProjects || 0}
-                    </p>
-                    <div className="mt-5 flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-200/50 dark:ring-emerald-800/30">
-                        <TrendingUp className="h-3 w-3" />
-                        +{projects.filter((p) => p.status === "active").length}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e2001a]/10 dark:bg-[#e2001a]/10 ring-1 ring-[#e2001a]/20 dark:ring-[#e2001a]/20 transition-transform duration-300 group-hover:scale-110">
-                    <FolderKanban className="h-7 w-7 text-[#e2001a]" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-blue-300/50 dark:hover:border-blue-600/50">
-                <div className="relative flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
-                      Komponenten
-                    </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                      {stats?.totalComponents
-                        ? (stats.totalComponents / 1000000).toFixed(1) + "M"
-                        : "0"}
-                    </p>
-                    <div className="mt-5 flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 dark:bg-blue-900/20 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-400 ring-1 ring-blue-200/50 dark:ring-blue-800/30">
-                        {stats?.uptime || 0}%
-                      </span>
-                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Uptime</span>
-                    </div>
-                  </div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200/30 dark:ring-blue-800/30 transition-transform duration-300 group-hover:scale-110">
-                    <Cpu className="h-7 w-7 text-blue-600 dark:text-blue-400" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-amber-300/50 dark:hover:border-amber-600/50">
-                <div className="relative flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
-                      Alerts heute
-                    </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                      {stats?.alertsToday || 0}
-                    </p>
-                    <div className="mt-5 flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-200/50 dark:ring-emerald-800/30">
-                        <TrendingUp className="h-3 w-3" />
-                        {alerts.filter((a) => a.status === "resolved").length}
-                      </span>
-                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">behoben</span>
-                    </div>
-                  </div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 dark:bg-amber-900/20 ring-1 ring-amber-200/30 dark:ring-amber-800/30 transition-transform duration-300 group-hover:scale-110">
-                    <AlertTriangle className="h-7 w-7 text-amber-600 dark:text-amber-400" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-emerald-300/50 dark:hover:border-emerald-600/50">
-                <div className="relative flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
-                      System-Status
-                    </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
-                      {stats?.systemStatus === "online" ? "Online" : "Offline"}
-                    </p>
-                    <div className="mt-5 flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5">
-                        <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400 ring-2 ring-emerald-200 dark:ring-emerald-800"></span>
-                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                          Alle Systeme operativ
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 ring-1 ring-emerald-200/30 dark:ring-emerald-800/30 transition-transform duration-300 group-hover:scale-110">
-                    <CheckCircle className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Main Content Grid */}
-            <div className="grid gap-6 lg:grid-cols-12">
-              {/* Main Content - Left Side */}
-              <div className="lg:col-span-8 space-y-6">
-                {/* Recent Activity */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-slate-100">
-                          Letzte Aktivitäten
-                        </h2>
-                        <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                          Echtzeit-Updates aus allen Systemen
-                        </p>
-                      </div>
-                      <Link
-                        href="/dashboard/activities"
-                        className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-[#e2001a] transition hover:bg-[#e2001a]/5 dark:hover:bg-[#e2001a]/10"
+        <Box px={{ base: 6, lg: 8 }} py={{ base: 6, lg: 8 }}>
+          <Box mx="auto" maxW="7xl">
+            <VStack gap={{ base: 6, lg: 8 }} align="stretch">
+              {/* Stats Cards */}
+              <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={5}>
+                <CardRoot
+                  borderRadius="2xl"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  className="dark:border-gray-700/60"
+                  bg="white"
+                  className="dark:bg-gray-900"
+                  shadow="sm"
+                  _hover={{ borderColor: "brand.500", borderOpacity: 0.3 }}
+                  className="dark:hover:border-brand-500/40"
+                  transition="all 0.3s"
+                >
+                  <CardBody p={6}>
+                    <Flex align="flex-start" justify="space-between">
+                      <VStack align="flex-start" gap={4} flex={1}>
+                        <Text fontSize="2xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="widest" color="gray.400" className="dark:text-gray-400">
+                          Aktive Projekte
+                        </Text>
+                        <Text fontSize="4xl" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                          {stats?.activeProjects || 0}
+                        </Text>
+                        <HStack gap={2}>
+                          <Badge
+                            borderRadius="full"
+                            px={2.5}
+                            py={1}
+                            fontSize="xs"
+                            fontWeight="semibold"
+                            bg="emerald.50"
+                            className="dark:bg-emerald-900/20"
+                            color="emerald.700"
+                            className="dark:text-emerald-400"
+                            ringWidth="1px"
+                            ringColor="emerald.200"
+                            className="dark:ring-emerald-800/30"
+                          >
+                            <HStack gap={1}>
+                              <TrendingUp size={12} />
+                              <Text>+{projects.filter((p) => p.status === "active").length}</Text>
+                            </HStack>
+                          </Badge>
+                        </HStack>
+                      </VStack>
+                      <Box
+                        h={14}
+                        w={14}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="2xl"
+                        bg="brand.500"
+                        opacity={0.1}
+                        ringWidth="1px"
+                        ringColor="brand.500"
+                        ringOpacity={0.2}
+                        className="dark:ring-brand-500/20"
                       >
-                        Alle anzeigen
-                        <ChevronRight className="h-4 w-4" />
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="divide-y divide-slate-100/60 dark:divide-slate-700/60">
-                    {activities.length === 0 ? (
-                      <div className="px-6 py-16 text-center">
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700">
-                          <Activity className="h-6 w-6 text-slate-400 dark:text-slate-400" />
-                        </div>
-                        <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                          Keine Aktivitäten vorhanden
-                        </p>
-                      </div>
-                    ) : (
-                      activities.map((activity) => (
-                        <div
-                          key={activity.id}
-                          className="group flex items-start gap-4 px-6 py-4 transition-all duration-200 hover:bg-slate-50 dark:hover:bg-[#1f1f1f]"
+                        <FolderKanban size={28} color="#e2001a" />
+                      </Box>
+                    </Flex>
+                  </CardBody>
+                </CardRoot>
+
+                <CardRoot
+                  borderRadius="2xl"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  className="dark:border-gray-700/60"
+                  bg="white"
+                  className="dark:bg-gray-900"
+                  shadow="sm"
+                  _hover={{ borderColor: "blue.300", borderOpacity: 0.5 }}
+                  className="dark:hover:border-blue-600/50"
+                  transition="all 0.3s"
+                >
+                  <CardBody p={6}>
+                    <Flex align="flex-start" justify="space-between">
+                      <VStack align="flex-start" gap={4} flex={1}>
+                        <Text fontSize="2xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="widest" color="gray.400" className="dark:text-gray-400">
+                          Komponenten
+                        </Text>
+                        <Text fontSize="4xl" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                          {stats?.totalComponents
+                            ? (stats.totalComponents / 1000000).toFixed(1) + "M"
+                            : "0"}
+                        </Text>
+                        <HStack gap={2}>
+                          <Badge
+                            borderRadius="full"
+                            px={2.5}
+                            py={1}
+                            fontSize="xs"
+                            fontWeight="semibold"
+                            bg="blue.50"
+                            className="dark:bg-blue-900/20"
+                            color="blue.700"
+                            className="dark:text-blue-400"
+                            ringWidth="1px"
+                            ringColor="blue.200"
+                            className="dark:ring-blue-800/30"
+                          >
+                            {stats?.uptime || 0}%
+                          </Badge>
+                          <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                            Uptime
+                          </Text>
+                        </HStack>
+                      </VStack>
+                      <Box
+                        h={14}
+                        w={14}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="2xl"
+                        bg="blue.50"
+                        className="dark:bg-blue-900/20"
+                        ringWidth="1px"
+                        ringColor="blue.200"
+                        className="dark:ring-blue-800/30"
+                      >
+                        <Cpu size={28} color="#2563eb" />
+                      </Box>
+                    </Flex>
+                  </CardBody>
+                </CardRoot>
+
+                <CardRoot
+                  borderRadius="2xl"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  className="dark:border-gray-700/60"
+                  bg="white"
+                  className="dark:bg-gray-900"
+                  shadow="sm"
+                  _hover={{ borderColor: "amber.300", borderOpacity: 0.5 }}
+                  className="dark:hover:border-amber-600/50"
+                  transition="all 0.3s"
+                >
+                  <CardBody p={6}>
+                    <Flex align="flex-start" justify="space-between">
+                      <VStack align="flex-start" gap={4} flex={1}>
+                        <Text fontSize="2xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="widest" color="gray.400" className="dark:text-gray-400">
+                          Alerts heute
+                        </Text>
+                        <Text fontSize="4xl" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                          {stats?.alertsToday || 0}
+                        </Text>
+                        <HStack gap={2}>
+                          <Badge
+                            borderRadius="full"
+                            px={2.5}
+                            py={1}
+                            fontSize="xs"
+                            fontWeight="semibold"
+                            bg="emerald.50"
+                            className="dark:bg-emerald-900/20"
+                            color="emerald.700"
+                            className="dark:text-emerald-400"
+                            ringWidth="1px"
+                            ringColor="emerald.200"
+                            className="dark:ring-emerald-800/30"
+                          >
+                            <HStack gap={1}>
+                              <TrendingUp size={12} />
+                              <Text>{alerts.filter((a) => a.status === "resolved").length}</Text>
+                            </HStack>
+                          </Badge>
+                          <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                            behoben
+                          </Text>
+                        </HStack>
+                      </VStack>
+                      <Box
+                        h={14}
+                        w={14}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="2xl"
+                        bg="amber.50"
+                        className="dark:bg-amber-900/20"
+                        ringWidth="1px"
+                        ringColor="amber.200"
+                        className="dark:ring-amber-800/30"
+                      >
+                        <AlertTriangle size={28} color="#d97706" />
+                      </Box>
+                    </Flex>
+                  </CardBody>
+                </CardRoot>
+
+                <CardRoot
+                  borderRadius="2xl"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  className="dark:border-gray-700/60"
+                  bg="white"
+                  className="dark:bg-gray-900"
+                  shadow="sm"
+                  _hover={{ borderColor: "emerald.300", borderOpacity: 0.5 }}
+                  className="dark:hover:border-emerald-600/50"
+                  transition="all 0.3s"
+                >
+                  <CardBody p={6}>
+                    <Flex align="flex-start" justify="space-between">
+                      <VStack align="flex-start" gap={4} flex={1}>
+                        <Text fontSize="2xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="widest" color="gray.400" className="dark:text-gray-400">
+                          System-Status
+                        </Text>
+                        <Text fontSize="4xl" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
+                          {stats?.systemStatus === "online" ? "Online" : "Offline"}
+                        </Text>
+                        <HStack gap={1.5}>
+                          <Box
+                            h={2}
+                            w={2}
+                            borderRadius="full"
+                            bg="emerald.500"
+                            className="dark:bg-emerald-400"
+                            ringWidth="2px"
+                            ringColor="emerald.200"
+                            className="dark:ring-emerald-800"
+                            animation="pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+                          />
+                          <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                            Alle Systeme operativ
+                          </Text>
+                        </HStack>
+                      </VStack>
+                      <Box
+                        h={14}
+                        w={14}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="2xl"
+                        bg="emerald.50"
+                        className="dark:bg-emerald-900/20"
+                        ringWidth="1px"
+                        ringColor="emerald.200"
+                        className="dark:ring-emerald-800/30"
+                      >
+                        <CheckCircle size={28} color="#10b981" />
+                      </Box>
+                    </Flex>
+                  </CardBody>
+                </CardRoot>
+              </SimpleGrid>
+
+              {/* Main Content Grid */}
+              <Grid templateColumns={{ base: "1fr", lg: "repeat(12, 1fr)" }} gap={6}>
+                {/* Main Content - Left Side */}
+                <GridItem colSpan={{ base: 1, lg: 8 }}>
+                  <VStack gap={6} align="stretch">
+                    {/* Recent Activity */}
+                    <CardRoot
+                      borderRadius="2xl"
+                      borderWidth="1px"
+                      borderColor="gray.200"
+                      className="dark:border-gray-700/60"
+                      bg="white"
+                      className="dark:bg-gray-900"
+                      shadow="sm"
+                      overflow="hidden"
+                    >
+                      <CardHeader
+                        borderBottomWidth="1px"
+                        borderColor="gray.200"
+                        className="dark:border-gray-700/60"
+                        bg="white"
+                        className="dark:bg-gray-800"
+                        px={6}
+                        py={5}
+                      >
+                        <Flex align="center" justify="space-between">
+                          <VStack align="flex-start" gap={1.5}>
+                            <Text fontSize="xl" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                              Letzte Aktivitäten
+                            </Text>
+                            <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                              Echtzeit-Updates aus allen Systemen
+                            </Text>
+                          </VStack>
+                          <Button
+                            asChild
+                            variant="ghost"
+                            size="sm"
+                            rightIcon={<ChevronRight size={16} />}
+                            color="brand.500"
+                            _hover={{ bg: "brand.500", opacity: 0.05 }}
+                            className="dark:hover:bg-brand-500/10"
+                            borderRadius="lg"
+                          >
+                            <Link href="/dashboard/activities">
+                              Alle anzeigen
+                            </Link>
+                          </Button>
+                        </Flex>
+                      </CardHeader>
+                      <CardBody p={0}>
+                        {activities.length === 0 ? (
+                          <Center px={6} py={16}>
+                            <VStack gap={4}>
+                              <Box
+                                h={12}
+                                w={12}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="full"
+                                bg="gray.100"
+                                className="dark:bg-gray-700"
+                              >
+                                <Activity size={24} color="#9ca3af" />
+                              </Box>
+                              <Text fontSize="sm" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                                Keine Aktivitäten vorhanden
+                              </Text>
+                            </VStack>
+                          </Center>
+                        ) : (
+                          <VStack gap={0} align="stretch" divider={<Separator />}>
+                            {activities.map((activity) => (
+                              <Box
+                                key={activity.id}
+                                px={6}
+                                py={4}
+                                _hover={{ bg: "gray.50" }}
+                                className="dark:hover:bg-gray-800/50"
+                                transition="all 0.2s"
+                              >
+                                <Flex align="flex-start" gap={4}>
+                                  <Box
+                                    h={11}
+                                    w={11}
+                                    flexShrink={0}
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    borderRadius="xl"
+                                    borderWidth="1px"
+                                    borderColor="inset"
+                                    bg={
+                                      activity.status === "success"
+                                        ? "emerald.50"
+                                        : activity.status === "info"
+                                          ? "blue.50"
+                                          : "amber.50"
+                                    }
+                                    className={
+                                      activity.status === "success"
+                                        ? "dark:bg-emerald-900/30"
+                                        : activity.status === "info"
+                                          ? "dark:bg-blue-900/30"
+                                          : "dark:bg-amber-900/30"
+                                    }
+                                    color={
+                                      activity.status === "success"
+                                        ? "emerald.600"
+                                        : activity.status === "info"
+                                          ? "blue.600"
+                                          : "amber.600"
+                                    }
+                                    className={
+                                      activity.status === "success"
+                                        ? "dark:text-emerald-400"
+                                        : activity.status === "info"
+                                          ? "dark:text-blue-400"
+                                          : "dark:text-amber-400"
+                                    }
+                                  >
+                                    {getActivityIcon(activity.status)}
+                                  </Box>
+                                  <VStack align="flex-start" gap={2} flex={1} minW={0}>
+                                    <Text fontSize="sm" fontWeight="semibold" color="gray.900" className="dark:text-gray-100">
+                                      {activity.action}
+                                    </Text>
+                                    <HStack gap={2} fontSize="xs" color="gray.500" className="dark:text-gray-400">
+                                      <Text fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
+                                        {activity.system}
+                                      </Text>
+                                      <Text color="gray.300" className="dark:text-gray-600">•</Text>
+                                      <Text fontWeight="medium">
+                                        {formatTime(activity.timestamp)}
+                                      </Text>
+                                    </HStack>
+                                  </VStack>
+                                  <Box flexShrink={0} opacity={0} _groupHover={{ opacity: 1 }} transition="opacity 0.2s">
+                                    <ChevronRight size={16} color="#9ca3af" />
+                                  </Box>
+                                </Flex>
+                              </Box>
+                            ))}
+                          </VStack>
+                        )}
+                      </CardBody>
+                    </CardRoot>
+
+                    {/* Performance Overview */}
+                    <CardRoot
+                      borderRadius="2xl"
+                      borderWidth="1px"
+                      borderColor="gray.200"
+                      className="dark:border-gray-700/60"
+                      bg="white"
+                      className="dark:bg-gray-900"
+                      shadow="sm"
+                      overflow="hidden"
+                    >
+                      <CardHeader
+                        borderBottomWidth="1px"
+                        borderColor="gray.200"
+                        className="dark:border-gray-700/60"
+                        bg="white"
+                        className="dark:bg-gray-800"
+                        px={6}
+                        py={5}
+                      >
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xl" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                            Performance-Übersicht
+                          </Text>
+                          <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                            Systemleistung der letzten 24 Stunden
+                          </Text>
+                        </VStack>
+                      </CardHeader>
+                      <CardBody p={6}>
+                        <SimpleGrid columns={{ base: 1, sm: 2 }} gap={6}>
+                          <VStack gap={3} align="stretch">
+                            <Flex align="center" justify="space-between">
+                              <HStack gap={2}>
+                                <Cpu size={16} color="#9ca3af" />
+                                <Text fontSize="sm" fontWeight="semibold" color="gray.700" className="dark:text-gray-300">
+                                  CPU-Auslastung
+                                </Text>
+                              </HStack>
+                              <Badge
+                                borderRadius="full"
+                                px={2.5}
+                                py={1}
+                                fontSize="sm"
+                                fontWeight="bold"
+                                bg="gray.100"
+                                className="dark:bg-gray-700"
+                                color="gray.900"
+                                className="dark:text-gray-100"
+                              >
+                                {metrics?.cpu || 0}%
+                              </Badge>
+                            </Flex>
+                            <ProgressRoot value={metrics?.cpu || 0} borderRadius="full" h={2.5}>
+                              <ProgressTrack bg="gray.200" className="dark:bg-gray-700" borderRadius="full">
+                                <ProgressRange bg="brand.500" borderRadius="full" />
+                              </ProgressTrack>
+                            </ProgressRoot>
+                          </VStack>
+                          <VStack gap={3} align="stretch">
+                            <Flex align="center" justify="space-between">
+                              <HStack gap={2}>
+                                <HardDrive size={16} color="#9ca3af" />
+                                <Text fontSize="sm" fontWeight="semibold" color="gray.700" className="dark:text-gray-300">
+                                  Speicher
+                                </Text>
+                              </HStack>
+                              <Badge
+                                borderRadius="full"
+                                px={2.5}
+                                py={1}
+                                fontSize="sm"
+                                fontWeight="bold"
+                                bg="blue.100"
+                                className="dark:bg-blue-900/30"
+                                color="blue.700"
+                                className="dark:text-blue-400"
+                              >
+                                {metrics?.memory || 0}%
+                              </Badge>
+                            </Flex>
+                            <ProgressRoot value={metrics?.memory || 0} borderRadius="full" h={2.5}>
+                              <ProgressTrack bg="gray.200" className="dark:bg-gray-700" borderRadius="full">
+                                <ProgressRange bg="blue.600" className="dark:bg-blue-500" borderRadius="full" />
+                              </ProgressTrack>
+                            </ProgressRoot>
+                          </VStack>
+                          <VStack gap={3} align="stretch">
+                            <Flex align="center" justify="space-between">
+                              <HStack gap={2}>
+                                <Network size={16} color="#9ca3af" />
+                                <Text fontSize="sm" fontWeight="semibold" color="gray.700" className="dark:text-gray-300">
+                                  Netzwerk
+                                </Text>
+                              </HStack>
+                              <Badge
+                                borderRadius="full"
+                                px={2.5}
+                                py={1}
+                                fontSize="sm"
+                                fontWeight="bold"
+                                bg="emerald.100"
+                                className="dark:bg-emerald-900/30"
+                                color="emerald.700"
+                                className="dark:text-emerald-400"
+                              >
+                                {metrics?.network || 0}%
+                              </Badge>
+                            </Flex>
+                            <ProgressRoot value={metrics?.network || 0} borderRadius="full" h={2.5}>
+                              <ProgressTrack bg="gray.200" className="dark:bg-gray-700" borderRadius="full">
+                                <ProgressRange bg="emerald.600" className="dark:bg-emerald-500" borderRadius="full" />
+                              </ProgressTrack>
+                            </ProgressRoot>
+                          </VStack>
+                          <VStack gap={3} align="stretch">
+                            <Flex align="center" justify="space-between">
+                              <HStack gap={2}>
+                                <HardDrive size={16} color="#9ca3af" />
+                                <Text fontSize="sm" fontWeight="semibold" color="gray.700" className="dark:text-gray-300">
+                                  Storage
+                                </Text>
+                              </HStack>
+                              <Badge
+                                borderRadius="full"
+                                px={2.5}
+                                py={1}
+                                fontSize="sm"
+                                fontWeight="bold"
+                                bg="amber.100"
+                                className="dark:bg-amber-900/30"
+                                color="amber.700"
+                                className="dark:text-amber-400"
+                              >
+                                {metrics?.storage || 0}%
+                              </Badge>
+                            </Flex>
+                            <ProgressRoot value={metrics?.storage || 0} borderRadius="full" h={2.5}>
+                              <ProgressTrack bg="gray.200" className="dark:bg-gray-700" borderRadius="full">
+                                <ProgressRange bg="amber.600" className="dark:bg-amber-500" borderRadius="full" />
+                              </ProgressTrack>
+                            </ProgressRoot>
+                          </VStack>
+                        </SimpleGrid>
+                      </CardBody>
+                    </CardRoot>
+                  </VStack>
+                </GridItem>
+
+                {/* Sidebar Widgets */}
+                <GridItem colSpan={{ base: 1, lg: 4 }}>
+                  <VStack gap={6} align="stretch">
+                    {/* Quick Actions */}
+                    <CardRoot
+                      borderRadius="2xl"
+                      borderWidth="1px"
+                      borderColor="gray.200"
+                      className="dark:border-gray-700/60"
+                      bg="white"
+                      className="dark:bg-gray-900"
+                      shadow="sm"
+                      overflow="hidden"
+                    >
+                      <CardHeader
+                        borderBottomWidth="1px"
+                        borderColor="gray.200"
+                        className="dark:border-gray-700/60"
+                        bg="white"
+                        className="dark:bg-gray-800"
+                        px={6}
+                        py={5}
+                      >
+                        <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                          Schnellzugriff
+                        </Text>
+                      </CardHeader>
+                      <CardBody p={4}>
+                        <VStack gap={2.5} align="stretch">
+                          <Button
+                            w="100%"
+                            variant="outline"
+                            justifyContent="space-between"
+                            onClick={() => setShowCreateProject(true)}
+                            borderRadius="xl"
+                            borderWidth="1px"
+                            borderColor="gray.200"
+                            className="dark:border-gray-700/60"
+                            bg="white"
+                            className="dark:bg-gray-800"
+                            color="gray.700"
+                            className="dark:text-gray-100"
+                            _hover={{ borderColor: "brand.500", borderOpacity: 0.4, bg: "brand.500", opacity: 0.05 }}
+                            className="dark:hover:border-brand-500/50 dark:hover:bg-brand-500/10 dark:hover:text-brand-500"
+                            fontSize="sm"
+                            fontWeight="semibold"
+                            transition="all 0.2s"
+                          >
+                            <HStack gap={3}>
+                              <Box
+                                h={9}
+                                w={9}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="xl"
+                                bg="brand.500"
+                                opacity={0.1}
+                                ringWidth="1px"
+                                ringColor="brand.500"
+                                ringOpacity={0.2}
+                                className="dark:ring-brand-500/20"
+                              >
+                                <Plus size={16} color="#e2001a" />
+                              </Box>
+                              <Text>Neues Projekt</Text>
+                            </HStack>
+                            <ChevronRight size={16} color="#9ca3af" />
+                          </Button>
+                          <Button
+                            asChild
+                            w="100%"
+                            variant="outline"
+                            justifyContent="space-between"
+                            borderRadius="xl"
+                            borderWidth="1px"
+                            borderColor="gray.200"
+                            className="dark:border-gray-700/60"
+                            bg="white"
+                            className="dark:bg-gray-800"
+                            color="gray.700"
+                            className="dark:text-gray-100"
+                            _hover={{ borderColor: "blue.300", borderOpacity: 0.5, bg: "blue.50", opacity: 0.5 }}
+                            className="dark:hover:border-blue-600/50 dark:hover:bg-blue-900/20"
+                            fontSize="sm"
+                            fontWeight="semibold"
+                            transition="all 0.2s"
+                          >
+                            <Link href="/dashboard/telemetry">
+                              <HStack gap={3}>
+                                <Box
+                                  h={9}
+                                  w={9}
+                                  display="flex"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  borderRadius="xl"
+                                  bg="blue.50"
+                                  className="dark:bg-blue-900/20"
+                                  ringWidth="1px"
+                                  ringColor="blue.200"
+                                  className="dark:ring-blue-800/30"
+                                >
+                                  <BarChart3 size={16} color="#2563eb" />
+                                </Box>
+                                <Text>Telemetrie anzeigen</Text>
+                              </HStack>
+                              <ChevronRight size={16} color="#9ca3af" />
+                            </Link>
+                          </Button>
+                          <Button
+                            asChild
+                            w="100%"
+                            variant="outline"
+                            justifyContent="space-between"
+                            borderRadius="xl"
+                            borderWidth="1px"
+                            borderColor="gray.200"
+                            className="dark:border-gray-700/60"
+                            bg="white"
+                            className="dark:bg-gray-800"
+                            color="gray.700"
+                            className="dark:text-gray-100"
+                            _hover={{ borderColor: "emerald.300", borderOpacity: 0.5, bg: "emerald.50", opacity: 0.5 }}
+                            className="dark:hover:border-emerald-600/50 dark:hover:bg-emerald-900/20"
+                            fontSize="sm"
+                            fontWeight="semibold"
+                            transition="all 0.2s"
+                          >
+                            <Link href="/dashboard/reports">
+                              <HStack gap={3}>
+                                <Box
+                                  h={9}
+                                  w={9}
+                                  display="flex"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  borderRadius="xl"
+                                  bg="emerald.50"
+                                  className="dark:bg-emerald-900/20"
+                                  ringWidth="1px"
+                                  ringColor="emerald.200"
+                                  className="dark:ring-emerald-800/30"
+                                >
+                                  <FileText size={16} color="#10b981" />
+                                </Box>
+                                <Text>Reports generieren</Text>
+                              </HStack>
+                              <ChevronRight size={16} color="#9ca3af" />
+                            </Link>
+                          </Button>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+
+                    {/* System Status Widget */}
+                    <CardRoot
+                      borderRadius="2xl"
+                      borderWidth="1px"
+                      borderColor="gray.200"
+                      className="dark:border-gray-700/60"
+                      bg="white"
+                      className="dark:bg-gray-900"
+                      shadow="sm"
+                      ringWidth="1px"
+                      ringColor="gray.200"
+                      className="dark:ring-gray-800"
+                      p={6}
+                    >
+                      <Flex align="center" gap={3} mb={5}>
+                        <Box
+                          h={14}
+                          w={14}
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          borderRadius="2xl"
+                          bg="emerald.50"
+                          className="dark:bg-emerald-900/20"
+                          ringWidth="1px"
+                          ringColor="emerald.200"
+                          className="dark:ring-emerald-800/30"
                         >
-                          <div
-                            className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl ring-1 ring-inset transition-all duration-200 group-hover:scale-110 ${
-                              activity.status === "success"
-                                ? "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 ring-emerald-200/50 dark:ring-emerald-800/50"
-                                : activity.status === "info"
-                                  ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 ring-blue-200/50 dark:ring-blue-800/50"
-                                  : "bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 ring-amber-200/50 dark:ring-amber-800/50"
-                            }`}
-                          >
-                            {getActivityIcon(activity.status)}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                              {activity.action}
-                            </p>
-                            <div className="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                              <span className="font-semibold text-slate-600 dark:text-slate-300">{activity.system}</span>
-                              <span className="text-slate-300 dark:text-slate-600">•</span>
-                              <span className="font-medium">
-                                {formatTime(activity.timestamp)}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex-shrink-0 opacity-0 transition-all duration-200 group-hover:opacity-100">
-                            <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform group-hover:translate-x-0.5" />
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
+                          <Zap size={28} color="#10b981" />
+                        </Box>
+                        <VStack align="flex-start" gap={0}>
+                          <Text fontSize="sm" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                            System bereit
+                          </Text>
+                          <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                            Alle Services online
+                          </Text>
+                        </VStack>
+                      </Flex>
+                      <VStack gap={3.5} align="stretch" borderTopWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" pt={5}>
+                        <Flex
+                          align="center"
+                          justify="space-between"
+                          borderRadius="lg"
+                          bg="white"
+                          opacity={0.6}
+                          className="dark:bg-gray-800/60"
+                          px={3}
+                          py={2.5}
+                          ringWidth="1px"
+                          ringColor="gray.200"
+                          className="dark:ring-gray-700/50"
+                        >
+                          <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
+                            API-Status
+                          </Text>
+                          <HStack gap={1.5}>
+                            <Box
+                              h={1.5}
+                              w={1.5}
+                              borderRadius="full"
+                              bg="emerald.500"
+                              className="dark:bg-emerald-400"
+                              ringWidth="1px"
+                              ringColor="emerald.200"
+                              className="dark:ring-emerald-800"
+                            />
+                            <Text fontSize="xs" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
+                              Online
+                            </Text>
+                          </HStack>
+                        </Flex>
+                        <Flex
+                          align="center"
+                          justify="space-between"
+                          borderRadius="lg"
+                          bg="white"
+                          opacity={0.6}
+                          className="dark:bg-gray-800/60"
+                          px={3}
+                          py={2.5}
+                          ringWidth="1px"
+                          ringColor="gray.200"
+                          className="dark:ring-gray-700/50"
+                        >
+                          <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
+                            Datenbank
+                          </Text>
+                          <HStack gap={1.5}>
+                            <Box
+                              h={1.5}
+                              w={1.5}
+                              borderRadius="full"
+                              bg="emerald.500"
+                              className="dark:bg-emerald-400"
+                              ringWidth="1px"
+                              ringColor="emerald.200"
+                              className="dark:ring-emerald-800"
+                            />
+                            <Text fontSize="xs" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
+                              Verbunden
+                            </Text>
+                          </HStack>
+                        </Flex>
+                        <Flex
+                          align="center"
+                          justify="space-between"
+                          borderRadius="lg"
+                          bg="white"
+                          opacity={0.6}
+                          className="dark:bg-gray-800/60"
+                          px={3}
+                          py={2.5}
+                          ringWidth="1px"
+                          ringColor="gray.200"
+                          className="dark:ring-gray-700/50"
+                        >
+                          <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
+                            Cache
+                          </Text>
+                          <HStack gap={1.5}>
+                            <Box
+                              h={1.5}
+                              w={1.5}
+                              borderRadius="full"
+                              bg="emerald.500"
+                              className="dark:bg-emerald-400"
+                              ringWidth="1px"
+                              ringColor="emerald.200"
+                              className="dark:ring-emerald-800"
+                            />
+                            <Text fontSize="xs" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
+                              Aktiv
+                            </Text>
+                          </HStack>
+                        </Flex>
+                      </VStack>
+                    </CardRoot>
 
-                {/* Performance Overview */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
-                    <div>
-                      <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-slate-100">
-                        Performance-Übersicht
-                      </h2>
-                      <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                        Systemleistung der letzten 24 Stunden
-                      </p>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <div className="group">
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Cpu className="h-4 w-4 text-slate-400 dark:text-slate-400" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                              CPU-Auslastung
-                            </span>
-                          </div>
-                          <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-sm font-bold text-slate-900 dark:text-slate-100">
-                            {metrics?.cpu || 0}%
-                          </span>
-                        </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
-                          <div
-                            className="h-full rounded-full bg-[#e2001a] transition-all duration-500"
-                            style={{ width: `${metrics?.cpu || 0}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="group">
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <HardDrive className="h-4 w-4 text-slate-400 dark:text-slate-400" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                              Speicher
-                            </span>
-                          </div>
-                          <span className="rounded-full bg-blue-100 dark:bg-blue-900/30 px-2.5 py-1 text-sm font-bold text-blue-700 dark:text-blue-400">
-                            {metrics?.memory || 0}%
-                          </span>
-                        </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
-                          <div
-                            className="h-full rounded-full bg-blue-600 dark:bg-blue-500 transition-all duration-500"
-                            style={{ width: `${metrics?.memory || 0}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="group">
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Network className="h-4 w-4 text-slate-400 dark:text-slate-400" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                              Netzwerk
-                            </span>
-                          </div>
-                          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-1 text-sm font-bold text-emerald-700 dark:text-emerald-400">
-                            {metrics?.network || 0}%
-                          </span>
-                        </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
-                          <div
-                            className="h-full rounded-full bg-emerald-600 dark:bg-emerald-500 transition-all duration-500"
-                            style={{ width: `${metrics?.network || 0}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="group">
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <HardDrive className="h-4 w-4 text-slate-400 dark:text-slate-400" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                              Storage
-                            </span>
-                          </div>
-                          <span className="rounded-full bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 text-sm font-bold text-amber-700 dark:text-amber-400">
-                            {metrics?.storage || 0}%
-                          </span>
-                        </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
-                          <div
-                            className="h-full rounded-full bg-amber-600 dark:bg-amber-500 transition-all duration-500"
-                            style={{ width: `${metrics?.storage || 0}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sidebar Widgets */}
-              <div className="lg:col-span-4 space-y-6">
-                {/* Quick Actions */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
-                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
-                      Schnellzugriff
-                    </h3>
-                  </div>
-                  <div className="p-4">
-                    <div className="space-y-2.5">
-                      <button
-                        onClick={() => setShowCreateProject(true)}
-                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-100 transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-[#e2001a]/5 dark:hover:bg-[#e2001a]/10 hover:text-[#e2001a]"
+                    {/* Recent Projects */}
+                    <CardRoot
+                      borderRadius="2xl"
+                      borderWidth="1px"
+                      borderColor="gray.200"
+                      className="dark:border-gray-700/60"
+                      bg="white"
+                      className="dark:bg-gray-900"
+                      shadow="sm"
+                      overflow="hidden"
+                    >
+                      <CardHeader
+                        borderBottomWidth="1px"
+                        borderColor="gray.200"
+                        className="dark:border-gray-700/60"
+                        bg="white"
+                        className="dark:bg-gray-800"
+                        px={6}
+                        py={5}
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e2001a]/10 dark:bg-[#e2001a]/10 ring-1 ring-[#e2001a]/20 dark:ring-[#e2001a]/20 transition-transform duration-200 group-hover:scale-110">
-                            <Plus className="h-4 w-4 text-[#e2001a]" />
-                          </div>
-                          <span>Neues Projekt</span>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#e2001a]" />
-                      </button>
-                      <Link
-                        href="/dashboard/telemetry"
-                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-100 transition-all duration-200 hover:border-blue-300/50 dark:hover:border-blue-600/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200/30 dark:ring-blue-800/30 transition-transform duration-200 group-hover:scale-110">
-                            <BarChart3 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                          </div>
-                          <span>Telemetrie anzeigen</span>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5" />
-                      </Link>
-                      <Link
-                        href="/dashboard/reports"
-                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-100 transition-all duration-200 hover:border-emerald-300/50 dark:hover:border-emerald-600/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-900/20 ring-1 ring-emerald-200/30 dark:ring-emerald-800/30 transition-transform duration-200 group-hover:scale-110">
-                            <FileText className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                          </div>
-                          <span>Reports generieren</span>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>  
-
-                {/* System Status Widget */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm ring-1 ring-slate-200/50 dark:ring-[#2a2a2a]">
-                  <div className="mb-5 flex items-center gap-3">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 ring-1 ring-emerald-200/30 dark:ring-emerald-800/30">
-                      <Zap className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                        System bereit
-                      </p>
-                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Alle Services online</p>
-                    </div>
-                  </div>
-                  <div className="space-y-3.5 border-t border-slate-200/60 dark:border-slate-700/60 pt-5">
-                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
-                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">API-Status</span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800"></span>
-                        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Online</span>
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
-                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Datenbank</span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800"></span>
-                        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Verbunden</span>
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
-                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Cache</span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800"></span>
-                        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Aktiv</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Recent Projects */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
-                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
-                      Aktuelle Projekte
-                    </h3>
-                  </div>
-                  <div className="p-4">
-                    <div className="space-y-3">
-                      {projects.length === 0 ? (
-                        <div className="py-8 text-center">
-                          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700">
-                            <FolderKanban className="h-6 w-6 text-slate-400 dark:text-slate-400" />
-                          </div>
-                          <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Noch keine Projekte
-                          </p>
-                        </div>
-                      ) : (
-                        projects.slice(0, 3).map((project) => (
-                          <button
-                            key={project.id}
-                            onClick={() => {
-                              setSelectedProject(project);
-                              setShowProjectDetails(true);
-                            }}
-                            className="group block w-full rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 p-4 text-left transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-gradient-to-r hover:from-[#e2001a]/5 dark:hover:from-[#e2001a]/10 hover:to-transparent hover:shadow-sm"
-                          >
-                            <div className="mb-3 flex items-center justify-between">
-                              <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                                {project.name}
-                              </p>
-                              <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-bold text-slate-700 dark:text-slate-300 ring-1 ring-slate-200/50 dark:ring-slate-600/50">
-                                {project.progress}%
-                              </span>
-                            </div>
-                            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
-                              <div
-                                className="h-full rounded-full bg-[#e2001a] transition-all duration-500"
-                                style={{ width: `${project.progress}%` }}
-                              ></div>
-                            </div>
-                          </button>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
+                        <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                          Aktuelle Projekte
+                        </Text>
+                      </CardHeader>
+                      <CardBody p={4}>
+                        <VStack gap={3} align="stretch">
+                          {projects.length === 0 ? (
+                            <Center py={8}>
+                              <VStack gap={4}>
+                                <Box
+                                  h={12}
+                                  w={12}
+                                  display="flex"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  borderRadius="full"
+                                  bg="gray.100"
+                                  className="dark:bg-gray-700"
+                                >
+                                  <FolderKanban size={24} color="#9ca3af" />
+                                </Box>
+                                <Text fontSize="sm" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                                  Noch keine Projekte
+                                </Text>
+                              </VStack>
+                            </Center>
+                          ) : (
+                            projects.slice(0, 3).map((project) => (
+                              <Button
+                                key={project.id}
+                                w="100%"
+                                variant="outline"
+                                onClick={() => {
+                                  setSelectedProject(project);
+                                  setShowProjectDetails(true);
+                                }}
+                                borderRadius="xl"
+                                borderWidth="1px"
+                                borderColor="gray.200"
+                                className="dark:border-gray-700/60"
+                                bg="white"
+                                className="dark:bg-gray-800"
+                                p={4}
+                                textAlign="left"
+                                _hover={{ borderColor: "brand.500", borderOpacity: 0.4, bg: "brand.500", opacity: 0.05 }}
+                                className="dark:hover:border-brand-500/50 dark:hover:bg-brand-500/10"
+                                shadow="sm"
+                                transition="all 0.2s"
+                              >
+                                <VStack gap={3} align="stretch" w="100%">
+                                  <Flex align="center" justify="space-between">
+                                    <Text fontSize="sm" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                                      {project.name}
+                                    </Text>
+                                    <Badge
+                                      borderRadius="full"
+                                      px={2.5}
+                                      py={1}
+                                      fontSize="xs"
+                                      fontWeight="bold"
+                                      bg="gray.100"
+                                      className="dark:bg-gray-700"
+                                      color="gray.700"
+                                      className="dark:text-gray-300"
+                                      ringWidth="1px"
+                                      ringColor="gray.200"
+                                      className="dark:ring-gray-600/50"
+                                    >
+                                      {project.progress}%
+                                    </Badge>
+                                  </Flex>
+                                  <ProgressRoot value={project.progress} borderRadius="full" h={2}>
+                                    <ProgressTrack bg="gray.200" className="dark:bg-gray-700" borderRadius="full">
+                                      <ProgressRange bg="brand.500" borderRadius="full" />
+                                    </ProgressTrack>
+                                  </ProgressRoot>
+                                </VStack>
+                              </Button>
+                            ))
+                          )}
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                  </VStack>
+                </GridItem>
+              </Grid>
+            </VStack>
+          </Box>
+        </Box>
+      </Box>
     </SessionProvider>
   );
 }
-
