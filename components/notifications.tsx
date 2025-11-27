@@ -162,14 +162,14 @@ export default function Notifications({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="group relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 shadow-sm transition hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-[#e2001a]/5 dark:hover:bg-[#e2001a]/10 hover:text-[#e2001a]"
+        className="group relative flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700"
         aria-label="Benachrichtigungen öffnen"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
       >
-        <Bell className="h-5 w-5 transition group-hover:scale-110" />
+        <Bell className="h-3.5 w-3.5 transition" />
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[#e2001a] px-1 text-[10px] font-bold text-white shadow-lg">
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-[#e2001a] px-0.5 text-[9px] font-bold text-white">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}

@@ -7,6 +7,7 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { useAppVersion } from "@/hooks/useAppVersion";
 import Notifications from "@/components/notifications";
 import Breadcrumbs from "@/components/breadcrumbs";
+import ThemeToggle from "@/components/theme-toggle";
 import Sheet, {
   SheetContent,
   SheetHeader,
@@ -205,6 +206,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     <span>v{currentVersion.substring(0, 8)}</span>
                   </div>
                 )}
+                <ThemeToggle />
                 <Notifications
                   initialNotifications={notifications.map((n) => ({
                     ...n,
