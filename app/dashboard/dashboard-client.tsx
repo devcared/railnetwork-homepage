@@ -24,7 +24,6 @@ import {
   HStack,
   Text,
   Button,
-  IconButton,
   Badge,
   ProgressRoot,
   ProgressTrack,
@@ -37,7 +36,6 @@ import {
   Textarea,
   Spinner,
   Center,
-  Separator,
   Grid,
   GridItem,
 } from "@chakra-ui/react";
@@ -151,9 +149,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
           zIndex={30}
           borderBottomWidth="1px"
           borderColor="gray.200"
-          className="dark:border-gray-700/60"
+          className="dark:border-gray-700/60 dark:bg-gray-900"
           bg="white"
-          className="dark:bg-gray-900"
         >
           <Box px={{ base: 6, lg: 8 }} py={3}>
             <Flex align="center" justify="space-between">
@@ -166,9 +163,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     borderRadius="md"
                     borderWidth="1px"
                     borderColor="gray.200"
-                    className="dark:border-gray-700/60"
+                    className="dark:border-gray-700/60 dark:bg-gray-800"
                     bg="white"
-                    className="dark:bg-gray-800"
                     px={2}
                     py={1}
                   >
@@ -243,7 +239,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
                     bg="white"
                     color="gray.900"
-                    _focus={{ borderColor: "brand.500", ring: "2px", ringColor: "brand.500", ringOpacity: 0.2 }}
+                    _focus={{ borderColor: "brand.500" }}
                   />
                 </Box>
                 <Box>
@@ -261,7 +257,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
                     bg="white"
                     color="gray.900"
-                    _focus={{ borderColor: "brand.500", ring: "2px", ringColor: "brand.500", ringOpacity: 0.2 }}
+                    _focus={{ borderColor: "brand.500" }}
                   />
                 </Box>
               </VStack>
@@ -278,13 +274,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 borderRadius="lg"
                 borderWidth="1px"
                 borderColor="gray.200"
-                className="dark:border-gray-700/60"
+                className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 bg="white"
-                className="dark:bg-gray-800"
                 color="gray.700"
-                className="dark:text-gray-300"
                 _hover={{ bg: "gray.50" }}
-                className="dark:hover:bg-gray-700"
               >
                 Abbrechen
               </Button>
@@ -362,26 +355,19 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             ? "blue.100"
                             : "gray.100"
                       }
-                      className={
+                      className={`${
                         selectedProject.status === "active"
-                          ? "dark:bg-green-900/30"
+                          ? "dark:bg-green-900/30 dark:text-green-400"
                           : selectedProject.status === "completed"
-                            ? "dark:bg-blue-900/30"
-                            : "dark:bg-gray-800"
-                      }
+                            ? "dark:bg-blue-900/30 dark:text-blue-400"
+                            : "dark:bg-gray-800 dark:text-gray-300"
+                      }`}
                       color={
                         selectedProject.status === "active"
                           ? "green.700"
                           : selectedProject.status === "completed"
                             ? "blue.700"
                             : "gray.700"
-                      }
-                      className={
-                        selectedProject.status === "active"
-                          ? "dark:text-green-400"
-                          : selectedProject.status === "completed"
-                            ? "dark:text-blue-400"
-                            : "dark:text-gray-300"
                       }
                     >
                       {selectedProject.status === "active"
@@ -428,13 +414,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 borderRadius="lg"
                 borderWidth="1px"
                 borderColor="gray.200"
-                className="dark:border-gray-700/60"
+                className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 bg="white"
-                className="dark:bg-gray-800"
                 color="gray.700"
-                className="dark:text-gray-300"
                 _hover={{ bg: "gray.50" }}
-                className="dark:hover:bg-gray-700"
               >
                 Schließen
               </Button>
@@ -463,12 +446,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   borderRadius="2xl"
                   borderWidth="1px"
                   borderColor="gray.200"
-                  className="dark:border-gray-700/60"
+                  className="dark:border-gray-700/60 dark:bg-gray-900 dark:hover:border-brand-500/40"
                   bg="white"
-                  className="dark:bg-gray-900"
                   shadow="sm"
-                  _hover={{ borderColor: "brand.500", borderOpacity: 0.3 }}
-                  className="dark:hover:border-brand-500/40"
+                  _hover={{ borderColor: "brand.500" }}
                   transition="all 0.3s"
                 >
                   <CardBody p={6}>
@@ -488,12 +469,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             fontSize="xs"
                             fontWeight="semibold"
                             bg="emerald.50"
-                            className="dark:bg-emerald-900/20"
+                            className="dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/30"
                             color="emerald.700"
-                            className="dark:text-emerald-400"
-                            ringWidth="1px"
-                            ringColor="emerald.200"
-                            className="dark:ring-emerald-800/30"
+                            borderWidth="1px"
+                            borderColor="emerald.200"
                           >
                             <HStack gap={1}>
                               <TrendingUp size={12} />
@@ -511,10 +490,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         borderRadius="2xl"
                         bg="brand.500"
                         opacity={0.1}
-                        ringWidth="1px"
-                        ringColor="brand.500"
-                        ringOpacity={0.2}
-                        className="dark:ring-brand-500/20"
+                        borderWidth="1px"
+                        borderColor="brand.500"
+                        className="dark:border-brand-500/20"
                       >
                         <FolderKanban size={28} color="#e2001a" />
                       </Box>
@@ -526,12 +504,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   borderRadius="2xl"
                   borderWidth="1px"
                   borderColor="gray.200"
-                  className="dark:border-gray-700/60"
+                  className="dark:border-gray-700/60 dark:bg-gray-900 dark:hover:border-blue-600/50"
                   bg="white"
-                  className="dark:bg-gray-900"
                   shadow="sm"
-                  _hover={{ borderColor: "blue.300", borderOpacity: 0.5 }}
-                  className="dark:hover:border-blue-600/50"
+                  _hover={{ borderColor: "blue.300" }}
                   transition="all 0.3s"
                 >
                   <CardBody p={6}>
@@ -553,12 +529,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             fontSize="xs"
                             fontWeight="semibold"
                             bg="blue.50"
-                            className="dark:bg-blue-900/20"
+                            className="dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/30"
                             color="blue.700"
-                            className="dark:text-blue-400"
-                            ringWidth="1px"
-                            ringColor="blue.200"
-                            className="dark:ring-blue-800/30"
+                            borderWidth="1px"
+                            borderColor="blue.200"
                           >
                             {stats?.uptime || 0}%
                           </Badge>
@@ -575,10 +549,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         justifyContent="center"
                         borderRadius="2xl"
                         bg="blue.50"
-                        className="dark:bg-blue-900/20"
-                        ringWidth="1px"
-                        ringColor="blue.200"
-                        className="dark:ring-blue-800/30"
+                        className="dark:bg-blue-900/20 dark:border-blue-800/30"
+                        borderWidth="1px"
+                        borderColor="blue.200"
                       >
                         <Cpu size={28} color="#2563eb" />
                       </Box>
@@ -590,12 +563,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   borderRadius="2xl"
                   borderWidth="1px"
                   borderColor="gray.200"
-                  className="dark:border-gray-700/60"
+                  className="dark:border-gray-700/60 dark:bg-gray-900 dark:hover:border-amber-600/50"
                   bg="white"
-                  className="dark:bg-gray-900"
                   shadow="sm"
-                  _hover={{ borderColor: "amber.300", borderOpacity: 0.5 }}
-                  className="dark:hover:border-amber-600/50"
+                  _hover={{ borderColor: "amber.300" }}
                   transition="all 0.3s"
                 >
                   <CardBody p={6}>
@@ -615,12 +586,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             fontSize="xs"
                             fontWeight="semibold"
                             bg="emerald.50"
-                            className="dark:bg-emerald-900/20"
+                            className="dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/30"
                             color="emerald.700"
-                            className="dark:text-emerald-400"
-                            ringWidth="1px"
-                            ringColor="emerald.200"
-                            className="dark:ring-emerald-800/30"
+                            borderWidth="1px"
+                            borderColor="emerald.200"
                           >
                             <HStack gap={1}>
                               <TrendingUp size={12} />
@@ -640,10 +609,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         justifyContent="center"
                         borderRadius="2xl"
                         bg="amber.50"
-                        className="dark:bg-amber-900/20"
-                        ringWidth="1px"
-                        ringColor="amber.200"
-                        className="dark:ring-amber-800/30"
+                        className="dark:bg-amber-900/20 dark:border-amber-800/30"
+                        borderWidth="1px"
+                        borderColor="amber.200"
                       >
                         <AlertTriangle size={28} color="#d97706" />
                       </Box>
@@ -655,12 +623,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   borderRadius="2xl"
                   borderWidth="1px"
                   borderColor="gray.200"
-                  className="dark:border-gray-700/60"
+                  className="dark:border-gray-700/60 dark:bg-gray-900 dark:hover:border-emerald-600/50"
                   bg="white"
-                  className="dark:bg-gray-900"
                   shadow="sm"
-                  _hover={{ borderColor: "emerald.300", borderOpacity: 0.5 }}
-                  className="dark:hover:border-emerald-600/50"
+                  _hover={{ borderColor: "emerald.300" }}
                   transition="all 0.3s"
                 >
                   <CardBody p={6}>
@@ -678,10 +644,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             w={2}
                             borderRadius="full"
                             bg="emerald.500"
-                            className="dark:bg-emerald-400"
-                            ringWidth="2px"
-                            ringColor="emerald.200"
-                            className="dark:ring-emerald-800"
+                            className="dark:bg-emerald-400 dark:border-emerald-800"
+                            borderWidth="2px"
+                            borderColor="emerald.200"
                             animation="pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
                           />
                           <Text fontSize="xs" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
@@ -697,10 +662,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         justifyContent="center"
                         borderRadius="2xl"
                         bg="emerald.50"
-                        className="dark:bg-emerald-900/20"
-                        ringWidth="1px"
-                        ringColor="emerald.200"
-                        className="dark:ring-emerald-800/30"
+                        className="dark:bg-emerald-900/20 dark:border-emerald-800/30"
+                        borderWidth="1px"
+                        borderColor="emerald.200"
                       >
                         <CheckCircle size={28} color="#10b981" />
                       </Box>
@@ -719,18 +683,16 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       borderRadius="2xl"
                       borderWidth="1px"
                       borderColor="gray.200"
-                      className="dark:border-gray-700/60"
+                      className="dark:border-gray-700/60 dark:bg-gray-900"
                       bg="white"
-                      className="dark:bg-gray-900"
                       shadow="sm"
                       overflow="hidden"
                     >
                       <CardHeader
                         borderBottomWidth="1px"
                         borderColor="gray.200"
-                        className="dark:border-gray-700/60"
+                        className="dark:border-gray-700/60 dark:bg-gray-800"
                         bg="white"
-                        className="dark:bg-gray-800"
                         px={6}
                         py={5}
                       >
@@ -747,7 +709,6 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             asChild
                             variant="ghost"
                             size="sm"
-                            rightIcon={<ChevronRight size={16} />}
                             color="brand.500"
                             _hover={{ bg: "brand.500", opacity: 0.05 }}
                             className="dark:hover:bg-brand-500/10"
@@ -781,7 +742,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             </VStack>
                           </Center>
                         ) : (
-                          <VStack gap={0} align="stretch" divider={<Separator />}>
+                          <VStack gap={0} align="stretch">
                             {activities.map((activity) => (
                               <Box
                                 key={activity.id}
@@ -809,26 +770,19 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                           ? "blue.50"
                                           : "amber.50"
                                     }
-                                    className={
+                                    className={`${
                                       activity.status === "success"
-                                        ? "dark:bg-emerald-900/30"
+                                        ? "dark:bg-emerald-900/30 dark:text-emerald-400"
                                         : activity.status === "info"
-                                          ? "dark:bg-blue-900/30"
-                                          : "dark:bg-amber-900/30"
-                                    }
+                                          ? "dark:bg-blue-900/30 dark:text-blue-400"
+                                          : "dark:bg-amber-900/30 dark:text-amber-400"
+                                    }`}
                                     color={
                                       activity.status === "success"
                                         ? "emerald.600"
                                         : activity.status === "info"
                                           ? "blue.600"
                                           : "amber.600"
-                                    }
-                                    className={
-                                      activity.status === "success"
-                                        ? "dark:text-emerald-400"
-                                        : activity.status === "info"
-                                          ? "dark:text-blue-400"
-                                          : "dark:text-amber-400"
                                     }
                                   >
                                     {getActivityIcon(activity.status)}
@@ -863,18 +817,16 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       borderRadius="2xl"
                       borderWidth="1px"
                       borderColor="gray.200"
-                      className="dark:border-gray-700/60"
+                      className="dark:border-gray-700/60 dark:bg-gray-900"
                       bg="white"
-                      className="dark:bg-gray-900"
                       shadow="sm"
                       overflow="hidden"
                     >
                       <CardHeader
                         borderBottomWidth="1px"
                         borderColor="gray.200"
-                        className="dark:border-gray-700/60"
+                        className="dark:border-gray-700/60 dark:bg-gray-800"
                         bg="white"
-                        className="dark:bg-gray-800"
                         px={6}
                         py={5}
                       >
@@ -904,9 +856,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                 fontSize="sm"
                                 fontWeight="bold"
                                 bg="gray.100"
-                                className="dark:bg-gray-700"
+                                className="dark:bg-gray-700 dark:text-gray-100"
                                 color="gray.900"
-                                className="dark:text-gray-100"
                               >
                                 {metrics?.cpu || 0}%
                               </Badge>
@@ -932,9 +883,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                 fontSize="sm"
                                 fontWeight="bold"
                                 bg="blue.100"
-                                className="dark:bg-blue-900/30"
+                                className="dark:bg-blue-900/30 dark:text-blue-400"
                                 color="blue.700"
-                                className="dark:text-blue-400"
                               >
                                 {metrics?.memory || 0}%
                               </Badge>
@@ -960,9 +910,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                 fontSize="sm"
                                 fontWeight="bold"
                                 bg="emerald.100"
-                                className="dark:bg-emerald-900/30"
+                                className="dark:bg-emerald-900/30 dark:text-emerald-400"
                                 color="emerald.700"
-                                className="dark:text-emerald-400"
                               >
                                 {metrics?.network || 0}%
                               </Badge>
@@ -988,9 +937,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                 fontSize="sm"
                                 fontWeight="bold"
                                 bg="amber.100"
-                                className="dark:bg-amber-900/30"
+                                className="dark:bg-amber-900/30 dark:text-amber-400"
                                 color="amber.700"
-                                className="dark:text-amber-400"
                               >
                                 {metrics?.storage || 0}%
                               </Badge>
@@ -1015,18 +963,16 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       borderRadius="2xl"
                       borderWidth="1px"
                       borderColor="gray.200"
-                      className="dark:border-gray-700/60"
+                      className="dark:border-gray-700/60 dark:bg-gray-900"
                       bg="white"
-                      className="dark:bg-gray-900"
                       shadow="sm"
                       overflow="hidden"
                     >
                       <CardHeader
                         borderBottomWidth="1px"
                         borderColor="gray.200"
-                        className="dark:border-gray-700/60"
+                        className="dark:border-gray-700/60 dark:bg-gray-800"
                         bg="white"
-                        className="dark:bg-gray-800"
                         px={6}
                         py={5}
                       >
@@ -1044,13 +990,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             borderRadius="xl"
                             borderWidth="1px"
                             borderColor="gray.200"
-                            className="dark:border-gray-700/60"
+                            className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-brand-500/50 dark:hover:bg-brand-500/10 dark:hover:text-brand-500"
                             bg="white"
-                            className="dark:bg-gray-800"
                             color="gray.700"
-                            className="dark:text-gray-100"
-                            _hover={{ borderColor: "brand.500", borderOpacity: 0.4, bg: "brand.500", opacity: 0.05 }}
-                            className="dark:hover:border-brand-500/50 dark:hover:bg-brand-500/10 dark:hover:text-brand-500"
+                            _hover={{ borderColor: "brand.500", bg: "brand.500", opacity: 0.05 }}
                             fontSize="sm"
                             fontWeight="semibold"
                             transition="all 0.2s"
@@ -1065,10 +1008,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                 borderRadius="xl"
                                 bg="brand.500"
                                 opacity={0.1}
-                                ringWidth="1px"
-                                ringColor="brand.500"
-                                ringOpacity={0.2}
-                                className="dark:ring-brand-500/20"
+                                borderWidth="1px"
+                                borderColor="brand.500"
+                                className="dark:border-brand-500/20"
                               >
                                 <Plus size={16} color="#e2001a" />
                               </Box>
@@ -1084,13 +1026,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             borderRadius="xl"
                             borderWidth="1px"
                             borderColor="gray.200"
-                            className="dark:border-gray-700/60"
+                            className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-blue-600/50 dark:hover:bg-blue-900/20"
                             bg="white"
-                            className="dark:bg-gray-800"
                             color="gray.700"
-                            className="dark:text-gray-100"
-                            _hover={{ borderColor: "blue.300", borderOpacity: 0.5, bg: "blue.50", opacity: 0.5 }}
-                            className="dark:hover:border-blue-600/50 dark:hover:bg-blue-900/20"
+                            _hover={{ borderColor: "blue.300", bg: "blue.50", opacity: 0.5 }}
                             fontSize="sm"
                             fontWeight="semibold"
                             transition="all 0.2s"
@@ -1105,10 +1044,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                   justifyContent="center"
                                   borderRadius="xl"
                                   bg="blue.50"
-                                  className="dark:bg-blue-900/20"
-                                  ringWidth="1px"
-                                  ringColor="blue.200"
-                                  className="dark:ring-blue-800/30"
+                                  className="dark:bg-blue-900/20 dark:border-blue-800/30"
+                                  borderWidth="1px"
+                                  borderColor="blue.200"
                                 >
                                   <BarChart3 size={16} color="#2563eb" />
                                 </Box>
@@ -1125,13 +1063,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             borderRadius="xl"
                             borderWidth="1px"
                             borderColor="gray.200"
-                            className="dark:border-gray-700/60"
+                            className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-emerald-600/50 dark:hover:bg-emerald-900/20"
                             bg="white"
-                            className="dark:bg-gray-800"
                             color="gray.700"
-                            className="dark:text-gray-100"
-                            _hover={{ borderColor: "emerald.300", borderOpacity: 0.5, bg: "emerald.50", opacity: 0.5 }}
-                            className="dark:hover:border-emerald-600/50 dark:hover:bg-emerald-900/20"
+                            _hover={{ borderColor: "emerald.300", bg: "emerald.50", opacity: 0.5 }}
                             fontSize="sm"
                             fontWeight="semibold"
                             transition="all 0.2s"
@@ -1146,10 +1081,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                   justifyContent="center"
                                   borderRadius="xl"
                                   bg="emerald.50"
-                                  className="dark:bg-emerald-900/20"
-                                  ringWidth="1px"
-                                  ringColor="emerald.200"
-                                  className="dark:ring-emerald-800/30"
+                                  className="dark:bg-emerald-900/20 dark:border-emerald-800/30"
+                                  borderWidth="1px"
+                                  borderColor="emerald.200"
                                 >
                                   <FileText size={16} color="#10b981" />
                                 </Box>
@@ -1167,13 +1101,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       borderRadius="2xl"
                       borderWidth="1px"
                       borderColor="gray.200"
-                      className="dark:border-gray-700/60"
+                      className="dark:border-gray-700/60 dark:bg-gray-900 dark:border-gray-800"
                       bg="white"
-                      className="dark:bg-gray-900"
                       shadow="sm"
-                      ringWidth="1px"
-                      ringColor="gray.200"
-                      className="dark:ring-gray-800"
                       p={6}
                     >
                       <Flex align="center" gap={3} mb={5}>
@@ -1185,10 +1115,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           justifyContent="center"
                           borderRadius="2xl"
                           bg="emerald.50"
-                          className="dark:bg-emerald-900/20"
-                          ringWidth="1px"
-                          ringColor="emerald.200"
-                          className="dark:ring-emerald-800/30"
+                          className="dark:bg-emerald-900/20 dark:border-emerald-800/30"
+                          borderWidth="1px"
+                          borderColor="emerald.200"
                         >
                           <Zap size={28} color="#10b981" />
                         </Box>
@@ -1208,12 +1137,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           borderRadius="lg"
                           bg="white"
                           opacity={0.6}
-                          className="dark:bg-gray-800/60"
+                          className="dark:bg-gray-800/60 dark:border-gray-700/50"
                           px={3}
                           py={2.5}
-                          ringWidth="1px"
-                          ringColor="gray.200"
-                          className="dark:ring-gray-700/50"
+                          borderWidth="1px"
+                          borderColor="gray.200"
                         >
                           <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
                             API-Status
@@ -1224,10 +1152,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                               w={1.5}
                               borderRadius="full"
                               bg="emerald.500"
-                              className="dark:bg-emerald-400"
-                              ringWidth="1px"
-                              ringColor="emerald.200"
-                              className="dark:ring-emerald-800"
+                              className="dark:bg-emerald-400 dark:border-emerald-800"
+                              borderWidth="1px"
+                              borderColor="emerald.200"
                             />
                             <Text fontSize="xs" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
                               Online
@@ -1240,12 +1167,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           borderRadius="lg"
                           bg="white"
                           opacity={0.6}
-                          className="dark:bg-gray-800/60"
+                          className="dark:bg-gray-800/60 dark:border-gray-700/50"
                           px={3}
                           py={2.5}
-                          ringWidth="1px"
-                          ringColor="gray.200"
-                          className="dark:ring-gray-700/50"
+                          borderWidth="1px"
+                          borderColor="gray.200"
                         >
                           <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
                             Datenbank
@@ -1256,10 +1182,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                               w={1.5}
                               borderRadius="full"
                               bg="emerald.500"
-                              className="dark:bg-emerald-400"
-                              ringWidth="1px"
-                              ringColor="emerald.200"
-                              className="dark:ring-emerald-800"
+                              className="dark:bg-emerald-400 dark:border-emerald-800"
+                              borderWidth="1px"
+                              borderColor="emerald.200"
                             />
                             <Text fontSize="xs" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
                               Verbunden
@@ -1272,12 +1197,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           borderRadius="lg"
                           bg="white"
                           opacity={0.6}
-                          className="dark:bg-gray-800/60"
+                          className="dark:bg-gray-800/60 dark:border-gray-700/50"
                           px={3}
                           py={2.5}
-                          ringWidth="1px"
-                          ringColor="gray.200"
-                          className="dark:ring-gray-700/50"
+                          borderWidth="1px"
+                          borderColor="gray.200"
                         >
                           <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-300">
                             Cache
@@ -1288,10 +1212,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                               w={1.5}
                               borderRadius="full"
                               bg="emerald.500"
-                              className="dark:bg-emerald-400"
-                              ringWidth="1px"
-                              ringColor="emerald.200"
-                              className="dark:ring-emerald-800"
+                              className="dark:bg-emerald-400 dark:border-emerald-800"
+                              borderWidth="1px"
+                              borderColor="emerald.200"
                             />
                             <Text fontSize="xs" fontWeight="bold" color="emerald.600" className="dark:text-emerald-400">
                               Aktiv
@@ -1306,18 +1229,16 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       borderRadius="2xl"
                       borderWidth="1px"
                       borderColor="gray.200"
-                      className="dark:border-gray-700/60"
+                      className="dark:border-gray-700/60 dark:bg-gray-900"
                       bg="white"
-                      className="dark:bg-gray-900"
                       shadow="sm"
                       overflow="hidden"
                     >
                       <CardHeader
                         borderBottomWidth="1px"
                         borderColor="gray.200"
-                        className="dark:border-gray-700/60"
+                        className="dark:border-gray-700/60 dark:bg-gray-800"
                         bg="white"
-                        className="dark:bg-gray-800"
                         px={6}
                         py={5}
                       >
@@ -1360,13 +1281,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                 borderRadius="xl"
                                 borderWidth="1px"
                                 borderColor="gray.200"
-                                className="dark:border-gray-700/60"
+                                className="dark:border-gray-700/60 dark:bg-gray-800 dark:hover:border-brand-500/50 dark:hover:bg-brand-500/10"
                                 bg="white"
-                                className="dark:bg-gray-800"
                                 p={4}
                                 textAlign="left"
-                                _hover={{ borderColor: "brand.500", borderOpacity: 0.4, bg: "brand.500", opacity: 0.05 }}
-                                className="dark:hover:border-brand-500/50 dark:hover:bg-brand-500/10"
+                                _hover={{ borderColor: "brand.500", bg: "brand.500", opacity: 0.05 }}
                                 shadow="sm"
                                 transition="all 0.2s"
                               >
@@ -1382,12 +1301,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                       fontSize="xs"
                                       fontWeight="bold"
                                       bg="gray.100"
-                                      className="dark:bg-gray-700"
+                                      className="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600/50"
                                       color="gray.700"
-                                      className="dark:text-gray-300"
-                                      ringWidth="1px"
-                                      ringColor="gray.200"
-                                      className="dark:ring-gray-600/50"
+                                      borderWidth="1px"
+                                      borderColor="gray.200"
                                     >
                                       {project.progress}%
                                     </Badge>
