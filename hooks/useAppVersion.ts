@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 /**
  * Version-Information vom Server
@@ -10,6 +10,7 @@ interface VersionInfo {
   buildId: string;
   buildTimestamp: string;
   timestamp: string;
+  source?: string; // Optional: Debug-Info, woher die Build-Info kommt
 }
 
 /**
@@ -30,7 +31,7 @@ export function useAppVersion(checkInterval: number = 60000) {
   /**
    * Holt die aktuelle Version vom Server
    */
-  const checkVersion = async () => {
+  const checkVersion = useCallback(async () => {
     try {
       setIsChecking(true);
       const response = await fetch("/api/version", {
@@ -49,29 +50,38 @@ export function useAppVersion(checkInterval: number = 60000) {
       const data: VersionInfo = await response.json();
       setServerVersion(data);
 
+      // Lade aktuelle Version aus State oder localStorage
+      const storedVersion = typeof window !== "undefined" 
+        ? localStorage.getItem("app-version") 
+        : null;
+      const currentStoredVersion = currentVersion || storedVersion;
+
       // Beim ersten Check: Setze die aktuelle Version
-      if (currentVersion === null) {
+      if (currentStoredVersion === null) {
         setCurrentVersion(data.buildId);
         // Speichere die Version im localStorage für Persistenz
         if (typeof window !== "undefined") {
           localStorage.setItem("app-version", data.buildId);
           localStorage.setItem("app-version-timestamp", data.buildTimestamp);
+          console.log("✅ Initiale Version gespeichert:", data.buildId);
         }
       } else {
         // Prüfe, ob sich die Version geändert hat
-        const storedVersion = localStorage.getItem("app-version");
-        const storedTimestamp = localStorage.getItem("app-version-timestamp");
+        const storedTimestamp = typeof window !== "undefined"
+          ? localStorage.getItem("app-version-timestamp")
+          : null;
         
-        // Debug-Logging (kann später entfernt werden)
-        if (process.env.NODE_ENV === "development") {
-          console.log("Version Check:", {
-            stored: storedVersion,
-            server: data.buildId,
-            storedTimestamp,
-            serverTimestamp: data.buildTimestamp,
-            match: storedVersion === data.buildId,
-          });
-        }
+        // Debug-Logging
+        console.log("🔍 Version Check:", {
+          stored: storedVersion,
+          server: data.buildId,
+          storedTimestamp,
+          serverTimestamp: data.buildTimestamp,
+          currentVersion: currentStoredVersion,
+          buildIdMatch: storedVersion === data.buildId,
+          timestampMatch: storedTimestamp === data.buildTimestamp,
+          source: data.source, // Debug-Info von API
+        });
         
         // Prüfe sowohl Build-ID als auch Timestamp für bessere Erkennung
         if (storedVersion && storedVersion !== data.buildId) {
@@ -80,9 +90,11 @@ export function useAppVersion(checkInterval: number = 60000) {
         } else if (storedTimestamp && storedTimestamp !== data.buildTimestamp) {
           console.log("🔄 Neue Version erkannt! Timestamp geändert:", storedTimestamp, "→", data.buildTimestamp);
           setIsUpdateAvailable(true);
-        } else if (data.buildId !== currentVersion) {
-          console.log("🔄 Neue Version erkannt! Current Version geändert:", currentVersion, "→", data.buildId);
+        } else if (data.buildId !== currentStoredVersion) {
+          console.log("🔄 Neue Version erkannt! Current Version geändert:", currentStoredVersion, "→", data.buildId);
           setIsUpdateAvailable(true);
+        } else {
+          console.log("✅ Version unverändert:", data.buildId);
         }
       }
     } catch (error) {
@@ -90,7 +102,7 @@ export function useAppVersion(checkInterval: number = 60000) {
     } finally {
       setIsChecking(false);
     }
-  };
+  }, [currentVersion]);
 
   /**
    * Initialisiert den Version-Check
@@ -118,7 +130,7 @@ export function useAppVersion(checkInterval: number = 60000) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [checkInterval]);
+  }, [checkInterval, checkVersion]);
 
   /**
    * Führt das Update durch (Seite neu laden)

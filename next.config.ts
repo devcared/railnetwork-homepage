@@ -7,9 +7,12 @@ const buildTimestamp = new Date().toISOString();
 const buildId = process.env.VERCEL_GIT_COMMIT_SHA || `build-${Date.now()}`;
 
 // Prüfe, ob wir im Build-Modus sind (nicht im Dev-Modus)
-// NEXT_PHASE wird nur beim Build gesetzt, nicht beim Dev-Server
+// Auf Vercel: VERCEL ist gesetzt, NEXT_PHASE wird beim Build gesetzt
+// Lokal: process.argv.includes("build") oder NEXT_PHASE === "phase-production-build"
+const isVercel = !!process.env.VERCEL;
 const isBuild = process.env.NEXT_PHASE === "phase-production-build" || 
-                process.argv.includes("build");
+                process.argv.includes("build") ||
+                (isVercel && !process.argv.includes("dev")); // Auf Vercel immer beim Build generieren
 
 const buildInfoPath = join(process.cwd(), "lib", "build-info.ts");
 
@@ -36,8 +39,16 @@ export const APP_VERSION = "${process.env.npm_package_version || "1.0.0"}";
 `;
     writeFileSync(buildInfoPath, buildInfoContent, "utf-8");
     console.log(`✅ Build-Info generiert: ${buildId} (${buildTimestamp})`);
+    if (isVercel) {
+      console.log(`📦 Vercel Build erkannt - Build-ID: ${buildId}`);
+    }
   } catch (error) {
     console.warn("⚠️ Konnte build-info.ts nicht schreiben:", error);
+  }
+} else {
+  // Debug-Logging im Dev-Modus
+  if (process.env.NODE_ENV === "development") {
+    console.log("ℹ️ Dev-Modus: Build-Info wird nicht generiert (verhindert Neustarts)");
   }
 }
 
