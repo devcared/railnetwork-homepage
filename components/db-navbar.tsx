@@ -26,6 +26,7 @@ const primaryNav = dbNavSections.map((section) => ({
 const iconClasses = "h-5 w-5 text-slate-500";
 
 export default function DbNavbar({ session }: DbNavbarProps) {
+  const { theme } = useTheme();
   const [openDesktopDropdown, setOpenDesktopDropdown] = useState<string | null>(
     null,
   );
