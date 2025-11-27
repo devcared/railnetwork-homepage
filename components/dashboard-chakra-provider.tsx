@@ -3,7 +3,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { useTheme } from "@/contexts/theme-context";
 import { useEffect } from "react";
-import theme from "@/lib/chakra-theme";
+import system from "@/lib/chakra-theme";
 
 type DashboardChakraProviderProps = {
   children: React.ReactNode;
@@ -27,14 +27,7 @@ export default function DashboardChakraProvider({
   }, [appTheme]);
 
   return (
-    <ChakraProvider
-      theme={theme}
-      colorModeManager={{
-        type: "localStorage",
-        get: () => appTheme === "dark" ? "dark" : "light",
-        set: () => {}, // Managed by app theme context
-      }}
-    >
+    <ChakraProvider value={system}>
       {children}
     </ChakraProvider>
   );

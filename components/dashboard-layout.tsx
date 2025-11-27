@@ -2,7 +2,7 @@
 
 import type { Session } from "next-auth";
 import { useState } from "react";
-import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import DashboardSidebar from "@/components/dashboard-sidebar";
 import DashboardChakraProvider from "@/components/dashboard-chakra-provider";
 
@@ -16,11 +16,10 @@ export default function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const bgColor = useColorModeValue("white", "gray.950");
 
   return (
     <DashboardChakraProvider>
-      <Flex minH="100vh" bg={bgColor}>
+      <Flex minH="100vh" bg="white" className="dark:bg-gray-950">
         <DashboardSidebar session={session} onCollapsedChange={setIsCollapsed} />
         <Box
           flex="1"

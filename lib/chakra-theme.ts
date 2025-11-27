@@ -1,82 +1,46 @@
-import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
+import { createSystem, defaultConfig } from "@chakra-ui/react";
 
-// Dark Mode Config
-const config: ThemeConfig = {
-  initialColorMode: "light",
-  useSystemColorMode: false,
-};
-
-// Custom Theme mit DB-Farben und Fonts
-const theme = extendTheme({
-  config,
-  colors: {
-    brand: {
-      50: "#fef2f2",
-      100: "#fee2e2",
-      200: "#fecaca",
-      300: "#fca5a5",
-      400: "#f87171",
-      500: "#e2001a", // DB Rot (Primary)
-      600: "#c10015", // DB Rot Dark
-      700: "#991b1b",
-      800: "#7f1d1d",
-      900: "#450a0a",
-    },
-    db: {
-      red: "#e2001a",
-      "red-dark": "#c10015",
-      gray: "#333b46",
-    },
-  },
-  fonts: {
-    heading: '"DBScreenHead", sans-serif',
-    body: '"DBScreenSans", sans-serif',
-  },
-  fontSizes: {
-    xs: "0.75rem",
-    sm: "0.875rem",
-    md: "1rem",
-    lg: "1.125rem",
-    xl: "1.25rem",
-    "2xl": "1.5rem",
-    "3xl": "1.875rem",
-    "4xl": "2.25rem",
-    "5xl": "3rem",
-  },
-  components: {
-    Button: {
-      defaultProps: {
-        colorScheme: "brand",
-      },
-      baseStyle: {
-        fontWeight: "semibold",
-        borderRadius: "md",
-      },
-    },
-    Card: {
-      baseStyle: {
-        container: {
-          borderRadius: "xl",
-          boxShadow: "sm",
+// Custom System mit DB-Farben und Fonts für Chakra UI v3
+const system = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      colors: {
+        brand: {
+          50: { value: "#fef2f2" },
+          100: { value: "#fee2e2" },
+          200: { value: "#fecaca" },
+          300: { value: "#fca5a5" },
+          400: { value: "#f87171" },
+          500: { value: "#e2001a" }, // DB Rot (Primary)
+          600: { value: "#c10015" }, // DB Rot Dark
+          700: { value: "#991b1b" },
+          800: { value: "#7f1d1d" },
+          900: { value: "#450a0a" },
+        },
+        db: {
+          red: { value: "#e2001a" },
+          "red-dark": { value: "#c10015" },
+          gray: { value: "#333b46" },
         },
       },
-    },
-    Badge: {
-      baseStyle: {
-        borderRadius: "full",
-        fontWeight: "semibold",
+      fonts: {
+        heading: { value: '"DBScreenHead", sans-serif' },
+        body: { value: '"DBScreenSans", sans-serif' },
+      },
+      fontSizes: {
+        xs: { value: "0.75rem" },
+        sm: { value: "0.875rem" },
+        md: { value: "1rem" },
+        lg: { value: "1.125rem" },
+        xl: { value: "1.25rem" },
+        "2xl": { value: "1.5rem" },
+        "3xl": { value: "1.875rem" },
+        "4xl": { value: "2.25rem" },
+        "5xl": { value: "3rem" },
       },
     },
-  },
-  styles: {
-    global: (props: any) => ({
-      body: {
-        bg: props.colorMode === "dark" ? "gray.950" : "white",
-        color: props.colorMode === "dark" ? "gray.100" : "gray.900",
-      },
-    }),
   },
 });
 
-export default theme;
+export default system;
 

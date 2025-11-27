@@ -6,10 +6,10 @@
  * 
  * ⚠️ WICHTIG: Diese Datei wird automatisch generiert - nicht manuell bearbeiten!
  * 
- * Generiert am: 2025-11-27T11:53:29.887Z
- * Build-ID: build-1764244409887
+ * Generiert am: 2025-11-27T22:08:05.786Z
+ * Build-ID: build-1764281285786
  */
 
-export const BUILD_ID = "build-1764244409887";
-export const BUILD_TIMESTAMP = "2025-11-27T11:53:29.887Z";
-export const APP_VERSION = "0.2.0";
+export const BUILD_ID = "build-1764281285786";
+export const BUILD_TIMESTAMP = "2025-11-27T22:08:05.786Z";
+export const APP_VERSION = "0.1.0";
