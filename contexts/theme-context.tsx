@@ -17,30 +17,43 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Nur im Client ausführen
+    if (typeof window === "undefined") return;
+    
     setMounted(true);
     // Lade gespeichertes Theme aus localStorage
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Prüfe System-Präferenz
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
+    try {
+      const savedTheme = localStorage.getItem("theme") as Theme | null;
+      if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
+        setTheme(savedTheme);
+      } else {
+        // Prüfe System-Präferenz
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setTheme(prefersDark ? "dark" : "light");
+      }
+    } catch (error) {
+      console.error("Error loading theme:", error);
+      setTheme("light");
     }
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    // Nur im Client ausführen
+    if (typeof window === "undefined" || !mounted) return;
     
-    // Speichere Theme im localStorage
-    localStorage.setItem("theme", theme);
-    
-    // Setze dark class auf html element
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
+    try {
+      // Speichere Theme im localStorage
+      localStorage.setItem("theme", theme);
+      
+      // Setze dark class auf html element
+      const root = document.documentElement;
+      if (theme === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+    } catch (error) {
+      console.error("Error setting theme:", error);
     }
   }, [theme, mounted]);
 
@@ -48,10 +61,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
+  // Immer den Context bereitstellen, auch wenn noch nicht gemountet
+  // Dies verhindert "useTheme must be used within a ThemeProvider" Fehler
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}
@@ -62,7 +73,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    // Fallback für SSR oder wenn Provider nicht verfügbar ist
+    return {
+      theme: "light" as Theme,
+      setTheme: () => {},
+      toggleTheme: () => {},
+    };
   }
   return context;
 }

@@ -66,9 +66,9 @@ const LoaderCore = ({
             key={index}
             className={cn(
               "group relative flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300",
-              isActive && "bg-gradient-to-r from-[#e2001a]/10 via-[#e2001a]/5 to-transparent border-l-4 border-[#e2001a] shadow-md",
-              isCompleted && "bg-slate-50 border-l-4 border-emerald-500",
-              isPending && "bg-slate-50/50 border-l-4 border-slate-200"
+              isActive && "bg-gradient-to-r from-[#e2001a]/10 via-[#e2001a]/5 to-transparent dark:from-[#e2001a]/20 dark:via-[#e2001a]/10 border-l-4 border-[#e2001a] shadow-md",
+              isCompleted && "bg-slate-50 dark:bg-slate-800/50 border-l-4 border-emerald-500",
+              isPending && "bg-slate-50/50 dark:bg-slate-800/30 border-l-4 border-slate-200 dark:border-slate-700"
             )}
             initial={{ opacity: 0, x: -30 }}
             animate={{ 
@@ -100,8 +100,8 @@ const LoaderCore = ({
                   />
                 </div>
               ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-slate-200 bg-white shadow-sm">
-                  <div className="h-5 w-5 rounded-full bg-slate-200"></div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="h-5 w-5 rounded-full bg-slate-200 dark:bg-slate-600"></div>
                 </div>
               )}
             </div>
@@ -111,9 +111,9 @@ const LoaderCore = ({
               <span
                 className={cn(
                   "font-db-screensans text-base transition-all block",
-                  isActive && "text-slate-900 font-semibold",
-                  isCompleted && "text-slate-700 font-medium",
-                  isPending && "text-slate-400 font-normal"
+                  isActive && "text-slate-900 dark:text-slate-100 font-semibold",
+                  isCompleted && "text-slate-700 dark:text-slate-300 font-medium",
+                  isPending && "text-slate-400 dark:text-slate-500 font-normal"
                 )}
               >
                 {loadingState.text}
@@ -178,13 +178,10 @@ export const MultiStepLoader = ({
           exit={{
             opacity: 0,
           }}
-          className="w-full h-full fixed inset-0 z-[100] flex flex-col items-center justify-center backdrop-blur-xl"
-          style={{
-            background: "linear-gradient(135deg, #f3f6fb 0%, #ffffff 50%, #f3f6fb 100%)",
-          }}
+          className="w-full h-full fixed inset-0 z-[100] flex flex-col items-center justify-center backdrop-blur-xl bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
         >
           {/* DB-Style Header */}
-          <div className="absolute top-0 left-0 right-0 border-b-2 border-[#e2001a]/20 bg-white/95 backdrop-blur-md shadow-sm px-6 py-5">
+          <div className="absolute top-0 left-0 right-0 border-b-2 border-[#e2001a]/20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm px-6 py-5">
             <div className="max-w-7xl mx-auto flex items-center gap-4">
               {/* DB Logo Box */}
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#e2001a] to-[#c10015] shadow-lg ring-2 ring-[#e2001a]/20">
@@ -202,12 +199,12 @@ export const MultiStepLoader = ({
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3">
-                  <h2 className="font-db-screenhead text-2xl font-bold text-slate-900 relative">
+                  <h2 className="font-db-screenhead text-2xl font-bold text-slate-900 dark:text-slate-100 relative">
                     Update wird installiert
                     <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#e2001a] to-transparent" />
                   </h2>
                 </div>
-                <p className="font-db-screensans text-sm text-slate-600 mt-1.5">
+                <p className="font-db-screensans text-sm text-slate-600 dark:text-slate-400 mt-1.5">
                   Bitte warten Sie, während die neue Version geladen wird
                 </p>
               </div>
@@ -216,18 +213,18 @@ export const MultiStepLoader = ({
 
           {/* Main Content */}
           <div className="relative w-full max-w-4xl px-6 pt-28 pb-16">
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl border-2 border-slate-200/80 shadow-[0_25px_60px_-30px_rgba(15,23,42,0.4)] p-10">
+            <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border-2 border-slate-200/80 dark:border-slate-700/60 shadow-[0_25px_60px_-30px_rgba(15,23,42,0.4)] dark:shadow-[0_25px_60px_-30px_rgba(0,0,0,0.5)] p-10">
               {/* Progress Indicator */}
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-db-screensans text-sm font-semibold text-slate-700">
+                  <span className="font-db-screensans text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Fortschritt
                   </span>
                   <span className="font-db-screenhead text-sm font-bold text-[#e2001a]">
                     {currentState + 1} / {loadingStates.length}
                   </span>
                 </div>
-                <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
                   <motion.div
                     className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#e2001a] via-[#ff6f61] to-[#e2001a]"
                     initial={{ width: "0%" }}
@@ -245,7 +242,7 @@ export const MultiStepLoader = ({
           </div>
 
           {/* DB-Style Footer with Gradient Line */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none">
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/90 to-transparent dark:from-slate-950 dark:via-slate-900/90 pointer-events-none">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#e2001a]/30 to-transparent" />
           </div>
           

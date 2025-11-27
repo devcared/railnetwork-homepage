@@ -3,9 +3,29 @@
 import { useTheme } from "@/contexts/theme-context";
 import { Moon, Sun } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Verhindere Hydration-Mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Fallback während SSR
+    return (
+      <button
+        className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/60 bg-white/80 text-slate-600 shadow-sm dark:border-slate-700/60 dark:bg-slate-800/80 dark:text-slate-300"
+        aria-label="Theme wechseln"
+        disabled
+      >
+        <Moon className="h-5 w-5" />
+      </button>
+    );
+  }
 
   return (
     <button
