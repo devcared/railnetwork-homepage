@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./lib/**/*.{ts,tsx}",
+    "./contexts/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {
@@ -20,6 +22,11 @@ const config: Config = {
           700: "#0369a1",
           800: "#075985",
           900: "#0c4a6e",
+        },
+        db: {
+          red: "#e2001a",
+          "red-dark": "#c10015",
+          gray: "#333b46",
         },
       },
       boxShadow: {

@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 
 import ConditionalLayout from "@/components/conditional-layout";
 import UpdatePrompt from "@/components/update-prompt";
+import { ThemeProvider } from "@/contexts/theme-context";
 import { authOptions } from "@/lib/auth";
 
 import "./globals.css";
@@ -32,12 +33,14 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="de">
+    <html lang="de" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-[var(--page-bg)] text-slate-900 antialiased w-full`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-[var(--page-bg)] text-slate-900 dark:text-slate-100 antialiased w-full`}
       >
-        <ConditionalLayout session={session}>{children}</ConditionalLayout>
-        <UpdatePrompt />
+        <ThemeProvider>
+          <ConditionalLayout session={session}>{children}</ConditionalLayout>
+          <UpdatePrompt />
+        </ThemeProvider>
       </body>
     </html>
   );

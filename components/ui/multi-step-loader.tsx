@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const CheckIcon = ({ className }: { className?: string }) => {
   return (
@@ -52,56 +53,80 @@ const LoaderCore = ({
   value?: number;
 }) => {
   return (
-    <div className="flex relative justify-start max-w-2xl mx-auto flex-col">
+    <div className="flex relative justify-start max-w-2xl mx-auto flex-col space-y-3">
       {loadingStates.map((loadingState, index) => {
         const distance = Math.abs(index - value);
-        const opacity = Math.max(1 - distance * 0.25, 0.3);
+        const opacity = Math.max(1 - distance * 0.3, 0.4);
+        const isActive = index === value;
+        const isCompleted = index < value;
+        const isPending = index > value;
 
         return (
           <motion.div
             key={index}
-            className={cn("text-left flex items-center gap-4 mb-6 px-5 py-4 rounded-xl transition-all", 
-              index === value && "bg-[#e2001a]/10 backdrop-blur-sm border-2 border-[#e2001a]/30 shadow-lg ring-2 ring-[#e2001a]/10"
+            className={cn(
+              "group relative flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300",
+              isActive && "bg-gradient-to-r from-[#e2001a]/10 via-[#e2001a]/5 to-transparent border-l-4 border-[#e2001a] shadow-md",
+              isCompleted && "bg-slate-50 border-l-4 border-emerald-500",
+              isPending && "bg-slate-50/50 border-l-4 border-slate-200"
             )}
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ 
               opacity: opacity, 
               x: 0,
-              scale: index === value ? 1.02 : 1
+              scale: isActive ? 1.01 : 1
             }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <div className="flex-shrink-0">
-              {index < value ? (
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e2001a] shadow-md ring-2 ring-[#e2001a]/20">
-                  <CheckFilled className="h-5 w-5 text-white" />
+            {/* DB-Style Indicator */}
+            <div className="flex-shrink-0 relative">
+              {isCompleted ? (
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg ring-2 ring-emerald-200">
+                  <CheckFilled className="h-6 w-6 text-white" />
                 </div>
-              ) : index === value ? (
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e2001a] shadow-lg ring-4 ring-[#e2001a]/30">
+              ) : isActive ? (
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#e2001a] to-[#c10015] shadow-xl ring-4 ring-[#e2001a]/20">
                   <motion.div
-                    className="h-5 w-5 rounded-full bg-white"
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
+                    className="h-6 w-6 rounded-lg bg-white"
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 180, 360]
+                    }}
+                    transition={{ 
+                      duration: 1.5, 
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
                   />
                 </div>
               ) : (
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-300 bg-slate-50">
-                  <div className="h-4 w-4 rounded-full bg-slate-300"></div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-slate-200 bg-white shadow-sm">
+                  <div className="h-5 w-5 rounded-full bg-slate-200"></div>
                 </div>
               )}
             </div>
-            <span
-              className={cn(
-                "font-db-screensans text-base transition-all",
-                index === value 
-                  ? "text-slate-900 font-semibold" 
-                  : index < value
-                    ? "text-slate-700 font-medium"
-                    : "text-slate-400 font-normal"
+
+            {/* Text with DB-Style */}
+            <div className="flex-1 min-w-0">
+              <span
+                className={cn(
+                  "font-db-screensans text-base transition-all block",
+                  isActive && "text-slate-900 font-semibold",
+                  isCompleted && "text-slate-700 font-medium",
+                  isPending && "text-slate-400 font-normal"
+                )}
+              >
+                {loadingState.text}
+              </span>
+              {isActive && (
+                <motion.div
+                  className="mt-1 h-0.5 bg-gradient-to-r from-[#e2001a] to-transparent"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 0.5 }}
+                />
               )}
-            >
-              {loadingState.text}
-            </span>
+            </div>
           </motion.div>
         );
       })}
@@ -159,20 +184,30 @@ export const MultiStepLoader = ({
           }}
         >
           {/* DB-Style Header */}
-          <div className="absolute top-0 left-0 right-0 border-b border-slate-200/60 bg-white/80 backdrop-blur-sm px-6 py-4">
-            <div className="max-w-7xl mx-auto flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-[#e2001a] flex items-center justify-center shadow-md">
+          <div className="absolute top-0 left-0 right-0 border-b-2 border-[#e2001a]/20 bg-white/95 backdrop-blur-md shadow-sm px-6 py-5">
+            <div className="max-w-7xl mx-auto flex items-center gap-4">
+              {/* DB Logo Box */}
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#e2001a] to-[#c10015] shadow-lg ring-2 ring-[#e2001a]/20">
                 <motion.div
-                  className="h-6 w-6 rounded bg-white"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  className="h-7 w-7 rounded-lg bg-white"
+                  animate={{ 
+                    rotate: 360,
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 2, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+                  }}
                 />
               </div>
-              <div>
-                <h2 className="font-db-screenhead text-xl font-bold text-slate-900">
-                  Update wird installiert
-                </h2>
-                <p className="font-db-screensans text-xs text-slate-600 mt-0.5">
+              <div className="flex-1">
+                <div className="flex items-center gap-3">
+                  <h2 className="font-db-screenhead text-2xl font-bold text-slate-900 relative">
+                    Update wird installiert
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#e2001a] to-transparent" />
+                  </h2>
+                </div>
+                <p className="font-db-screensans text-sm text-slate-600 mt-1.5">
                   Bitte warten Sie, während die neue Version geladen wird
                 </p>
               </div>
@@ -180,19 +215,48 @@ export const MultiStepLoader = ({
           </div>
 
           {/* Main Content */}
-          <div className="relative w-full max-w-4xl px-6 pt-24 pb-12">
-            <div className="bg-white/60 backdrop-blur-md rounded-2xl border border-slate-200/60 shadow-2xl p-8">
+          <div className="relative w-full max-w-4xl px-6 pt-28 pb-16">
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl border-2 border-slate-200/80 shadow-[0_25px_60px_-30px_rgba(15,23,42,0.4)] p-10">
+              {/* Progress Indicator */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-db-screensans text-sm font-semibold text-slate-700">
+                    Fortschritt
+                  </span>
+                  <span className="font-db-screenhead text-sm font-bold text-[#e2001a]">
+                    {currentState + 1} / {loadingStates.length}
+                  </span>
+                </div>
+                <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                  <motion.div
+                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#e2001a] via-[#ff6f61] to-[#e2001a]"
+                    initial={{ width: "0%" }}
+                    animate={{ 
+                      width: `${((currentState + 1) / loadingStates.length) * 100}%` 
+                    }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+
+              {/* Steps */}
               <LoaderCore value={currentState} loadingStates={loadingStates} />
             </div>
           </div>
 
-          {/* DB-Style Footer Gradient */}
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+          {/* DB-Style Footer with Gradient Line */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#e2001a]/30 to-transparent" />
+          </div>
           
-          {/* Decorative Elements */}
+          {/* Decorative DB Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#e2001a]/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#e2001a]/5 rounded-full blur-3xl"></div>
+            {/* Top Left Gradient */}
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-[#e2001a]/8 via-transparent to-transparent rounded-full blur-3xl"></div>
+            {/* Bottom Right Gradient */}
+            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-gradient-to-tl from-[#e2001a]/8 via-transparent to-transparent rounded-full blur-3xl"></div>
+            {/* Center Accent */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#e2001a]/3 rounded-full blur-3xl"></div>
           </div>
         </motion.div>
       )}

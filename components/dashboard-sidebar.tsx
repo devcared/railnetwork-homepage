@@ -26,6 +26,7 @@ import {
   Map,
   ClipboardList,
 } from "lucide-react";
+import ThemeToggle from "@/components/theme-toggle";
 
 type DashboardSidebarProps = {
   session: Session;
@@ -359,7 +360,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
       {/* Mobile Menu Button */}
       <button
         type="button"
-        className="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 lg:hidden"
+        className="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 lg:hidden"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         aria-label="Menü öffnen"
       >
@@ -376,7 +377,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 border-r border-slate-200 bg-white font-db-screensans transition-all duration-300 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 border-r border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 font-db-screensans transition-all duration-300 lg:translate-x-0 ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         } ${
           isCollapsed ? "w-20" : "w-72"
@@ -385,7 +386,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
       >
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="border-b border-slate-200 bg-white px-4 py-4">
+          <div className="border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 px-4 py-4">
             <div className="flex items-center justify-between">
               {!isCollapsed && (
                 <Link 
@@ -416,7 +417,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
               )}
               <button
                 onClick={handleToggleCollapse}
-                className="hidden lg:flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+                className="hidden lg:flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 transition hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
                 aria-label={isCollapsed ? "Sidebar erweitern" : "Sidebar minimieren"}
               >
                 {isCollapsed ? (
@@ -435,11 +436,11 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                 <div key={section.title}>
                   {!isCollapsed && (
                     <div className="px-4 pb-3">
-                      <p className="text-[13px] font-semibold uppercase text-slate-500">
+                      <p className="text-[13px] font-semibold uppercase text-slate-500 dark:text-slate-400">
                         {section.title}
                       </p>
                       {section.subtitle && (
-                        <p className="text-[11px] text-slate-400">{section.subtitle}</p>
+                        <p className="text-[11px] text-slate-400 dark:text-slate-500">{section.subtitle}</p>
                       )}
                     </div>
                   )}
@@ -457,8 +458,8 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                         ? "before:absolute before:left-0 before:top-1/2 before:h-4 before:w-1 before:-translate-y-1/2 before:bg-[#e2001a] before:opacity-0 before:transition-opacity before:duration-150 before:content-['']"
                         : "";
                       const stateClasses = isActive
-                        ? `bg-gray-50 text-slate-900 ${!isCollapsed ? "before:opacity-100" : ""}`
-                        : "text-slate-500 hover:bg-gray-50 hover:text-slate-900";
+                        ? `bg-gray-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 ${!isCollapsed ? "before:opacity-100" : ""}`
+                        : "text-slate-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100";
 
                       return (
                         <li key={item.id}>
@@ -512,20 +513,20 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                 onMouseEnter={() => setHoveredItem(item.id)}
                                 onMouseLeave={() => setHoveredItem(null)}
                               >
-                                <div className="relative min-w-[220px] rounded-lg border border-slate-200 bg-white shadow-xl">
-                                  <div className="absolute left-0 top-4 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 bg-white" />
+                                <div className="relative min-w-[220px] rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 shadow-xl">
+                                  <div className="absolute left-0 top-4 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800" />
                                   <Link
                                     href={item.href}
                                     onClick={() => {
                                       setIsMobileOpen(false);
                                       setHoveredItem(null);
                                     }}
-                                    className="pointer-events-auto block rounded-t-lg px-3 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+                                    className="pointer-events-auto block rounded-t-lg px-3 py-2.5 text-sm font-semibold text-slate-900 dark:text-slate-100 transition hover:bg-slate-50 dark:hover:bg-slate-700"
                                   >
                                     {item.label}
                                   </Link>
                                   {hasSubItems && item.subItems && (
-                                    <div className="border-t border-slate-100">
+                                    <div className="border-t border-slate-100 dark:border-slate-700/60">
                                       {item.subItems.map((subItem, index) => {
                                         const isSubActive = isSubItemActive(subItem.href);
                                         return (
@@ -541,7 +542,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                             } ${
                                               isSubActive
                                                 ? "bg-[#e2001a]/10 text-[#e2001a]"
-                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                                : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
                                             }`}
                                           >
                                             <div className="flex items-center justify-between">
@@ -575,7 +576,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                     transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                                     className="overflow-hidden"
                                   >
-                                    <div className="ml-4 border-l-2 border-slate-200/70 pl-4 pt-1">
+                                    <div className="ml-4 border-l-2 border-slate-200/70 dark:border-slate-700/60 pl-4 pt-1">
                                       {item.subItems!.map((subItem) => {
                                         const isSubActive = isSubItemActive(subItem.href);
                                         return (
@@ -585,7 +586,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                               onClick={() => setIsMobileOpen(false)}
                           className={`relative block rounded-md px-3 py-2 text-sm font-medium transition ${
                                                 isSubActive
-                              ? "bg-gray-50 text-slate-900"
+                              ? "bg-gray-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                               : "text-slate-500 hover:bg-gray-50 hover:text-slate-900"
                                               }`}
                                             >
@@ -618,14 +619,19 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
           </nav>
 
           {/* Footer */}
-          <div className="border-t border-slate-200 bg-white">
+          <div className="border-t border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+            {/* Theme Toggle */}
+            <div className="px-3 py-2 border-b border-slate-200 dark:border-slate-700/60">
+              <ThemeToggle />
+            </div>
+            
             {/* User Info */}
             <div className="relative p-3" data-user-menu>
               {!isCollapsed ? (
                 <div className="space-y-2">
                   {/* User Card */}
                   <div
-                    className="group relative cursor-pointer rounded-lg border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-3 transition-all hover:border-slate-300 hover:shadow-sm"
+                    className="group relative cursor-pointer rounded-lg border border-slate-200 dark:border-slate-700/60 bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 p-3 transition-all hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-sm"
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     data-user-menu
                   >
@@ -652,10 +658,10 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                       
                       {/* User Info */}
                       <div className="flex-1 min-w-0">
-                        <p className="truncate text-sm font-semibold text-slate-900">
+                        <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">
                           {session.user?.name || "Benutzer"}
                         </p>
-                        <p className="truncate text-xs text-slate-500">
+                        <p className="truncate text-xs text-slate-500 dark:text-slate-400">
                           {session.user?.email || ""}
                         </p>
                       </div>
@@ -679,14 +685,14 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="space-y-1 rounded-lg border border-slate-200 bg-white p-1">
+                        <div className="space-y-1 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 p-1">
                           <Link
                             href="/dashboard/settings"
                             onClick={() => {
                               setIsMobileOpen(false);
                               setShowUserMenu(false);
                             }}
-                            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-slate-900"
+                            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
                           >
                             <Settings className="h-4 w-4 text-slate-500" />
                             <span>Einstellungen</span>
@@ -697,7 +703,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                               setIsMobileOpen(false);
                               setShowUserMenu(false);
                             }}
-                            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-slate-900"
+                            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
                           >
                             <Home className="h-4 w-4 text-slate-500" />
                             <span>Zur Startseite</span>
@@ -765,16 +771,16 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                         onMouseEnter={() => setShowUserMenu(true)}
                         onMouseLeave={() => setShowUserMenu(false)}
                       >
-                        <div className="relative rounded-lg border border-slate-200 bg-white shadow-xl min-w-[220px]">
+                        <div className="relative rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 shadow-xl min-w-[220px]">
                           {/* Arrow - pointing left, positioned at middle right */}
-                          <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 bg-white"></div>
+                          <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800"></div>
                           
                           {/* User Info Header */}
-                          <div className="border-b border-slate-100 px-3 py-2.5">
-                            <p className="text-sm font-semibold text-slate-900">
+                          <div className="border-b border-slate-100 dark:border-slate-700/60 px-3 py-2.5">
+                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                               {session.user?.name || "Benutzer"}
                             </p>
-                            <p className="text-xs text-slate-500 truncate mt-0.5">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">
                               {session.user?.email || ""}
                             </p>
                           </div>
@@ -787,9 +793,9 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                 setIsMobileOpen(false);
                                 setShowUserMenu(false);
                               }}
-                              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
                             >
-                              <Settings className="h-4 w-4 text-slate-500 flex-shrink-0" />
+                              <Settings className="h-4 w-4 text-slate-500 dark:text-slate-400 flex-shrink-0" />
                               <span>Einstellungen</span>
                             </Link>
                             <Link
@@ -798,9 +804,9 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                 setIsMobileOpen(false);
                                 setShowUserMenu(false);
                               }}
-                              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
                             >
-                              <Home className="h-4 w-4 text-slate-500 flex-shrink-0" />
+                              <Home className="h-4 w-4 text-slate-500 dark:text-slate-400 flex-shrink-0" />
                               <span>Zur Startseite</span>
                             </Link>
                             <button
@@ -809,7 +815,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                 handleLogout();
                                 setShowUserMenu(false);
                               }}
-                              className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                              className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-900/20"
                             >
                               <LogOut className="h-4 w-4 flex-shrink-0" />
                               <span>Abmelden</span>
