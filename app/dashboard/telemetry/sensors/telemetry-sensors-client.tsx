@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
+import Breadcrumbs from "@/components/breadcrumbs";
 import {
   Cpu,
   Wifi,
