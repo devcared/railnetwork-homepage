@@ -61,26 +61,26 @@ export default function UpdatePrompt() {
           />
 
           {/* Dialog */}
-          <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+          <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-2xl">
             {/* Header */}
-            <div className="border-b border-slate-200 bg-gradient-to-r from-[#e2001a]/5 to-white px-6 py-5">
+            <div className="border-b border-slate-200 dark:border-slate-700/60 bg-[#e2001a]/5 dark:bg-[#e2001a]/10 px-6 py-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e2001a]/10 ring-1 ring-[#e2001a]/15">
                     <Download className="h-5 w-5 text-[#e2001a]" />
                   </div>
                   <div>
-                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900">
+                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
                       Neue Version verfügbar
                     </h3>
-                    <p className="mt-0.5 text-xs font-medium text-slate-500">
+                    <p className="mt-0.5 text-xs font-medium text-slate-500 dark:text-slate-400">
                       Ein Update steht bereit
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={dismissUpdate}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 transition hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300"
                   aria-label="Schließen"
                 >
                   <X className="h-4 w-4" />
@@ -90,13 +90,13 @@ export default function UpdatePrompt() {
 
             {/* Content */}
             <div className="px-6 py-5">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 Eine neue Version der Anwendung ist verfügbar. Möchten Sie jetzt aktualisieren?
               </p>
               {serverVersion && (
-                <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/50 px-3 py-2">
-                  <p className="text-xs font-medium text-slate-500">Build-ID</p>
-                  <p className="mt-0.5 font-mono text-xs text-slate-700">
+                <div className="mt-4 rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 px-3 py-2">
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Build-ID</p>
+                  <p className="mt-0.5 font-mono text-xs text-slate-700 dark:text-slate-300">
                     {serverVersion.buildId.substring(0, 12)}...
                   </p>
                 </div>
@@ -104,11 +104,11 @@ export default function UpdatePrompt() {
             </div>
 
             {/* Actions */}
-            <div className="border-t border-slate-200 bg-slate-50/50 px-6 py-4">
+            <div className="border-t border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 px-6 py-4">
               <div className="flex items-center gap-3">
                 <button
                   onClick={dismissUpdate}
-                  className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                  className="flex-1 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700"
                 >
                   Später
                 </button>

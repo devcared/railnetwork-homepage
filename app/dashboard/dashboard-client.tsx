@@ -191,28 +191,28 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-[#0f0f0f]">
+      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] shadow-sm">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3">
                   <div>
-                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-[#f5f5f5] lg:text-3xl">
+                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                       Übersicht
                     </h1>
-                    <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-[#a3a3a3]">
+                    <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                       Willkommen zurück
                     </p>
                   </div>
                   {/* Version Badge */}
                   {(currentVersion || serverVersion) && (
-                    <div className="ml-4 flex items-center gap-2 rounded-lg border border-slate-200/60 dark:border-[#2a2a2a]/60 bg-slate-50/50 dark:bg-[#1f1f1f]/50 px-3 py-1.5">
+                    <div className="ml-4 flex items-center gap-2 rounded-lg border border-slate-200/60 dark:border-slate-700/60/60 bg-slate-50/50 dark:bg-slate-800/50 px-3 py-1.5">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-                        <span className="text-xs font-medium text-slate-600 dark:text-[#a3a3a3]">Version</span>
-                        <span className="font-mono text-xs font-semibold text-slate-900 dark:text-[#f5f5f5]">
+                        <span className="text-xs font-medium text-slate-600 dark:text-slate-400">Version</span>
+                        <span className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-100">
                           {(serverVersion?.buildId || currentVersion || "—").substring(0, 8)}
                         </span>
                       </div>
@@ -230,7 +230,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 />
               <button
                 onClick={() => setShowCreateProject(true)}
-                className="hidden items-center gap-2 rounded-lg border border-slate-200 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#1f1f1f] px-4 py-2 text-sm font-semibold text-slate-700 dark:text-[#d4d4d4] transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
+                className="hidden items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
               >
                 <Plus className="h-4 w-4" />
                 Neues Projekt
@@ -257,26 +257,26 @@ export default function DashboardClient({ session }: DashboardClientProps) {
             <SheetContent>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-[#d4d4d4]">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Projektname *
                   </label>
                   <input
                     type="text"
                     value={newProjectName}
                     onChange={(e) => setNewProjectName(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#1f1f1f] px-4 py-2 text-sm text-slate-900 dark:text-[#f5f5f5] placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                     placeholder="z.B. Hamburg Hbf Modernisierung"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-[#d4d4d4]">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Beschreibung
                   </label>
                   <textarea
                     value={newProjectDescription}
                     onChange={(e) => setNewProjectDescription(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#1f1f1f] px-4 py-2 text-sm text-slate-900 dark:text-[#f5f5f5] placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                     placeholder="Optionale Beschreibung..."
                     rows={4}
                   />
@@ -291,7 +291,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   setNewProjectName("");
                   setNewProjectDescription("");
                 }}
-                className="rounded-lg border border-slate-200 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#1f1f1f] px-4 py-2 text-sm font-semibold text-slate-700 dark:text-[#d4d4d4] transition hover:bg-slate-50 dark:hover:bg-slate-700"
+                className="rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Abbrechen
               </button>
@@ -322,25 +322,25 @@ export default function DashboardClient({ session }: DashboardClientProps) {
             <SheetContent>
               <div className="space-y-6">
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#a3a3a3]">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Beschreibung
                   </label>
-                  <p className="mt-2 text-sm text-slate-700 dark:text-[#d4d4d4]">
+                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
                     {selectedProject.description || "Keine Beschreibung vorhanden"}
                   </p>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#a3a3a3]">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Fortschritt
                   </label>
                   <div className="mt-2">
                     <div className="mb-2 flex items-center justify-between">
-                      <span className="text-sm font-semibold text-slate-900 dark:text-[#f5f5f5]">
+                      <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                         {selectedProject.progress}%
                       </span>
                     </div>
-                    <div className="h-3 w-full rounded-full bg-slate-200 dark:bg-[#2a2a2a]">
+                    <div className="h-3 w-full rounded-full bg-slate-200 dark:bg-slate-700">
                       <div
                         className="h-3 rounded-full bg-[#e2001a] transition-all"
                         style={{ width: `${selectedProject.progress}%` }}
@@ -350,7 +350,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#a3a3a3]">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Status
                   </label>
                   <div className="mt-2">
@@ -360,7 +360,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
                           : selectedProject.status === "completed"
                             ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400"
-                            : "bg-slate-100 dark:bg-[#1f1f1f] text-slate-700 dark:text-[#d4d4d4]"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                       }`}
                     >
                       {selectedProject.status === "active"
@@ -374,10 +374,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#a3a3a3]">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Erstellt am
                     </label>
-                    <p className="mt-2 text-sm text-slate-700 dark:text-[#d4d4d4]">
+                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
                       {new Date(selectedProject.createdAt).toLocaleDateString(
                         "de-DE",
                         {
@@ -389,10 +389,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     </p>
                   </div>
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#a3a3a3]">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Zuletzt aktualisiert
                     </label>
-                    <p className="mt-2 text-sm text-slate-700 dark:text-[#d4d4d4]">
+                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
                       {new Date(selectedProject.updatedAt).toLocaleDateString(
                         "de-DE",
                         {
@@ -409,7 +409,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
             <SheetFooter>
               <button
                 onClick={() => setShowProjectDetails(false)}
-                className="rounded-lg border border-slate-200 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#1f1f1f] px-4 py-2 text-sm font-semibold text-slate-700 dark:text-[#d4d4d4] transition hover:bg-slate-50 dark:hover:bg-slate-700"
+                className="rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Schließen
               </button>
@@ -429,13 +429,13 @@ export default function DashboardClient({ session }: DashboardClientProps) {
           <div className="space-y-6 lg:space-y-8">
             {/* Stats Cards */}
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] p-6 shadow-sm transition-all duration-300 hover:border-[#e2001a]/30 dark:hover:border-[#e2001a]/40">
+              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-[#e2001a]/30 dark:hover:border-[#e2001a]/40">
                 <div className="relative flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-[#a3a3a3]">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
                       Aktive Projekte
                     </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-[#f5f5f5]">
+                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
                       {stats?.activeProjects || 0}
                     </p>
                     <div className="mt-5 flex items-center gap-2">
@@ -451,13 +451,13 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 </div>
               </div>
 
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] p-6 shadow-sm transition-all duration-300 hover:border-blue-300/50 dark:hover:border-blue-600/50">
+              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-blue-300/50 dark:hover:border-blue-600/50">
                 <div className="relative flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-[#a3a3a3]">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
                       Komponenten
                     </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-[#f5f5f5]">
+                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
                       {stats?.totalComponents
                         ? (stats.totalComponents / 1000000).toFixed(1) + "M"
                         : "0"}
@@ -466,7 +466,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 dark:bg-blue-900/20 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-400 ring-1 ring-blue-200/50 dark:ring-blue-800/30">
                         {stats?.uptime || 0}%
                       </span>
-                      <span className="text-xs font-medium text-slate-500 dark:text-[#a3a3a3]">Uptime</span>
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Uptime</span>
                     </div>
                   </div>
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200/30 dark:ring-blue-800/30 transition-transform duration-300 group-hover:scale-110">
@@ -475,13 +475,13 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 </div>
               </div>
 
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] p-6 shadow-sm transition-all duration-300 hover:border-amber-300/50 dark:hover:border-amber-600/50">
+              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-amber-300/50 dark:hover:border-amber-600/50">
                 <div className="relative flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-[#a3a3a3]">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
                       Alerts heute
                     </p>
-                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-[#f5f5f5]">
+                    <p className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
                       {stats?.alertsToday || 0}
                     </p>
                     <div className="mt-5 flex items-center gap-2">
@@ -489,7 +489,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         <TrendingUp className="h-3 w-3" />
                         {alerts.filter((a) => a.status === "resolved").length}
                       </span>
-                      <span className="text-xs font-medium text-slate-500 dark:text-[#a3a3a3]">behoben</span>
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">behoben</span>
                     </div>
                   </div>
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 dark:bg-amber-900/20 ring-1 ring-amber-200/30 dark:ring-amber-800/30 transition-transform duration-300 group-hover:scale-110">
@@ -498,10 +498,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 </div>
               </div>
 
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] p-6 shadow-sm transition-all duration-300 hover:border-emerald-300/50 dark:hover:border-emerald-600/50">
+              <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-emerald-300/50 dark:hover:border-emerald-600/50">
                 <div className="relative flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-[#a3a3a3]">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">
                       System-Status
                     </p>
                     <p className="mt-4 text-4xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
@@ -510,7 +510,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     <div className="mt-5 flex items-center gap-2">
                       <span className="inline-flex items-center gap-1.5">
                         <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400 ring-2 ring-emerald-200 dark:ring-emerald-800"></span>
-                        <span className="text-xs font-medium text-slate-500 dark:text-[#a3a3a3]">
+                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                           Alle Systeme operativ
                         </span>
                       </span>
@@ -528,14 +528,14 @@ export default function DashboardClient({ session }: DashboardClientProps) {
               {/* Main Content - Left Side */}
               <div className="lg:col-span-8 space-y-6">
                 {/* Recent Activity */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-6 py-5">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
+                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-[#f5f5f5]">
+                        <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-slate-100">
                           Letzte Aktivitäten
                         </h2>
-                        <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-[#a3a3a3]">
+                        <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
                           Echtzeit-Updates aus allen Systemen
                         </p>
                       </div>
@@ -551,10 +551,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   <div className="divide-y divide-slate-100/60 dark:divide-slate-700/60">
                     {activities.length === 0 ? (
                       <div className="px-6 py-16 text-center">
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-[#2a2a2a]">
-                          <Activity className="h-6 w-6 text-slate-400 dark:text-[#a3a3a3]" />
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700">
+                          <Activity className="h-6 w-6 text-slate-400 dark:text-slate-400" />
                         </div>
-                        <p className="mt-4 text-sm font-medium text-slate-500 dark:text-[#a3a3a3]">
+                        <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">
                           Keine Aktivitäten vorhanden
                         </p>
                       </div>
@@ -576,11 +576,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             {getActivityIcon(activity.status)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-slate-900 dark:text-[#f5f5f5]">
+                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                               {activity.action}
                             </p>
-                            <div className="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-[#a3a3a3]">
-                              <span className="font-semibold text-slate-600 dark:text-[#d4d4d4]">{activity.system}</span>
+                            <div className="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                              <span className="font-semibold text-slate-600 dark:text-slate-300">{activity.system}</span>
                               <span className="text-slate-300 dark:text-slate-600">•</span>
                               <span className="font-medium">
                                 {formatTime(activity.timestamp)}
@@ -588,7 +588,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             </div>
                           </div>
                           <div className="flex-shrink-0 opacity-0 transition-all duration-200 group-hover:opacity-100">
-                            <ChevronRight className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3] transition-transform group-hover:translate-x-0.5" />
+                            <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform group-hover:translate-x-0.5" />
                           </div>
                         </div>
                       ))
@@ -597,13 +597,13 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 </div>
 
                 {/* Performance Overview */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-6 py-5">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
+                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
                     <div>
-                      <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-[#f5f5f5]">
+                      <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-slate-100">
                         Performance-Übersicht
                       </h2>
-                      <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-[#a3a3a3]">
+                      <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
                         Systemleistung der letzten 24 Stunden
                       </p>
                     </div>
@@ -613,16 +613,16 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       <div className="group">
                         <div className="mb-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <Cpu className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3]" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-[#d4d4d4]">
+                            <Cpu className="h-4 w-4 text-slate-400 dark:text-slate-400" />
+                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                               CPU-Auslastung
                             </span>
                           </div>
-                          <span className="rounded-full bg-slate-100 dark:bg-[#2a2a2a] px-2.5 py-1 text-sm font-bold text-slate-900 dark:text-[#f5f5f5]">
+                          <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-sm font-bold text-slate-900 dark:text-slate-100">
                             {metrics?.cpu || 0}%
                           </span>
                         </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-[#2a2a2a]/60">
+                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
                           <div
                             className="h-full rounded-full bg-[#e2001a] transition-all duration-500"
                             style={{ width: `${metrics?.cpu || 0}%` }}
@@ -632,8 +632,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       <div className="group">
                         <div className="mb-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <HardDrive className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3]" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-[#d4d4d4]">
+                            <HardDrive className="h-4 w-4 text-slate-400 dark:text-slate-400" />
+                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                               Speicher
                             </span>
                           </div>
@@ -641,7 +641,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             {metrics?.memory || 0}%
                           </span>
                         </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-[#2a2a2a]/60">
+                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
                           <div
                             className="h-full rounded-full bg-blue-600 dark:bg-blue-500 transition-all duration-500"
                             style={{ width: `${metrics?.memory || 0}%` }}
@@ -651,8 +651,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       <div className="group">
                         <div className="mb-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <Network className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3]" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-[#d4d4d4]">
+                            <Network className="h-4 w-4 text-slate-400 dark:text-slate-400" />
+                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                               Netzwerk
                             </span>
                           </div>
@@ -660,7 +660,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             {metrics?.network || 0}%
                           </span>
                         </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-[#2a2a2a]/60">
+                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
                           <div
                             className="h-full rounded-full bg-emerald-600 dark:bg-emerald-500 transition-all duration-500"
                             style={{ width: `${metrics?.network || 0}%` }}
@@ -670,8 +670,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       <div className="group">
                         <div className="mb-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <HardDrive className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3]" />
-                            <span className="text-sm font-semibold text-slate-700 dark:text-[#d4d4d4]">
+                            <HardDrive className="h-4 w-4 text-slate-400 dark:text-slate-400" />
+                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                               Storage
                             </span>
                           </div>
@@ -679,7 +679,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             {metrics?.storage || 0}%
                           </span>
                         </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-[#2a2a2a]/60">
+                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
                           <div
                             className="h-full rounded-full bg-amber-600 dark:bg-amber-500 transition-all duration-500"
                             style={{ width: `${metrics?.storage || 0}%` }}
@@ -694,9 +694,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
               {/* Sidebar Widgets */}
               <div className="lg:col-span-4 space-y-6">
                 {/* Quick Actions */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-6 py-5">
-                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-[#f5f5f5]">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
+                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
+                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
                       Schnellzugriff
                     </h3>
                   </div>
@@ -704,7 +704,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     <div className="space-y-2.5">
                       <button
                         onClick={() => setShowCreateProject(true)}
-                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-[#f5f5f5] transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-[#e2001a]/5 dark:hover:bg-[#e2001a]/10 hover:text-[#e2001a]"
+                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-100 transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-[#e2001a]/5 dark:hover:bg-[#e2001a]/10 hover:text-[#e2001a]"
                       >
                         <div className="flex items-center gap-3">
                           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e2001a]/10 dark:bg-[#e2001a]/10 ring-1 ring-[#e2001a]/20 dark:ring-[#e2001a]/20 transition-transform duration-200 group-hover:scale-110">
@@ -712,11 +712,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           </div>
                           <span>Neues Projekt</span>
                         </div>
-                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#e2001a]" />
+                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#e2001a]" />
                       </button>
                       <Link
                         href="/dashboard/telemetry"
-                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-[#f5f5f5] transition-all duration-200 hover:border-blue-300/50 dark:hover:border-blue-600/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
+                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-100 transition-all duration-200 hover:border-blue-300/50 dark:hover:border-blue-600/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
                       >
                         <div className="flex items-center gap-3">
                           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200/30 dark:ring-blue-800/30 transition-transform duration-200 group-hover:scale-110">
@@ -724,11 +724,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           </div>
                           <span>Telemetrie anzeigen</span>
                         </div>
-                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3] transition-transform duration-200 group-hover:translate-x-0.5" />
+                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5" />
                       </Link>
                       <Link
                         href="/dashboard/reports"
-                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-[#f5f5f5] transition-all duration-200 hover:border-emerald-300/50 dark:hover:border-emerald-600/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20"
+                        className="group flex w-full items-center justify-between rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-3.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-100 transition-all duration-200 hover:border-emerald-300/50 dark:hover:border-emerald-600/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20"
                       >
                         <div className="flex items-center gap-3">
                           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-900/20 ring-1 ring-emerald-200/30 dark:ring-emerald-800/30 transition-transform duration-200 group-hover:scale-110">
@@ -736,42 +736,42 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           </div>
                           <span>Reports generieren</span>
                         </div>
-                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-[#a3a3a3] transition-transform duration-200 group-hover:translate-x-0.5" />
+                        <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5" />
                       </Link>
                     </div>
                   </div>
                 </div>  
 
                 {/* System Status Widget */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] p-6 shadow-sm ring-1 ring-slate-200/50 dark:ring-[#2a2a2a]">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm ring-1 ring-slate-200/50 dark:ring-[#2a2a2a]">
                   <div className="mb-5 flex items-center gap-3">
                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 ring-1 ring-emerald-200/30 dark:ring-emerald-800/30">
                       <Zap className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-[#f5f5f5]">
+                      <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
                         System bereit
                       </p>
-                      <p className="text-xs font-medium text-slate-500 dark:text-[#a3a3a3]">Alle Services online</p>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Alle Services online</p>
                     </div>
                   </div>
-                  <div className="space-y-3.5 border-t border-slate-200/60 dark:border-[#2a2a2a]/60 pt-5">
-                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-[#1f1f1f]/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
-                      <span className="text-xs font-semibold text-slate-600 dark:text-[#d4d4d4]">API-Status</span>
+                  <div className="space-y-3.5 border-t border-slate-200/60 dark:border-slate-700/60/60 pt-5">
+                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">API-Status</span>
                       <span className="flex items-center gap-1.5">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800"></span>
                         <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Online</span>
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-[#1f1f1f]/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
-                      <span className="text-xs font-semibold text-slate-600 dark:text-[#d4d4d4]">Datenbank</span>
+                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Datenbank</span>
                       <span className="flex items-center gap-1.5">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800"></span>
                         <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Verbunden</span>
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-[#1f1f1f]/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
-                      <span className="text-xs font-semibold text-slate-600 dark:text-[#d4d4d4]">Cache</span>
+                    <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Cache</span>
                       <span className="flex items-center gap-1.5">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800"></span>
                         <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Aktiv</span>
@@ -781,9 +781,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 </div>
 
                 {/* Recent Projects */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] shadow-sm">
-                  <div className="border-b border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-6 py-5">
-                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-[#f5f5f5]">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
+                  <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5">
+                    <h3 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
                       Aktuelle Projekte
                     </h3>
                   </div>
@@ -791,10 +791,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     <div className="space-y-3">
                       {projects.length === 0 ? (
                         <div className="py-8 text-center">
-                          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-[#2a2a2a]">
-                            <FolderKanban className="h-6 w-6 text-slate-400 dark:text-[#a3a3a3]" />
+                          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700">
+                            <FolderKanban className="h-6 w-6 text-slate-400 dark:text-slate-400" />
                           </div>
-                          <p className="mt-4 text-sm font-medium text-slate-500 dark:text-[#a3a3a3]">
+                          <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">
                             Noch keine Projekte
                           </p>
                         </div>
@@ -806,17 +806,17 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                               setSelectedProject(project);
                               setShowProjectDetails(true);
                             }}
-                            className="group block w-full rounded-xl border border-slate-200/60 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#1f1f1f] p-4 text-left transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-gradient-to-r hover:from-[#e2001a]/5 dark:hover:from-[#e2001a]/10 hover:to-transparent hover:shadow-sm"
+                            className="group block w-full rounded-xl border border-slate-200/60 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 p-4 text-left transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-gradient-to-r hover:from-[#e2001a]/5 dark:hover:from-[#e2001a]/10 hover:to-transparent hover:shadow-sm"
                           >
                             <div className="mb-3 flex items-center justify-between">
-                              <p className="text-sm font-bold text-slate-900 dark:text-[#f5f5f5]">
+                              <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
                                 {project.name}
                               </p>
-                              <span className="rounded-full bg-slate-100 dark:bg-[#2a2a2a] px-2.5 py-1 text-xs font-bold text-slate-700 dark:text-[#d4d4d4] ring-1 ring-slate-200/50 dark:ring-slate-600/50">
+                              <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-bold text-slate-700 dark:text-slate-300 ring-1 ring-slate-200/50 dark:ring-slate-600/50">
                                 {project.progress}%
                               </span>
                             </div>
-                            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-[#2a2a2a]/60">
+                            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/60 dark:bg-slate-700/60">
                               <div
                                 className="h-full rounded-full bg-[#e2001a] transition-all duration-500"
                                 style={{ width: `${project.progress}%` }}

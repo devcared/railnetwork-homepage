@@ -162,7 +162,7 @@ export default function Notifications({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="group relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/60 bg-white/80 text-slate-600 shadow-sm transition hover:border-[#e2001a]/40 hover:bg-[#e2001a]/5 hover:text-[#e2001a]"
+        className="group relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 shadow-sm transition hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-[#e2001a]/5 dark:hover:bg-[#e2001a]/10 hover:text-[#e2001a]"
         aria-label="Benachrichtigungen öffnen"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
@@ -187,19 +187,19 @@ export default function Notifications({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="absolute right-0 top-full z-50 mt-3 w-[30rem] overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-[0_20px_45px_-20px_rgba(15,23,42,0.3)]"
+              className="absolute right-0 top-full z-50 mt-3 w-[30rem] overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-[0_20px_45px_-20px_rgba(15,23,42,0.3)]"
             >
-              <div className="border-b border-slate-200/60 bg-gradient-to-r from-slate-50/70 to-white px-6 py-4">
+              <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e2001a]/10 ring-1 ring-[#e2001a]/15">
                       <BellRing className="h-5 w-5 text-[#e2001a]" />
                     </div>
                     <div>
-                      <h3 className="font-db-screenhead text-base font-bold text-slate-900">
+                      <h3 className="font-db-screenhead text-base font-bold text-slate-900 dark:text-slate-100">
                         Benachrichtigungen
                       </h3>
-                      <p className="text-xs font-medium text-slate-500">
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
                         {unreadCount > 0
                           ? `${unreadCount} ungelesen`
                           : "Alles gelesen"}
@@ -209,14 +209,14 @@ export default function Notifications({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => syncNotifications()}
-                      className="rounded-lg border border-slate-200/60 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                      className="rounded-lg border border-slate-200/60 dark:border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-slate-100"
                     >
                       Aktualisieren
                     </button>
                     {unreadCount > 0 && (
                       <button
                         onClick={markAllAsRead}
-                        className="rounded-lg bg-[#e2001a]/10 px-3 py-1.5 text-xs font-semibold text-[#e2001a] transition hover:bg-[#e2001a]/15"
+                        className="rounded-lg bg-[#e2001a]/10 dark:bg-[#e2001a]/20 px-3 py-1.5 text-xs font-semibold text-[#e2001a] transition hover:bg-[#e2001a]/15 dark:hover:bg-[#e2001a]/25"
                       >
                         Alle lesen
                       </button>
@@ -225,29 +225,29 @@ export default function Notifications({
                 </div>
               </div>
 
-              <div className="max-h-96 divide-y divide-slate-100/70 overflow-y-auto">
+              <div className="max-h-96 divide-y divide-slate-100/70 dark:divide-slate-700/60 overflow-y-auto">
                 {isLoading ? (
                   <div className="space-y-4 px-6 py-6">
                     {[0, 1, 2].map((item) => (
                       <div key={item} className="flex gap-3">
-                        <div className="h-10 w-10 animate-pulse rounded-xl bg-slate-100" />
+                        <div className="h-10 w-10 animate-pulse rounded-xl bg-slate-100 dark:bg-slate-700" />
                         <div className="flex-1 space-y-2">
-                          <div className="h-3 w-2/3 animate-pulse rounded-full bg-slate-100" />
-                          <div className="h-2.5 w-full animate-pulse rounded-full bg-slate-100" />
-                          <div className="h-2 w-1/2 animate-pulse rounded-full bg-slate-100" />
+                          <div className="h-3 w-2/3 animate-pulse rounded-full bg-slate-100 dark:bg-slate-700" />
+                          <div className="h-2.5 w-full animate-pulse rounded-full bg-slate-100 dark:bg-slate-700" />
+                          <div className="h-2 w-1/2 animate-pulse rounded-full bg-slate-100 dark:bg-slate-700" />
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : notifications.length === 0 ? (
                   <div className="px-6 py-12 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500">
                       <Bell className="h-6 w-6" />
                     </div>
-                    <p className="mt-4 text-sm font-medium text-slate-500">
+                    <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">
                       Keine Benachrichtigungen
                     </p>
-                    <p className="mt-1 text-xs text-slate-400">
+                    <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
                       Wir benachrichtigen dich, sobald etwas passiert.
                     </p>
                   </div>
@@ -258,7 +258,7 @@ export default function Notifications({
                       <div
                         key={notification.id}
                         className={`px-6 py-4 transition ${
-                          !notification.read ? "bg-slate-50/80" : "hover:bg-slate-50"
+                          !notification.read ? "bg-slate-50/80 dark:bg-slate-800/50" : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
                         }`}
                       >
                         <div className="flex items-start gap-3">
@@ -273,13 +273,13 @@ export default function Notifications({
                                 <p
                                   className={`text-sm font-semibold ${
                                     !notification.read
-                                      ? "text-slate-900"
-                                      : "text-slate-700"
+                                      ? "text-slate-900 dark:text-slate-100"
+                                      : "text-slate-700 dark:text-slate-300"
                                   }`}
                                 >
                                   {notification.title}
                                 </p>
-                                <p className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                   {notification.message}
                                 </p>
                               </div>
@@ -287,7 +287,7 @@ export default function Notifications({
                                 <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-[#e2001a]" />
                               )}
                             </div>
-                            <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+                            <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
                               <span>
                                 {new Date(notification.createdAt).toLocaleString("de-DE")}
                               </span>
@@ -304,14 +304,14 @@ export default function Notifications({
                                 {!notification.read && (
                                   <button
                                     onClick={() => markAsRead(notification.id)}
-                                    className="text-slate-500 transition hover:text-slate-900"
+                                    className="text-slate-500 dark:text-slate-400 transition hover:text-slate-900 dark:hover:text-slate-100"
                                   >
                                     Gelesen
                                   </button>
                                 )}
                                 <button
                                   onClick={() => deleteNotification(notification.id)}
-                                  className="text-slate-400 transition hover:text-red-500"
+                                  className="text-slate-400 dark:text-slate-500 transition hover:text-red-500"
                                   aria-label="Benachrichtigung löschen"
                                 >
                                   <Trash2 className="h-4 w-4" />

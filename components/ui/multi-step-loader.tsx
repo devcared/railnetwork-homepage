@@ -41,14 +41,14 @@ export const MultiStepLoader = ({
   return (
     <AnimatePresence mode="wait">
       {loading && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0f0f0f]">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950">
           <div className="w-full max-w-md px-6">
             {/* Header */}
             <div className="mb-8 text-center">
-              <h2 className="font-db-screenhead text-xl font-bold text-[#f5f5f5] mb-2">
+              <h2 className="font-db-screenhead text-xl font-bold text-slate-100 mb-2">
                 Update wird installiert
               </h2>
-              <p className="font-db-screensans text-sm text-[#a3a3a3]">
+              <p className="font-db-screensans text-sm text-slate-400">
                 Schritt {currentState + 1} von {loadingStates.length}
               </p>
             </div>
@@ -65,10 +65,10 @@ export const MultiStepLoader = ({
                     key={index}
                     className={`flex items-center gap-4 px-4 py-3 rounded-lg border transition-all duration-200 ${
                       isActive
-                        ? "bg-[#171717] border-[#2a2a2a]"
+                        ? "bg-slate-900 border-slate-700/60"
                         : isCompleted
-                          ? "bg-[#171717] border-[#2a2a2a] opacity-60"
-                          : "bg-[#0f0f0f] border-[#1a1a1a] opacity-40"
+                          ? "bg-slate-900 border-slate-700/60 opacity-60"
+                          : "bg-slate-950 border-slate-800 opacity-40"
                     }`}
                   >
                     {/* Minimal Dot Indicator */}
@@ -78,7 +78,7 @@ export const MultiStepLoader = ({
                       ) : isActive ? (
                         <div className="h-2 w-2 rounded-full bg-[#e2001a] animate-pulse" />
                       ) : (
-                        <div className="h-2 w-2 rounded-full bg-[#2a2a2a]" />
+                        <div className="h-2 w-2 rounded-full bg-slate-700" />
                       )}
                     </div>
 
@@ -86,10 +86,10 @@ export const MultiStepLoader = ({
                     <span
                       className={`font-db-screensans text-sm transition-colors ${
                         isActive
-                          ? "text-[#f5f5f5] font-medium"
+                          ? "text-slate-100 font-medium"
                           : isCompleted
-                            ? "text-[#a3a3a3] font-normal"
-                            : "text-[#666666] font-normal"
+                            ? "text-slate-400 font-normal"
+                            : "text-slate-500 font-normal"
                       }`}
                     >
                       {state.text}
@@ -100,7 +100,7 @@ export const MultiStepLoader = ({
             </div>
 
             {/* Minimal Progress Line */}
-            <div className="mt-8 h-px bg-[#1a1a1a] relative overflow-hidden">
+            <div className="mt-8 h-px bg-slate-800 relative overflow-hidden">
               <div
                 className="absolute left-0 top-0 h-full bg-[#e2001a] transition-all duration-500"
                 style={{
