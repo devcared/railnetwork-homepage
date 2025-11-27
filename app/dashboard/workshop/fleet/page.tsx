@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import DashboardLayout from "@/components/dashboard-layout";
-import WorkshopClient from "../workshop-client";
+import WorkshopFleetClient from "./workshop-fleet-client";
 import type { Session } from "next-auth";
 
 export default async function WorkshopFleetPage() {
@@ -14,8 +14,7 @@ export default async function WorkshopFleetPage() {
 
   return (
     <DashboardLayout session={session}>
-      <WorkshopClient session={session} />
+      <WorkshopFleetClient session={session} />
     </DashboardLayout>
   );
 }
-

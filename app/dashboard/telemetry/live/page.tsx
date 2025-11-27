@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import DashboardLayout from "@/components/dashboard-layout";
-import TelemetryClient from "../telemetry-client";
+import TelemetryLiveClient from "./telemetry-live-client";
 import type { Session } from "next-auth";
 
 export default async function TelemetryLivePage() {
@@ -14,8 +14,7 @@ export default async function TelemetryLivePage() {
 
   return (
     <DashboardLayout session={session}>
-      <TelemetryClient session={session} />
+      <TelemetryLiveClient session={session} />
     </DashboardLayout>
   );
 }
-

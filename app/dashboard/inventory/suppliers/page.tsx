@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import DashboardLayout from "@/components/dashboard-layout";
-import InventoryClient from "../inventory-client";
+import InventorySuppliersClient from "./inventory-suppliers-client";
 import type { Session } from "next-auth";
 
 export default async function InventorySuppliersPage() {
@@ -14,8 +14,7 @@ export default async function InventorySuppliersPage() {
 
   return (
     <DashboardLayout session={session}>
-      <InventoryClient session={session} />
+      <InventorySuppliersClient session={session} />
     </DashboardLayout>
   );
 }
-
