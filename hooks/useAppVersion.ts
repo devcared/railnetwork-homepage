@@ -60,9 +60,28 @@ export function useAppVersion(checkInterval: number = 60000) {
       } else {
         // Prüfe, ob sich die Version geändert hat
         const storedVersion = localStorage.getItem("app-version");
+        const storedTimestamp = localStorage.getItem("app-version-timestamp");
+        
+        // Debug-Logging (kann später entfernt werden)
+        if (process.env.NODE_ENV === "development") {
+          console.log("Version Check:", {
+            stored: storedVersion,
+            server: data.buildId,
+            storedTimestamp,
+            serverTimestamp: data.buildTimestamp,
+            match: storedVersion === data.buildId,
+          });
+        }
+        
+        // Prüfe sowohl Build-ID als auch Timestamp für bessere Erkennung
         if (storedVersion && storedVersion !== data.buildId) {
+          console.log("🔄 Neue Version erkannt! Build-ID geändert:", storedVersion, "→", data.buildId);
+          setIsUpdateAvailable(true);
+        } else if (storedTimestamp && storedTimestamp !== data.buildTimestamp) {
+          console.log("🔄 Neue Version erkannt! Timestamp geändert:", storedTimestamp, "→", data.buildTimestamp);
           setIsUpdateAvailable(true);
         } else if (data.buildId !== currentVersion) {
+          console.log("🔄 Neue Version erkannt! Current Version geändert:", currentVersion, "→", data.buildId);
           setIsUpdateAvailable(true);
         }
       }

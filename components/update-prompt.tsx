@@ -11,8 +11,17 @@ import { RefreshCw, X, Download } from "lucide-react";
  * Bietet Optionen zum sofortigen Update oder später.
  */
 export default function UpdatePrompt() {
-  const { isUpdateAvailable, performUpdate, dismissUpdate, serverVersion } = useAppVersion();
+  const { isUpdateAvailable, performUpdate, dismissUpdate, serverVersion, currentVersion } = useAppVersion();
   const [isUpdating, setIsUpdating] = useState(false);
+
+  // Debug-Logging (kann später entfernt werden)
+  if (process.env.NODE_ENV === "development" && isUpdateAvailable) {
+    console.log("🔄 Update verfügbar:", {
+      current: currentVersion,
+      server: serverVersion?.buildId,
+      timestamp: serverVersion?.buildTimestamp,
+    });
+  }
 
   if (!isUpdateAvailable) {
     return null;
