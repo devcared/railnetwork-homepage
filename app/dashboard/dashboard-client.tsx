@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
 import { useDashboard } from "@/hooks/useDashboard";
@@ -24,8 +24,6 @@ import {
   Activity,
   ChevronRight,
   TrendingUp,
-  TrendingDown,
-  Download,
   Bell,
   BellRing,
   Zap,
@@ -34,8 +32,6 @@ import {
   HardDrive,
   Network,
   CheckCircle,
-  ExternalLink,
-  Signal,
   XCircle,
 } from "lucide-react";
 
@@ -113,7 +109,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
       label: string;
       accent: string;
       ring: string;
-      icon: JSX.Element;
+      icon: React.ReactNode;
     }
   > = {
     success: {
@@ -207,8 +203,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
               </div>
               <div className="flex items-center gap-3">
                 <Notifications
-                  initialNotifications={notifications}
-                  initialUnreadCount={unreadCount}
+                  initialNotifications={notifications.map((n) => ({
+                    ...n,
+                    createdAt: typeof n.createdAt === "string" ? n.createdAt : n.createdAt.toISOString(),
+                  }))}
+                  initialUnreadCount={unreadCount}  
                 />
               <button
                 onClick={() => setShowCreateProject(true)}
