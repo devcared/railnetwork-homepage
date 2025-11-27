@@ -115,7 +115,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                 <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
                   Baustellen
                 </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                   Aktive Bauprojekte & Fortschritt
                 </p>
               </div>
@@ -129,7 +129,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
         <div className="mx-auto max-w-7xl">
           {/* Stats */}
           <div className="mb-8 grid gap-4 sm:grid-cols-3">
-            <div className="overflow-hidden rounded-2xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-blue-200/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-blue-700">Aktive Baustellen</p>
@@ -138,7 +138,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                 <Construction className="h-8 w-8 text-blue-600" />
               </div>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-emerald-200/60 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-emerald-200/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-emerald-700">Ø Fortschritt</p>
@@ -147,7 +147,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                 <TrendingUp className="h-8 w-8 text-emerald-600" />
               </div>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-purple-200/60 bg-gradient-to-br from-purple-50 to-white p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-purple-200/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-purple-700">Budget</p>
@@ -170,7 +170,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                   placeholder="Baustelle suchen..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -178,7 +178,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 >
                   <option value="all">Alle Status</option>
                   <option value="planned">Geplant</option>
@@ -199,27 +199,27 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
               return (
                 <div
                   key={site.id}
-                  className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-lg"
+                  className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-lg"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       {/* Header */}
                       <div className="mb-4 flex items-center gap-4">
-                        <div className={`flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${typeColor} shadow-md`}>
-                          <Construction className="h-7 w-7 text-white" />
+                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 shadow-md">
+                          <Construction className="h-7 w-7 text-slate-600 dark:text-slate-400" />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="text-lg font-bold text-slate-900">{site.name}</h3>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{site.name}</h3>
                             <span
                               className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
                                 site.status === "active"
-                                  ? "bg-emerald-100 text-emerald-700"
+                                  ? "bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400"
                                   : site.status === "planned"
-                                    ? "bg-blue-100 text-blue-700"
+                                    ? "bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
                                     : site.status === "paused"
-                                      ? "bg-amber-100 text-amber-700"
-                                      : "bg-slate-100 text-slate-700"
+                                      ? "bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400"
+                                      : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                               }`}
                             >
                               {site.status === "active"
@@ -231,13 +231,13 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                                     : "Abgeschlossen"}
                             </span>
                             {site.priority === "critical" && (
-                              <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700">
+                              <span className="inline-flex items-center gap-1 rounded-full bg-red-100 dark:bg-red-900/20 px-2.5 py-1 text-xs font-semibold text-red-700 dark:text-red-400">
                                 <AlertTriangle className="h-3 w-3" />
                                 Kritisch
                               </span>
                             )}
                           </div>
-                          <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
+                          <div className="mt-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                             <MapPin className="h-4 w-4" />
                             <span>{site.location}</span>
                           </div>
@@ -247,12 +247,12 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                       {/* Progress */}
                       <div className="mb-4">
                         <div className="mb-2 flex items-center justify-between text-sm">
-                          <span className="font-medium text-slate-700">Fortschritt</span>
-                          <span className="font-bold text-slate-900">{site.progress}%</span>
+                          <span className="font-medium text-slate-700 dark:text-slate-300">Fortschritt</span>
+                          <span className="font-bold text-slate-900 dark:text-slate-100">{site.progress}%</span>
                         </div>
-                        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                           <div
-                            className="h-full rounded-full bg-gradient-to-r from-[#e2001a] to-[#ff6f61] transition-all"
+                            className="h-full rounded-full bg-[#e2001a] transition-all"
                             style={{ width: `${site.progress}%` }}
                           ></div>
                         </div>
@@ -260,28 +260,28 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
 
                       {/* Details Grid */}
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Mitarbeiter</p>
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Mitarbeiter</p>
                           <div className="mt-1 flex items-center gap-2">
-                            <Users className="h-4 w-4 text-slate-400" />
-                            <p className="text-sm font-bold text-slate-900">{site.workers}</p>
+                            <Users className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+                            <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{site.workers}</p>
                           </div>
                         </div>
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Start</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Start</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">
                             {new Date(site.startDate).toLocaleDateString("de-DE")}
                           </p>
                         </div>
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Ziel</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Ziel</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">
                             {new Date(site.endDate).toLocaleDateString("de-DE")}
                           </p>
                         </div>
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Budget</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Budget</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">
                             {budgetPercentage.toFixed(0)}% genutzt
                           </p>
                         </div>
@@ -290,12 +290,12 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
                       {/* Budget Bar */}
                       <div className="mt-4">
                         <div className="mb-2 flex items-center justify-between text-xs">
-                          <span className="text-slate-500">Ausgaben</span>
-                          <span className="font-semibold text-slate-900">
+                          <span className="text-slate-500 dark:text-slate-400">Ausgaben</span>
+                          <span className="font-semibold text-slate-900 dark:text-slate-100">
                             {site.spent.toLocaleString("de-DE")} € / {site.budget.toLocaleString("de-DE")} €
                           </span>
                         </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                           <div
                             className={`h-full rounded-full ${
                               budgetPercentage > 90
@@ -318,7 +318,7 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
           {filteredSites.length === 0 && (
             <div className="py-16 text-center">
               <Construction className="mx-auto h-12 w-12 text-slate-400" />
-              <p className="mt-4 text-sm font-medium text-slate-500">Keine Baustellen gefunden</p>
+              <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">Keine Baustellen gefunden</p>
             </div>
           )}
         </div>

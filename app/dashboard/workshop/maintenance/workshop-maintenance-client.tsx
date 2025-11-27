@@ -103,7 +103,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                 <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
                   Wartungstermine
                 </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                   Inspektionen & Fristen verwalten
                 </p>
               </div>
@@ -123,7 +123,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
         <div className="mx-auto max-w-7xl">
           {/* Stats */}
           <div className="mb-8 grid gap-4 sm:grid-cols-3">
-            <div className="overflow-hidden rounded-2xl border border-red-200/60 bg-gradient-to-br from-red-50 to-white p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-red-200/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-red-700">Überfällig</p>
@@ -132,7 +132,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                 <AlertCircle className="h-8 w-8 text-red-600" />
               </div>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-blue-200/60 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-blue-200/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-blue-700">Geplant</p>
@@ -141,7 +141,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                 <Calendar className="h-8 w-8 text-blue-600" />
               </div>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-purple-200/60 bg-gradient-to-br from-purple-50 to-white p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-purple-200/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-purple-700">In Bearbeitung</p>
@@ -162,7 +162,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                   placeholder="Fahrzeug suchen..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -170,7 +170,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 >
                   <option value="all">Alle Status</option>
                   <option value="scheduled">Geplant</option>
@@ -181,7 +181,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                 <select
                   value={typeFilter}
                   onChange={(e) => setTypeFilter(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 >
                   <option value="all">Alle Typen</option>
                   <option value="inspection">Inspektion</option>
@@ -211,12 +211,12 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                     <div className="flex-1">
                       {/* Header */}
                       <div className="mb-4 flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[a-z]*-500 shadow-md">
                           <Wrench className="h-6 w-6 text-white" />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="text-lg font-bold text-slate-900">{task.vehicle}</h3>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{task.vehicle}</h3>
                             <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${typeColors[task.type]}`}>
                               {task.type === "inspection"
                                 ? "Inspektion"
@@ -234,7 +234,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                                     ? "bg-orange-100 text-orange-700"
                                     : task.priority === "medium"
                                       ? "bg-blue-100 text-blue-700"
-                                      : "bg-slate-100 text-slate-700"
+                                      : "bg-slate-100 text-slate-700 dark:text-slate-300"
                               }`}
                             >
                               {task.priority === "urgent"
@@ -246,29 +246,29 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
                                     : "Niedrig"}
                             </span>
                           </div>
-                          <p className="mt-1 text-sm font-medium text-slate-600">{task.description}</p>
+                          <p className="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">{task.description}</p>
                         </div>
                       </div>
 
                       {/* Details Grid */}
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                         <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Fälligkeitsdatum</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Fälligkeitsdatum</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">
                             {new Date(task.dueDate).toLocaleDateString("de-DE")}
                           </p>
                         </div>
                         <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Zugewiesen</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">{task.assignedTo}</p>
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Zugewiesen</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">{task.assignedTo}</p>
                         </div>
                         <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Dauer</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">{task.estimatedDuration}h</p>
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Dauer</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">{task.estimatedDuration}h</p>
                         </div>
                         <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                          <p className="text-xs font-medium text-slate-500">Status</p>
-                          <p className="mt-1 text-sm font-bold text-slate-900">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Status</p>
+                          <p className="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">
                             {task.status === "scheduled"
                               ? "Geplant"
                               : task.status === "in-progress"
@@ -289,7 +289,7 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
           {filteredTasks.length === 0 && (
             <div className="py-16 text-center">
               <Calendar className="mx-auto h-12 w-12 text-slate-400" />
-              <p className="mt-4 text-sm font-medium text-slate-500">Keine Aufgaben gefunden</p>
+              <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">Keine Aufgaben gefunden</p>
             </div>
           )}
         </div>

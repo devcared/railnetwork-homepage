@@ -112,14 +112,14 @@ export default function InventorySuppliersClient({ session }: InventorySuppliers
         <div className="px-6 py-4 lg:px-8 lg:py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600 shadow-lg">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[a-z]*-500 shadow-lg">
                 <Truck className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
                   Lieferstatus
                 </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                   Lieferanten & ETA im Überblick
                 </p>
               </div>
@@ -141,13 +141,13 @@ export default function InventorySuppliersClient({ session }: InventorySuppliers
                   placeholder="Lieferant suchen..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 />
               </div>
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
               >
                 <option value="all">Alle Kategorien</option>
                 <option value="Gleisbau">Gleisbau</option>
@@ -161,18 +161,18 @@ export default function InventorySuppliersClient({ session }: InventorySuppliers
             {filteredSuppliers.map((supplier) => (
               <div
                 key={supplier.id}
-                className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 {/* Header */}
                 <div className="mb-4 flex items-start justify-between">
                   <div className="flex-1">
                     <div className="mb-2 flex items-center gap-2">
-                      <h3 className="text-lg font-bold text-slate-900">{supplier.name}</h3>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{supplier.name}</h3>
                       {supplier.status === "preferred" && (
                         <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                       )}
                     </div>
-                    <p className="text-sm font-medium text-slate-600">{supplier.category}</p>
+                    <p className="text-sm font-medium text-slate-600 dark:text-slate-400">{supplier.category}</p>
                   </div>
                   <span
                     className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${getStatusColor(
@@ -201,20 +201,20 @@ export default function InventorySuppliersClient({ session }: InventorySuppliers
                       />
                     ))}
                   </div>
-                  <span className="text-sm font-semibold text-slate-900">{supplier.rating}</span>
+                  <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">{supplier.rating}</span>
                 </div>
 
                 {/* Contact Info */}
                 <div className="mb-4 space-y-2 border-t border-slate-100 pt-4">
-                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                     <MapPin className="h-4 w-4 text-slate-400" />
                     <span>{supplier.location}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                     <Phone className="h-4 w-4 text-slate-400" />
                     <span>{supplier.phone}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                     <Mail className="h-4 w-4 text-slate-400" />
                     <span>{supplier.email}</span>
                   </div>
@@ -223,24 +223,24 @@ export default function InventorySuppliersClient({ session }: InventorySuppliers
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
                   <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                    <p className="text-xs font-medium text-slate-500">Aktive Bestellungen</p>
-                    <p className="mt-1 text-xl font-bold text-slate-900">{supplier.activeOrders}</p>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Aktive Bestellungen</p>
+                    <p className="mt-1 text-xl font-bold text-slate-900 dark:text-slate-100">{supplier.activeOrders}</p>
                   </div>
                   <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
-                    <p className="text-xs font-medium text-slate-500">Lieferungen</p>
-                    <p className="mt-1 text-xl font-bold text-slate-900">{supplier.totalDeliveries}</p>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Lieferungen</p>
+                    <p className="mt-1 text-xl font-bold text-slate-900 dark:text-slate-100">{supplier.totalDeliveries}</p>
                   </div>
                 </div>
 
                 {/* Delivery Info */}
                 <div className="mt-4 space-y-2 rounded-lg border border-slate-100 bg-blue-50/50 p-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500">Ø Lieferzeit</span>
-                    <span className="font-semibold text-slate-900">{supplier.averageDeliveryTime} Tage</span>
+                    <span className="text-slate-500 dark:text-slate-400">Ø Lieferzeit</span>
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">{supplier.averageDeliveryTime} Tage</span>
                   </div>
                   {supplier.nextDelivery && (
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-500">Nächste Lieferung</span>
+                      <span className="text-slate-500 dark:text-slate-400">Nächste Lieferung</span>
                       <span className="font-semibold text-blue-700">
                         {new Date(supplier.nextDelivery).toLocaleDateString("de-DE")}
                       </span>
@@ -254,7 +254,7 @@ export default function InventorySuppliersClient({ session }: InventorySuppliers
           {filteredSuppliers.length === 0 && (
             <div className="py-16 text-center">
               <Truck className="mx-auto h-12 w-12 text-slate-400" />
-              <p className="mt-4 text-sm font-medium text-slate-500">Keine Lieferanten gefunden</p>
+              <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">Keine Lieferanten gefunden</p>
             </div>
           )}
         </div>

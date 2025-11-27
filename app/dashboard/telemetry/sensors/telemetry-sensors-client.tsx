@@ -129,13 +129,13 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
   const getStatusColor = (status: Sensor["status"]) => {
     switch (status) {
       case "online":
-        return "bg-emerald-100 text-emerald-700 border-emerald-200";
+        return "bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60";
       case "warning":
-        return "bg-amber-100 text-amber-700 border-amber-200";
+        return "bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/60";
       case "error":
-        return "bg-red-100 text-red-700 border-red-200";
+        return "bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800/60";
       default:
-        return "bg-slate-100 text-slate-700 border-slate-200";
+        return "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700/60";
     }
   };
 
@@ -164,20 +164,20 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 shadow-lg">
                   <Cpu className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                     Sensoren & IoT
                   </h1>
-                  <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                  <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                     Sensorstatus & Wartung im Überblick
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                <button className="flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700">
                   <RefreshCw className="h-4 w-4" />
                   Aktualisieren
                 </button>
@@ -191,31 +191,31 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
           <div className="mx-auto max-w-7xl">
             {/* Status-Übersicht */}
             <div className="mb-8 grid gap-4 sm:grid-cols-3">
-              <div className="overflow-hidden rounded-2xl border border-emerald-200/60 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm">
+              <div className="overflow-hidden rounded-2xl border border-emerald-200/60 dark:border-emerald-800/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-emerald-700">Online</p>
-                    <p className="mt-1 text-3xl font-bold text-emerald-900">{onlineCount}</p>
+                    <p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">Online</p>
+                    <p className="mt-1 text-3xl font-bold text-emerald-900 dark:text-emerald-300">{onlineCount}</p>
                   </div>
-                  <CheckCircle2 className="h-8 w-8 text-emerald-600" />
+                  <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                 </div>
               </div>
-              <div className="overflow-hidden rounded-2xl border border-amber-200/60 bg-gradient-to-br from-amber-50 to-white p-6 shadow-sm">
+              <div className="overflow-hidden rounded-2xl border border-amber-200/60 dark:border-amber-800/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-amber-700">Warnung</p>
-                    <p className="mt-1 text-3xl font-bold text-amber-900">{warningCount}</p>
+                    <p className="text-sm font-medium text-amber-700 dark:text-amber-400">Warnung</p>
+                    <p className="mt-1 text-3xl font-bold text-amber-900 dark:text-amber-300">{warningCount}</p>
                   </div>
-                  <AlertCircle className="h-8 w-8 text-amber-600" />
+                  <AlertCircle className="h-8 w-8 text-amber-600 dark:text-amber-400" />
                 </div>
               </div>
-              <div className="overflow-hidden rounded-2xl border border-red-200/60 bg-gradient-to-br from-red-50 to-white p-6 shadow-sm">
+              <div className="overflow-hidden rounded-2xl border border-red-200/60 dark:border-red-800/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-red-700">Fehler</p>
-                    <p className="mt-1 text-3xl font-bold text-red-900">{errorCount}</p>
+                    <p className="text-sm font-medium text-red-700 dark:text-red-400">Fehler</p>
+                    <p className="mt-1 text-3xl font-bold text-red-900 dark:text-red-300">{errorCount}</p>
                   </div>
-                  <XCircle className="h-8 w-8 text-red-600" />
+                  <XCircle className="h-8 w-8 text-red-600 dark:text-red-400" />
                 </div>
               </div>
             </div>
@@ -224,21 +224,21 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-1 items-center gap-3">
                 <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
                   <input
                     type="text"
                     placeholder="Sensor suchen..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <Filter className="h-4 w-4 text-slate-400" />
+                  <Filter className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                   >
                     <option value="all">Alle Status</option>
                     <option value="online">Online</option>
@@ -249,7 +249,7 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
                   <select
                     value={typeFilter}
                     onChange={(e) => setTypeFilter(e.target.value)}
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                   >
                     <option value="all">Alle Typen</option>
                     <option value="temperature">Temperatur</option>
@@ -271,12 +271,12 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
                 return (
                   <div
                     key={sensor.id}
-                    className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                    className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg"
                   >
                     {/* Header */}
                     <div className="mb-4 flex items-start justify-between">
-                      <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${colorClass} shadow-md`}>
-                        <IconComponent className="h-6 w-6 text-white" />
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 shadow-md">
+                        <IconComponent className="h-6 w-6 text-slate-600 dark:text-slate-400" />
                       </div>
                       <span
                         className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold ${getStatusColor(
@@ -296,30 +296,30 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
 
                     {/* Sensor-Info */}
                     <div>
-                      <h3 className="text-base font-bold text-slate-900">{sensor.name}</h3>
-                      <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
+                      <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">{sensor.name}</h3>
+                      <div className="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                         <MapPin className="h-4 w-4" />
                         <span>{sensor.location}</span>
                       </div>
                     </div>
 
                     {/* Wert */}
-                    <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/50 p-4">
+                    <div className="mt-4 rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-4">
                       <div className="flex items-baseline justify-between">
-                        <span className="text-sm font-medium text-slate-500">Aktueller Wert</span>
-                        <span className="text-2xl font-bold text-slate-900">
+                        <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Aktueller Wert</span>
+                        <span className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                           {sensor.value} {sensor.unit}
                         </span>
                       </div>
                     </div>
 
                     {/* Status-Info */}
-                    <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
+                    <div className="mt-4 space-y-2 border-t border-slate-100 dark:border-slate-700/60 pt-4">
                       {sensor.battery !== undefined && (
                         <div className="flex items-center justify-between text-xs">
-                          <span className="text-slate-500">Batterie</span>
+                          <span className="text-slate-500 dark:text-slate-400">Batterie</span>
                           <div className="flex items-center gap-2">
-                            <div className="h-2 w-16 overflow-hidden rounded-full bg-slate-200">
+                            <div className="h-2 w-16 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                               <div
                                 className={`h-full rounded-full ${
                                   sensor.battery > 50
@@ -331,19 +331,19 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
                                 style={{ width: `${sensor.battery}%` }}
                               ></div>
                             </div>
-                            <span className="font-semibold text-slate-700">{sensor.battery}%</span>
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">{sensor.battery}%</span>
                           </div>
                         </div>
                       )}
                       {sensor.signal !== undefined && (
                         <div className="flex items-center justify-between text-xs">
-                          <span className="text-slate-500">Signal</span>
-                          <span className="font-semibold text-slate-700">{sensor.signal}%</span>
+                          <span className="text-slate-500 dark:text-slate-400">Signal</span>
+                          <span className="font-semibold text-slate-700 dark:text-slate-300">{sensor.signal}%</span>
                         </div>
                       )}
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-slate-500">Letztes Update</span>
-                        <span className="font-medium text-slate-700">{sensor.lastUpdate}</span>
+                        <span className="text-slate-500 dark:text-slate-400">Letztes Update</span>
+                        <span className="font-medium text-slate-700 dark:text-slate-300">{sensor.lastUpdate}</span>
                       </div>
                     </div>
                   </div>
@@ -353,8 +353,8 @@ export default function TelemetrySensorsClient({ session }: TelemetrySensorsClie
 
             {filteredSensors.length === 0 && (
               <div className="py-16 text-center">
-                <Cpu className="mx-auto h-12 w-12 text-slate-400" />
-                <p className="mt-4 text-sm font-medium text-slate-500">Keine Sensoren gefunden</p>
+                <Cpu className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" />
+                <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">Keine Sensoren gefunden</p>
               </div>
             )}
           </div>

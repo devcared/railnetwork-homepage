@@ -196,31 +196,31 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
 
               <div className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-md">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500 shadow-md">
                     <TrainFront className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-xs font-semibold text-emerald-600">Aktiv</span>
+                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Aktiv</span>
                 </div>
-                <p className="text-3xl font-bold text-slate-900">23</p>
-                <p className="mt-1 text-sm text-slate-600">Züge unterwegs</p>
+                <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">23</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Züge unterwegs</p>
                 <div className="mt-4 flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                  <span className="text-xs font-semibold text-emerald-600">Alle Systeme OK</span>
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Alle Systeme OK</span>
                 </div>
               </div>
 
-              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-gradient-to-br from-red-50 to-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-red-600 shadow-md">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500 shadow-md">
                     <AlertCircle className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-xs font-semibold text-red-600">Verspätungen</span>
+                  <span className="text-xs font-semibold text-red-600 dark:text-red-400">Verspätungen</span>
                 </div>
-                <p className="text-3xl font-bold text-slate-900">2</p>
-                <p className="mt-1 text-sm text-slate-600">Aktuelle Meldungen</p>
+                <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">2</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Aktuelle Meldungen</p>
                 <div className="mt-4 flex items-center gap-2">
-                  <span className="text-xs font-semibold text-red-600">-5 min</span>
-                  <span className="text-xs text-slate-500">Durchschnitt</span>
+                  <span className="text-xs font-semibold text-red-600 dark:text-red-400">-5 min</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Durchschnitt</span>
                 </div>
               </div>
             </div>
@@ -228,10 +228,10 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
             {/* Live-Zug-Übersicht */}
             <div className="mb-6">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="font-db-screenhead text-xl font-bold text-slate-900">
+                <h2 className="font-db-screenhead text-xl font-bold text-slate-900 dark:text-slate-100">
                   Züge in Echtzeit
                 </h2>
-                <span className="text-sm font-medium text-slate-500">
+                <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
                   {mockTrains.length} Züge aktiv
                 </span>
               </div>
@@ -242,18 +242,18 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
               {mockTrains.map((train) => (
                 <div
                   key={train.id}
-                  className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-lg"
+                  className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-lg"
                 >
                   <div className="flex items-start justify-between">
                     {/* Linke Seite: Zug-Info */}
                     <div className="flex-1">
                       <div className="mb-4 flex items-center gap-4">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#e2001a] to-[#ff6f61] shadow-md">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#e2001a] shadow-md">
                           <TrainFront className="h-7 w-7 text-white" />
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold text-slate-900">{train.number}</h3>
-                          <p className="text-sm font-medium text-slate-600">{train.route}</p>
+                          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{train.number}</h3>
+                          <p className="text-sm font-medium text-slate-600 dark:text-slate-400">{train.route}</p>
                         </div>
                         <span
                           className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getStatusColor(
@@ -266,41 +266,41 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
 
                       {/* Metriken Grid */}
                       <div className="grid grid-cols-3 gap-4">
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
                           <div className="mb-1 flex items-center gap-2">
-                            <Gauge className="h-4 w-4 text-slate-500" />
-                            <span className="text-xs font-medium text-slate-500">Geschwindigkeit</span>
+                            <Gauge className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Geschwindigkeit</span>
                           </div>
-                          <p className="text-lg font-bold text-slate-900">{train.speed} km/h</p>
+                          <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{train.speed} km/h</p>
                         </div>
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
                           <div className="mb-1 flex items-center gap-2">
-                            <Zap className="h-4 w-4 text-amber-500" />
-                            <span className="text-xs font-medium text-slate-500">Energie</span>
+                            <Zap className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Energie</span>
                           </div>
-                          <p className="text-lg font-bold text-slate-900">{train.energy}%</p>
+                          <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{train.energy}%</p>
                         </div>
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3">
+                        <div className="rounded-lg border border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 p-3">
                           <div className="mb-1 flex items-center gap-2">
-                            <Activity className="h-4 w-4 text-blue-500" />
-                            <span className="text-xs font-medium text-slate-500">Auslastung</span>
+                            <Activity className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Auslastung</span>
                           </div>
-                          <p className="text-lg font-bold text-slate-900">{train.utilization}%</p>
+                          <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{train.utilization}%</p>
                         </div>
                       </div>
 
                       {/* Standort & Route */}
-                      <div className="mt-4 flex items-center gap-6 border-t border-slate-100 pt-4">
+                      <div className="mt-4 flex items-center gap-6 border-t border-slate-100 dark:border-slate-700/60 pt-4">
                         <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-slate-400" />
-                          <span className="text-sm text-slate-600">{train.location}</span>
+                          <MapPin className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+                          <span className="text-sm text-slate-600 dark:text-slate-400">{train.location}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4 text-slate-400" />
-                          <span className="text-sm font-medium text-slate-900">
+                          <Clock className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+                          <span className="text-sm font-medium text-slate-900 dark:text-slate-100">
                             Nächster Halt: {train.nextStation}
                           </span>
-                          <span className="text-sm text-slate-500">({train.eta})</span>
+                          <span className="text-sm text-slate-500 dark:text-slate-400">({train.eta})</span>
                         </div>
                       </div>
                     </div>
@@ -311,24 +311,24 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
                       <div className="w-32 space-y-2">
                         <div>
                           <div className="mb-1 flex items-center justify-between text-xs">
-                            <span className="text-slate-500">Energie</span>
-                            <span className="font-semibold text-slate-900">{train.energy}%</span>
+                            <span className="text-slate-500 dark:text-slate-400">Energie</span>
+                            <span className="font-semibold text-slate-900 dark:text-slate-100">{train.energy}%</span>
                           </div>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                             <div
-                              className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all"
+                              className="h-full rounded-full bg-amber-500 transition-all"
                               style={{ width: `${train.energy}%` }}
                             ></div>
                           </div>
                         </div>
                         <div>
                           <div className="mb-1 flex items-center justify-between text-xs">
-                            <span className="text-slate-500">Auslastung</span>
-                            <span className="font-semibold text-slate-900">{train.utilization}%</span>
+                            <span className="text-slate-500 dark:text-slate-400">Auslastung</span>
+                            <span className="font-semibold text-slate-900 dark:text-slate-100">{train.utilization}%</span>
                           </div>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                             <div
-                              className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all"
+                              className="h-full rounded-full bg-blue-500 transition-all"
                               style={{ width: `${train.utilization}%` }}
                             ></div>
                           </div>
