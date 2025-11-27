@@ -108,13 +108,13 @@ export default function Sheet({
             aria-modal="true"
             aria-label={ariaLabel || "Sheet Panel"}
             data-sheet-side={side}
-            className={`fixed z-50 ${sideClasses[side]} ${sheetWidth} ${sheetHeight} overflow-hidden ${cornerClasses[side]} ${sideBorderClasses[side]} border-slate-200/70 dark:border-slate-700/60 bg-white/95 dark:bg-slate-900/95 shadow-[0_45px_120px_-40px_rgba(15,23,42,0.45)] dark:shadow-[0_45px_120px_-40px_rgba(0,0,0,0.5)] ring-1 ring-slate-200/60 dark:ring-slate-700/60 backdrop-blur-xl`}
+            className={`fixed z-50 ${sideClasses[side]} ${sheetWidth} ${sheetHeight} overflow-hidden ${cornerClasses[side]} ${sideBorderClasses[side]} border-slate-200/70 dark:border-[#2a2a2a] bg-white dark:bg-[#171717] shadow-[0_45px_120px_-40px_rgba(15,23,42,0.45)] dark:shadow-[0_45px_120px_-40px_rgba(0,0,0,0.8)] ring-1 ring-slate-200/60 dark:ring-[#2a2a2a] backdrop-blur-xl`}
           >
-            <div className="relative flex h-full flex-col bg-gradient-to-b from-white/98 via-white to-white dark:from-slate-900/98 dark:via-slate-900 dark:to-slate-900">
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#e2001a] via-[#ff6f61] to-[#ffb347]" />
+            <div className="relative flex h-full flex-col bg-white dark:bg-[#171717]">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[#e2001a]" />
               <button
                 onClick={() => onOpenChange(false)}
-                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 shadow-sm transition hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:text-[#e2001a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e2001a]/40"
+                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200/60 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] text-slate-500 dark:text-[#a3a3a3] shadow-sm transition hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:text-[#e2001a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e2001a]/40"
                 aria-label="Sheet schließen"
               >
                 <X className="h-5 w-5" />
@@ -159,7 +159,7 @@ export function SheetHeader({
 }: SheetHeaderProps) {
   return (
     <div
-      className={`flex-shrink-0 border-b border-slate-200/70 dark:border-slate-700/60 bg-gradient-to-r from-slate-50/70 to-white dark:from-slate-800/70 dark:to-slate-900 px-6 py-5 sm:px-10 ${
+      className={`flex-shrink-0 border-b border-slate-200/70 dark:border-[#2a2a2a] bg-white dark:bg-[#1f1f1f] px-6 py-5 sm:px-10 ${
         sticky ? "sticky top-0 z-10" : ""
       } ${className}`}
     >
@@ -176,7 +176,7 @@ type SheetFooterProps = {
 export function SheetFooter({ children, className = "" }: SheetFooterProps) {
   return (
     <div
-      className={`flex-shrink-0 border-t border-slate-200/70 dark:border-slate-700/60 bg-slate-50/90 dark:bg-slate-800/90 px-6 py-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:px-10 ${className}`}
+      className={`flex-shrink-0 border-t border-slate-200/70 dark:border-[#2a2a2a] bg-slate-50 dark:bg-[#1f1f1f] px-6 py-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:px-10 ${className}`}
     >
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
         {children}

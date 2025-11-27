@@ -132,7 +132,13 @@
   color-scheme: dark;
   --db-red: #e2001a;
   --db-gray: #e2e8f0;
-  --page-bg: #0f172a;
+  --page-bg: #0f0f0f;
+  --surface-bg: #171717;
+  --surface-elevated: #1f1f1f;
+  --border-color: #2a2a2a;
+  --text-primary: #f5f5f5;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #a3a3a3;
 }
 
 body {

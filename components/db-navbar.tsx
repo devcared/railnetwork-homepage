@@ -116,7 +116,7 @@ export default function DbNavbar({ session }: DbNavbarProps) {
 
       <div
         ref={navRef}
-        className={`relative w-full border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-[0_4px_16px_rgba(15,23,42,0.05)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all ${
+        className={`relative w-full border-b border-slate-200 dark:border-[#2a2a2a]/60 bg-white dark:bg-[#171717] shadow-[0_4px_16px_rgba(15,23,42,0.05)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all ${
           isScrolled ? "shadow-md" : ""
         }`}
       >
@@ -258,7 +258,7 @@ export default function DbNavbar({ session }: DbNavbarProps) {
                 <ThemeToggle />
                 <button
                   type="button"
-                  className={`hidden rounded-full border border-slate-200 dark:border-slate-700/60 font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-slate-100 lg:inline-flex ${
+                  className={`hidden rounded-full border border-slate-200 dark:border-[#2a2a2a]/60 font-semibold text-slate-700 dark:text-[#d4d4d4] transition hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-slate-100 lg:inline-flex ${
                     isScrolled
                       ? "px-3 py-1.5 text-sm"
                       : "px-4 py-2 text-sm"
@@ -271,7 +271,7 @@ export default function DbNavbar({ session }: DbNavbarProps) {
 
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700/60 text-slate-600 dark:text-slate-300 lg:hidden"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-[#2a2a2a]/60 text-slate-600 dark:text-[#d4d4d4] lg:hidden"
                 aria-label="Menü öffnen"
                 onClick={() => setMobileMenuOpen(true)}
               >
