@@ -14,13 +14,11 @@ import {
   IconButton,
   Button,
   DrawerRoot,
-  DrawerTrigger,
   DrawerBackdrop,
   DrawerPositioner,
   DrawerContent,
   DrawerBody,
   CollapsibleRoot,
-  CollapsibleTrigger,
   CollapsibleContent,
   Separator,
   MenuRoot,
@@ -155,12 +153,12 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
         <SidebarContentInner
           session={session}
           isCollapsed={isCollapsed}
-          pathname={pathname}
           openDropdowns={openDropdowns}
           toggleDropdown={toggleDropdown}
           isItemActive={isItemActive}
           isSubItemActive={isSubItemActive}
           handleLogout={handleLogout}
+          handleToggleCollapse={handleToggleCollapse}
           theme={theme}
         />
       </Box>
@@ -174,12 +172,13 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
               <SidebarContentInner
                 session={session}
                 isCollapsed={false}
-                pathname={pathname}
                 openDropdowns={openDropdowns}
                 toggleDropdown={toggleDropdown}
                 isItemActive={isItemActive}
                 isSubItemActive={isSubItemActive}
                 handleLogout={handleLogout}
+                handleToggleCollapse={handleToggleCollapse}
+                setIsMobileOpen={setIsMobileOpen}
                 theme={theme}
                 isMobile
               />
@@ -194,12 +193,13 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
 type SidebarContentProps = {
   session: Session;
   isCollapsed: boolean;
-  pathname: string;
   openDropdowns: Set<string>;
   toggleDropdown: (id: string) => void;
   isItemActive: (item: DashboardNavItem) => boolean;
   isSubItemActive: (href: string) => boolean;
   handleLogout: () => void;
+  handleToggleCollapse: () => void;
+  setIsMobileOpen?: (open: boolean) => void;
   theme: string;
   isMobile?: boolean;
 };
@@ -207,19 +207,20 @@ type SidebarContentProps = {
 function SidebarContentInner({
   session,
   isCollapsed,
-  pathname,
   openDropdowns,
   toggleDropdown,
   isItemActive,
   isSubItemActive,
   handleLogout,
+  handleToggleCollapse,
+  setIsMobileOpen,
   theme,
   isMobile = false,
 }: SidebarContentProps) {
   return (
     <VStack h="100%" gap={0} align="stretch">
       {/* Header */}
-      <Box borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700" px={4} py={4} bg="white" className="dark:bg-gray-900">
+      <Box borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700 dark:bg-gray-900" px={4} py={4} bg="white">
         <Flex align="center" justify="space-between">
           {!isCollapsed && (
             <Link href="/" aria-label="Zur Startseite">
@@ -293,7 +294,11 @@ function SidebarContentInner({
                             <TooltipTrigger asChild>
                               <Link
                                 href={item.href}
-                                onClick={() => isMobile && setIsMobileOpen(false)}
+                                onClick={() => {
+                                  if (isMobile && setIsMobileOpen) {
+                                    setIsMobileOpen(false);
+                                  }
+                                }}
                                 style={{ flex: 1 }}
                               >
                                 <Flex
@@ -305,18 +310,16 @@ function SidebarContentInner({
                                   fontSize="sm"
                                   fontWeight="semibold"
                                   bg={isActive ? "gray.50" : "transparent"}
-                                  className={isActive ? "dark:bg-gray-800" : "dark:bg-transparent"}
                                   color={isActive ? "gray.900" : "gray.600"}
-                                  className={isActive ? "dark:text-gray-100" : "dark:text-gray-400"}
+                                  className={`${isActive ? "dark:bg-gray-800 dark:text-gray-100" : "dark:bg-transparent dark:text-gray-400"} dark:hover:bg-gray-800 dark:hover:text-gray-100`}
                                   _hover={{ bg: "gray.50" }}
-                                  className="dark:hover:bg-gray-800 dark:hover:text-gray-100"
                                 >
                                   <Box
                                     flexShrink={0}
                                     p={1.5}
                                     borderRadius="md"
                                     color={isActive ? "brand.500" : "gray.400"}
-                                    _dark={{ color: isActive ? "brand.500" : "gray.400" }}
+                                    className={isActive ? "dark:text-brand-500" : "dark:text-gray-400"}
                                   >
                                     {item.icon}
                                   </Box>
@@ -330,7 +333,11 @@ function SidebarContentInner({
                         ) : (
                           <Link
                             href={item.href}
-                            onClick={() => isMobile && setIsMobileOpen(false)}
+                            onClick={() => {
+                              if (isMobile && setIsMobileOpen) {
+                                setIsMobileOpen(false);
+                              }
+                            }}
                             style={{ flex: 1 }}
                           >
                             <Flex
@@ -342,10 +349,9 @@ function SidebarContentInner({
                               fontSize="sm"
                               fontWeight="semibold"
                               bg={isActive ? "gray.50" : "transparent"}
-                              _dark={{ bg: isActive ? "gray.800" : "transparent" }}
                               color={isActive ? "gray.900" : "gray.600"}
-                              _dark={{ color: isActive ? "gray.100" : "gray.400" }}
-                              _hover={{ bg: "gray.50", _dark: { bg: "gray.800" }, color: "gray.900", _dark: { color: "gray.100" } }}
+                              className={`${isActive ? "dark:bg-gray-800 dark:text-gray-100" : "dark:bg-transparent dark:text-gray-400"} dark:hover:bg-gray-800 dark:hover:text-gray-100`}
+                              _hover={{ bg: "gray.50", color: "gray.900" }}
                               position="relative"
                             >
                               {isActive && (
@@ -364,7 +370,7 @@ function SidebarContentInner({
                                 p={1.5}
                                 borderRadius="md"
                                 color={isActive ? "brand.500" : "gray.400"}
-                                _dark={{ color: isActive ? "brand.500" : "gray.400" }}
+                                className={isActive ? "dark:text-brand-500" : "dark:text-gray-400"}
                               >
                                 {item.icon}
                               </Box>
@@ -389,7 +395,7 @@ function SidebarContentInner({
                       {hasSubItems && !isCollapsed && (
                         <CollapsibleRoot open={isOpen}>
                           <CollapsibleContent>
-                            <Box ml={4} borderLeftWidth="2px" borderColor="gray.200" _dark={{ borderColor: "gray.700" }} pl={4} pt={1}>
+                            <Box ml={4} borderLeftWidth="2px" borderColor="gray.200" className="dark:border-gray-700" pl={4} pt={1}>
                               <VStack gap={0.5} align="stretch">
                                 {item.subItems!.map((subItem) => {
                                   const isSubActive = isSubItemActive(subItem.href);
@@ -397,7 +403,11 @@ function SidebarContentInner({
                                     <Link
                                       key={subItem.href}
                                       href={subItem.href}
-                                      onClick={() => isMobile && setIsMobileOpen(false)}
+                                      onClick={() => {
+                                  if (isMobile && setIsMobileOpen) {
+                                    setIsMobileOpen(false);
+                                  }
+                                }}
                                     >
                                       <Box
                                         px={3}
@@ -406,14 +416,13 @@ function SidebarContentInner({
                                         fontSize="sm"
                                         fontWeight="medium"
                                         bg={isSubActive ? "gray.50" : "transparent"}
-                                        _dark={{ bg: isSubActive ? "gray.800" : "transparent" }}
                                         color={isSubActive ? "gray.900" : "gray.600"}
-                                        _dark={{ color: isSubActive ? "gray.100" : "gray.400" }}
-                                        _hover={{ bg: "gray.50", _dark: { bg: "gray.800" }, color: "gray.900", _dark: { color: "gray.100" } }}
+                                        className={`${isSubActive ? "dark:bg-gray-800 dark:text-gray-100" : "dark:bg-transparent dark:text-gray-400"} dark:hover:bg-gray-800 dark:hover:text-gray-100`}
+                                        _hover={{ bg: "gray.50", color: "gray.900" }}
                                       >
                                         <Text>{subItem.label}</Text>
                                         {subItem.description && (
-                                          <Text fontSize="xs" fontWeight="normal" color="gray.500" _dark={{ color: "gray.400" }} mt={0.5}>
+                                          <Text fontSize="xs" fontWeight="normal" color="gray.500" className="dark:text-gray-400" mt={0.5}>
                                             {subItem.description}
                                           </Text>
                                         )}
@@ -437,14 +446,12 @@ function SidebarContentInner({
       </Box>
 
       {/* Footer - User Menu */}
-      <Box borderTopWidth="1px" borderColor="gray.200" _dark={{ borderColor: "gray.700" }} p={3} bg="white" _dark={{ bg: "gray.900" }}>
+      <Box borderTopWidth="1px" borderColor="gray.200" className="dark:border-gray-700 dark:bg-gray-900" p={3} bg="white">
         {!isCollapsed ? (
           <MenuRoot>
             <MenuTrigger asChild>
-              <Button
-                w="100%"
-                variant="ghost"
-                leftIcon={
+              <Button w="100%" variant="ghost">
+                <Flex align="center" gap={3} w="100%">
                   <Box position="relative">
                     <Box
                       h={10}
@@ -479,35 +486,34 @@ function SidebarContentInner({
                       bg="green.500"
                     />
                   </Box>
-                }
-                rightIcon={<ChevronDown size={12} />}
-              >
-                <VStack align="flex-start" gap={0} flex={1}>
-                  <Text fontSize="sm" fontWeight="semibold" color="gray.900" _dark={{ color: "gray.100" }}>
-                    {session.user?.name || "Benutzer"}
-                  </Text>
-                  <Text fontSize="xs" color="gray.500" _dark={{ color: "gray.400" }} truncate>
-                    {session.user?.email || ""}
-                  </Text>
-                </VStack>
+                  <VStack align="flex-start" gap={0} flex={1}>
+                    <Text fontSize="sm" fontWeight="semibold" color="gray.900" className="dark:text-gray-100">
+                      {session.user?.name || "Benutzer"}
+                    </Text>
+                    <Text fontSize="xs" color="gray.500" className="dark:text-gray-400" truncate>
+                      {session.user?.email || ""}
+                    </Text>
+                  </VStack>
+                  <ChevronDown size={12} />
+                </Flex>
               </Button>
             </MenuTrigger>
             <MenuPositioner>
               <MenuContent>
-                <MenuItem asChild>
+                <MenuItem value="settings" asChild>
                   <Link href="/dashboard/settings">
                     <Settings size={16} />
                     Einstellungen
                   </Link>
                 </MenuItem>
-                <MenuItem asChild>
+                <MenuItem value="home" asChild>
                   <Link href="/">
                     <Home size={16} />
                     Zur Startseite
                   </Link>
                 </MenuItem>
                 <MenuSeparator />
-                <MenuItem onClick={handleLogout} color="red.600">
+                <MenuItem value="logout" onClick={handleLogout} color="red.600">
                   <LogOut size={16} />
                   Abmelden
                 </MenuItem>
@@ -562,28 +568,28 @@ function SidebarContentInner({
                 </MenuTrigger>
                 <MenuPositioner>
                   <MenuContent>
-                    <Box px={3} py={2} borderBottomWidth="1px" borderColor="gray.200" _dark={{ borderColor: "gray.700" }}>
-                      <Text fontSize="sm" fontWeight="semibold" color="gray.900" _dark={{ color: "gray.100" }}>
+                    <Box px={3} py={2} borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700">
+                      <Text fontSize="sm" fontWeight="semibold" color="gray.900" className="dark:text-gray-100">
                         {session.user?.name || "Benutzer"}
                       </Text>
-                      <Text fontSize="xs" color="gray.500" _dark={{ color: "gray.400" }} truncate>
+                      <Text fontSize="xs" color="gray.500" className="dark:text-gray-400" truncate>
                         {session.user?.email || ""}
                       </Text>
                     </Box>
-                    <MenuItem asChild>
+                    <MenuItem value="settings" asChild>
                       <Link href="/dashboard/settings">
                         <Settings size={16} />
                         Einstellungen
                       </Link>
                     </MenuItem>
-                    <MenuItem asChild>
+                    <MenuItem value="home" asChild>
                       <Link href="/">
                         <Home size={16} />
                         Zur Startseite
                       </Link>
                     </MenuItem>
                     <MenuSeparator />
-                    <MenuItem onClick={handleLogout} color="red.600">
+                    <MenuItem value="logout" onClick={handleLogout} color="red.600">
                       <LogOut size={16} />
                       Abmelden
                     </MenuItem>
@@ -598,62 +604,5 @@ function SidebarContentInner({
         )}
       </Box>
     </VStack>
-  );
-
-  return (
-    <>
-      {/* Mobile Menu Button */}
-      <IconButton
-        aria-label="Menü öffnen"
-        position="fixed"
-        top={4}
-        left={4}
-        zIndex={50}
-        display={{ base: "flex", lg: "none" }}
-        onClick={() => setIsMobileOpen(true)}
-        borderRadius="full"
-        borderWidth="1px"
-        borderColor="gray.200"
-        _dark={{ borderColor: "gray.700" }}
-        bg="white"
-        _dark={{ bg: "gray.900" }}
-        color="gray.600"
-        _dark={{ color: "gray.300" }}
-      >
-        {isMobileOpen ? <X size={16} /> : <MenuIcon size={16} />}
-      </IconButton>
-
-      {/* Desktop Sidebar */}
-      <Box
-        as="aside"
-        position="fixed"
-        insetY={0}
-        left={0}
-        zIndex={40}
-        borderRightWidth="1px"
-        borderColor="gray.200"
-        _dark={{ borderColor: "gray.700" }}
-        bg="white"
-        _dark={{ bg: "gray.900" }}
-        w={{ base: "full", lg: isCollapsed ? "80px" : "288px" }}
-        transition="width 0.3s ease"
-        overflow={isCollapsed ? "visible" : "auto"}
-        display={{ base: "none", lg: "block" }}
-      >
-        <SidebarContent />
-      </Box>
-
-      {/* Mobile Drawer */}
-      <DrawerRoot open={isMobileOpen} onOpenChange={(e) => setIsMobileOpen(e.open)}>
-        <DrawerBackdrop />
-        <DrawerPositioner>
-          <DrawerContent>
-            <DrawerBody p={0}>
-              <SidebarContent isMobile />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerPositioner>
-      </DrawerRoot>
-    </>
   );
 }
