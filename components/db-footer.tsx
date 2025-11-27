@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useTheme } from "@/contexts/theme-context";
 
 const footerLinks = {
   company: [
@@ -57,6 +60,7 @@ const socialLinks = [
 ];
 
 export default function DbFooter() {
+  const { theme } = useTheme();
   return (
     <footer className="relative w-full border-t border-slate-200 bg-white font-db-screensans">
       <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
@@ -64,7 +68,12 @@ export default function DbFooter() {
           {/* Logo & Description */}
           <div className="lg:col-span-1">
             <Link href="/" className="mb-4 inline-block" aria-label="Startseite">
-              <Image src="/Logo.svg" alt="Railnetwork.app" width={180} height={90} />
+              <Image 
+                src={theme === "dark" ? "/Logo_darkmode.svg" : "/Logo.svg"} 
+                alt="Railnetwork.app" 
+                width={180} 
+                height={90} 
+              />
             </Link>
             <p className="mt-4 text-sm text-slate-600">
               Moderne Rail Infrastructure Platform für intelligente Schienennetze.
