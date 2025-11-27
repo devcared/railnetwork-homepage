@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
+import Breadcrumbs from "@/components/breadcrumbs";
 import { useDashboard } from "@/hooks/useDashboard";
 import Sheet, {
   SheetContent,
@@ -124,17 +125,10 @@ export default function AlertsClient({ session }: AlertsClientProps) {
     <SessionProvider session={session}>
       <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-          <div className="px-6 py-4 lg:px-8 lg:py-5">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+          <div className="px-6 py-3 lg:px-8">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
-                  {config.title}
-                </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
-                  {config.description}
-                </p>
-              </div>
+              <Breadcrumbs />
             </div>
           </div>
         </header>

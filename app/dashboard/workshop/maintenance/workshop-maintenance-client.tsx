@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Session } from "next-auth";
+import Breadcrumbs from "@/components/breadcrumbs";
 import {
   Calendar,
   Clock,
@@ -92,25 +93,13 @@ export default function WorkshopMaintenanceClient({ session }: WorkshopMaintenan
   return (
     <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-        <div className="px-6 py-4 lg:px-8 lg:py-5">
+      <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+        <div className="px-6 py-3 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500 shadow-lg">
-                <Calendar className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
-                  Wartungstermine
-                </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
-                  Inspektionen & Fristen verwalten
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="hidden items-center gap-2 rounded-lg bg-[#e2001a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c10015] sm:flex">
-                <Plus className="h-4 w-4" />
+            <Breadcrumbs />
+            <div className="flex items-center gap-2">
+              <button className="hidden items-center gap-1.5 rounded-md bg-[#e2001a] px-2.5 py-1.5 text-xs font-medium text-white transition hover:bg-[#c10015] sm:flex">
+                <Plus className="h-3.5 w-3.5" />
                 Termin
               </button>
             </div>

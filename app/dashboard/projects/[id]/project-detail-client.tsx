@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
+import Breadcrumbs from "@/components/breadcrumbs";
 import { useDashboard } from "@/hooks/useDashboard";
 import Sheet, {
   SheetContent,
@@ -13,6 +14,7 @@ import Sheet, {
 } from "@/components/sheet";
 import type { Project } from "@/lib/models";
 import Link from "next/link";
+import { Edit } from "lucide-react";
 
 type ProjectDetailClientProps = {
   session: Session;
@@ -73,54 +75,15 @@ export default function ProjectDetailClient({
     <SessionProvider session={session}>
       <div className="min-h-screen bg-[var(--page-bg)]">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
-          <div className="px-6 py-4 lg:px-8 lg:py-5">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+          <div className="px-6 py-3 lg:px-8">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/dashboard/projects"
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </Link>
-                <div>
-                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
-                    {project.name}
-                  </h1>
-                  <p className="font-db-screensans mt-1 text-sm text-slate-600">
-                    Projekt-Details
-                  </p>
-                </div>
-              </div>
+              <Breadcrumbs />
               <button
                 onClick={() => setShowEditSheet(true)}
-                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                className="hidden items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
               >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
+                <Edit className="h-3.5 w-3.5" />
                 Bearbeiten
               </button>
             </div>

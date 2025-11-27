@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
+import Breadcrumbs from "@/components/breadcrumbs";
 import { useDashboard } from "@/hooks/useDashboard";
 import Sheet, {
   SheetContent,
@@ -171,40 +172,25 @@ export default function AlertDetailClient({
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-[var(--page-bg)]">
+      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
-          <div className="px-6 py-4 lg:px-8 lg:py-5">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+          <div className="px-6 py-3 lg:px-8">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/dashboard/alerts"
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
-                >
-                  <ArrowLeft className="h-5 w-5" />
-                </Link>
-                <div>
-                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
-                    {alert.title}
-                  </h1>
-                  <p className="font-db-screensans mt-1 text-sm text-slate-600">
-                    Alert-Details und Aktionen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
+              <Breadcrumbs />
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => setShowEditSheet(true)}
-                  className="hidden items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 sm:flex"
+                  className="hidden items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
                 >
-                  <Edit className="h-4 w-4" />
+                  <Edit className="h-3.5 w-3.5" />
                   Bearbeiten
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100"
+                  className="hidden items-center gap-1.5 rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 text-xs font-medium text-red-700 dark:text-red-400 transition hover:bg-red-100 dark:hover:bg-red-900/30 sm:flex"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-3.5 w-3.5" />
                   Löschen
                 </button>
               </div>
