@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
 import { useDashboard } from "@/hooks/useDashboard";
+import { useAppVersion } from "@/hooks/useAppVersion";
 import Notifications from "@/components/notifications";
 import Sheet, {
   SheetContent,
@@ -52,6 +53,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
     refresh,
     actions,
   } = useDashboard({ session });
+
+  const { currentVersion, serverVersion } = useAppVersion();
 
   const [showCreateProject, setShowCreateProject] = useState(false);
   const [showProjectDetails, setShowProjectDetails] = useState(false);
@@ -193,13 +196,29 @@ export default function DashboardClient({ session }: DashboardClientProps) {
         <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
-                  Übersicht
-                </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600">
-                  Willkommen zurück
-                </p>
+              <div className="flex-1">
+                <div className="flex items-center gap-3">
+                  <div>
+                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                      Übersicht
+                    </h1>
+                    <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                      Willkommen zurück
+                    </p>
+                  </div>
+                  {/* Version Badge */}
+                  {(currentVersion || serverVersion) && (
+                    <div className="ml-4 flex items-center gap-2 rounded-lg border border-slate-200/60 bg-slate-50/50 px-3 py-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+                        <span className="text-xs font-medium text-slate-600">Version</span>
+                        <span className="font-mono text-xs font-semibold text-slate-900">
+                          {(serverVersion?.buildId || currentVersion || "—").substring(0, 8)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex items-center gap-3">
                 <Notifications
@@ -724,121 +743,6 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         <ChevronRight className="h-4 w-4 text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5" />
                       </Link>
                     </div>
-                  </div>
-                </div>
-
-                {/* Notifications Snapshot */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-sm">
-                  <div className="border-b border-slate-200/60 bg-gradient-to-r from-slate-50/50 to-white px-6 py-5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e2001a]/10 ring-1 ring-[#e2001a]/15">
-                          <BellRing className="h-5 w-5 text-[#e2001a]" />
-                        </div>
-                        <div>
-                          <h3 className="font-db-screenhead text-lg font-bold text-slate-900">
-                            Live-Benachrichtigungen
-                          </h3>
-                          <p className="text-xs font-medium text-slate-500">
-                            {unreadCount > 0
-                              ? `${unreadCount} ungelesen`
-                              : "Alle gelesen"}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => refresh.notifications()}
-                          className="rounded-lg border border-slate-200/60 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-                        >
-                          Aktualisieren
-                        </button>
-                        {unreadCount > 0 && (
-                          <button
-                            onClick={handleMarkAllNotifications}
-                            className="rounded-lg bg-[#e2001a]/10 px-3 py-1.5 text-xs font-semibold text-[#e2001a] transition hover:bg-[#e2001a]/15"
-                          >
-                            Alle lesen
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="divide-y divide-slate-100/70">
-                    {displayedNotifications.length === 0 ? (
-                      <div className="px-6 py-12 text-center">
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                          <Bell className="h-6 w-6" />
-                        </div>
-                        <p className="mt-4 text-sm font-medium text-slate-500">
-                          Keine Benachrichtigungen
-                        </p>
-                      </div>
-                    ) : (
-                      displayedNotifications.map((notification) => {
-                        const variant = notificationToneMap[notification.type];
-                        const actionKeyRead = `read-${notification.id}`;
-                        const actionKeyDelete = `delete-${notification.id}`;
-                        return (
-                          <div
-                            key={notification.id}
-                            className={`px-6 py-4 transition ${
-                              !notification.read ? "bg-slate-50/80" : "hover:bg-slate-50"
-                            }`}
-                          >
-                            <div className="flex items-start gap-3">
-                              <div
-                                className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl ring-1 ${variant.ring}`}
-                              >
-                                {variant.icon}
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <div className="flex items-start justify-between gap-2">
-                                  <div>
-                                    <p className="text-sm font-semibold text-slate-900">
-                                      {notification.title}
-                                    </p>
-                                    <p className="mt-1 text-xs text-slate-500">
-                                      {notification.message}
-                                    </p>
-                                  </div>
-                                  <span
-                                    className={`text-xs font-semibold ${variant.accent}`}
-                                  >
-                                    {variant.label}
-                                  </span>
-                                </div>
-                                <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-400">
-                                  <span>{formatTime(notification.createdAt)}</span>
-                                  <div className="flex flex-1 justify-end gap-2 text-xs font-semibold">
-                                    {!notification.read && (
-                                      <button
-                                        onClick={() =>
-                                          handleNotificationAction(notification.id, "read")
-                                        }
-                                        disabled={pendingNotificationAction === actionKeyRead}
-                                        className="text-slate-500 transition hover:text-slate-900 disabled:opacity-60"
-                                      >
-                                        Gelesen
-                                      </button>
-                                    )}
-                                    <button
-                                      onClick={() =>
-                                        handleNotificationAction(notification.id, "delete")
-                                      }
-                                      disabled={pendingNotificationAction === actionKeyDelete}
-                                      className="text-slate-400 transition hover:text-red-500 disabled:opacity-60"
-                                    >
-                                      Entfernen
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })
-                    )}
                   </div>
                 </div>
 
