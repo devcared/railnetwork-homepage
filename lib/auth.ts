@@ -33,6 +33,22 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/signin",
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      // Füge die User-ID zum JWT Token hinzu
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Füge die User-ID zur Session hinzu
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
   providers: [
     CredentialsProvider({
       name: "Demo Login",
