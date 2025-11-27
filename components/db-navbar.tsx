@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { dbNavSections, type DbNavLink } from "@/lib/db-navigation";
 import Image from "next/image";
 import ThemeToggle from "@/components/theme-toggle";
+import { useTheme } from "@/contexts/theme-context";
 
 type DbNavbarProps = {
   session: Session | null;
