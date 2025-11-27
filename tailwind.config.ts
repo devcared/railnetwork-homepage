@@ -32,6 +32,16 @@ const config: Config = {
         "db-screensanscond": ['"DBScreenSansCond"', "sans-serif"],
         "db-screennews": ['"DBScreenNews"', "sans-serif"],
       },
+      animation: {
+        "spin-slow": "spin 8s linear infinite",
+        shimmer: "shimmer 2s linear infinite",
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+      },
     },
   },
   plugins: [],
