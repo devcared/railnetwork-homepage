@@ -360,7 +360,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
       {/* Mobile Menu Button */}
       <button
         type="button"
-        className="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 lg:hidden"
+        className="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 lg:hidden"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         aria-label="Menü öffnen"
       >
@@ -377,7 +377,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 border-r border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-900 font-db-screensans transition-all duration-300 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 border-r border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 font-db-screensans transition-all duration-300 lg:translate-x-0 ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         } ${
           isCollapsed ? "w-20" : "w-72"
@@ -386,7 +386,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
       >
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="border-b border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-900 px-4 py-4">
+          <div className="border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 px-4 py-4">
             <div className="flex items-center justify-between">
               {!isCollapsed && (
                 <Link 
@@ -513,8 +513,8 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                 onMouseEnter={() => setHoveredItem(item.id)}
                                 onMouseLeave={() => setHoveredItem(null)}
                               >
-                                <div className="relative min-w-[220px] rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 shadow-xl">
-                                  <div className="absolute left-0 top-4 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800" />
+                                <div className="relative min-w-[220px] rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 shadow-xl">
+                                  <div className="absolute left-0 top-4 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800" />
                                   <Link
                                     href={item.href}
                                     onClick={() => {
@@ -526,7 +526,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                     {item.label}
                                   </Link>
                                   {hasSubItems && item.subItems && (
-                                    <div className="border-t border-slate-100 dark:border-slate-700/60/60">
+                                    <div className="border-t border-slate-100 dark:border-slate-700/60">
                                       {item.subItems.map((subItem, index) => {
                                         const isSubActive = isSubItemActive(subItem.href);
                                         return (
@@ -576,7 +576,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                     transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                                     className="overflow-hidden"
                                   >
-                                    <div className="ml-4 border-l-2 border-slate-200/70 dark:border-slate-700/60/60 pl-4 pt-1">
+                                    <div className="ml-4 border-l-2 border-slate-200/70 dark:border-slate-700/60 pl-4 pt-1">
                                       {item.subItems!.map((subItem) => {
                                         const isSubActive = isSubItemActive(subItem.href);
                                         return (
@@ -619,9 +619,9 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
           </nav>
 
           {/* Footer */}
-          <div className="border-t border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-900">
+          <div className="border-t border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
             {/* Theme Toggle */}
-            <div className="px-3 py-2 border-b border-slate-200 dark:border-slate-700/60/60">
+            <div className="px-3 py-2 border-b border-slate-200 dark:border-slate-700/60">
               <ThemeToggle />
             </div>
             
@@ -631,7 +631,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                 <div className="space-y-2">
                   {/* User Card */}
                   <div
-                    className="group relative cursor-pointer rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-3 transition-all hover:border-slate-300 dark:hover:border-[#2a2a2a] hover:shadow-sm"
+                    className="group relative cursor-pointer rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-3 transition-all hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-sm"
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     data-user-menu
                   >
@@ -685,7 +685,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="space-y-1 rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 p-1">
+                        <div className="space-y-1 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 p-1">
                           <Link
                             href="/dashboard/settings"
                             onClick={() => {
@@ -771,12 +771,12 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                         onMouseEnter={() => setShowUserMenu(true)}
                         onMouseLeave={() => setShowUserMenu(false)}
                       >
-                        <div className="relative rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 shadow-xl min-w-[220px]">
+                        <div className="relative rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 shadow-xl min-w-[220px]">
                           {/* Arrow - pointing left, positioned at middle right */}
-                          <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800"></div>
+                          <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800"></div>
                           
                           {/* User Info Header */}
-                          <div className="border-b border-slate-100 dark:border-slate-700/60/60 px-3 py-2.5">
+                          <div className="border-b border-slate-100 dark:border-slate-700/60 px-3 py-2.5">
                             <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                               {session.user?.name || "Benutzer"}
                             </p>
