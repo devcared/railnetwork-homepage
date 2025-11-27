@@ -1,0 +1,329 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { SessionProvider } from "next-auth/react";
+import type { Session } from "next-auth";
+import { useDashboard } from "@/hooks/useDashboard";
+import Sheet, {
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/sheet";
+import type { Project } from "@/lib/models";
+import Link from "next/link";
+
+type ProjectDetailClientProps = {
+  session: Session;
+  projectId: string;
+};
+
+export default function ProjectDetailClient({
+  session,
+  projectId,
+}: ProjectDetailClientProps) {
+  const { projects, actions } = useDashboard({ session });
+  const [project, setProject] = useState<Project | null>(null);
+  const [showEditSheet, setShowEditSheet] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editProgress, setEditProgress] = useState(0);
+
+  useEffect(() => {
+    const foundProject = projects.find((p) => p.id === projectId);
+    if (foundProject) {
+      setProject(foundProject);
+      setEditName(foundProject.name);
+      setEditDescription(foundProject.description || "");
+      setEditProgress(foundProject.progress);
+    }
+  }, [projects, projectId]);
+
+  const handleUpdateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!project) return;
+
+    try {
+      await actions.updateProject(project.id, {
+        name: editName,
+        description: editDescription || undefined,
+        progress: editProgress,
+      });
+      setShowEditSheet(false);
+    } catch (error) {
+      console.error("Failed to update project:", error);
+    }
+  };
+
+  if (!project) {
+    return (
+      <SessionProvider session={session}>
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-center">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-[#e2001a]"></div>
+            <p className="mt-4 text-sm text-slate-600">Lade Projekt...</p>
+          </div>
+        </div>
+      </SessionProvider>
+    );
+  }
+
+  return (
+    <SessionProvider session={session}>
+      <div className="min-h-screen bg-[var(--page-bg)]">
+        {/* Header */}
+        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
+          <div className="px-6 py-4 lg:px-8 lg:py-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/dashboard/projects"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                >
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </Link>
+                <div>
+                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                    {project.name}
+                  </h1>
+                  <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                    Projekt-Details
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowEditSheet(true)}
+                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                Bearbeiten
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Content */}
+        <div className="px-6 py-6 lg:px-8 lg:py-8">
+          <div className="mx-auto max-w-4xl">
+            <div className="grid gap-6 lg:grid-cols-3">
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Description */}
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <h2 className="font-db-screenhead text-lg font-bold text-slate-900">
+                    Beschreibung
+                  </h2>
+                  <p className="mt-3 text-sm text-slate-700">
+                    {project.description || "Keine Beschreibung vorhanden"}
+                  </p>
+                </div>
+
+                {/* Progress */}
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <h2 className="font-db-screenhead text-lg font-bold text-slate-900">
+                      Fortschritt
+                    </h2>
+                    <span className="text-2xl font-bold text-slate-900">
+                      {project.progress}%
+                    </span>
+                  </div>
+                  <div className="mt-4 h-4 w-full rounded-full bg-slate-200">
+                    <div
+                      className="h-4 rounded-full bg-[#e2001a] transition-all"
+                      style={{ width: `${project.progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sidebar */}
+              <div className="space-y-6">
+                {/* Status Card */}
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <h3 className="font-db-screenhead text-base font-bold text-slate-900">
+                    Status
+                  </h3>
+                  <div className="mt-4">
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                        project.status === "active"
+                          ? "bg-green-100 text-green-700"
+                          : project.status === "completed"
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-slate-100 text-slate-700"
+                      }`}
+                    >
+                      {project.status === "active"
+                        ? "Aktiv"
+                        : project.status === "completed"
+                          ? "Abgeschlossen"
+                          : project.status}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Info Card */}
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <h3 className="font-db-screenhead text-base font-bold text-slate-900">
+                    Informationen
+                  </h3>
+                  <div className="mt-4 space-y-3 text-sm">
+                    <div>
+                      <p className="text-slate-500">Erstellt am</p>
+                      <p className="mt-1 font-medium text-slate-900">
+                        {new Date(project.createdAt).toLocaleDateString("de-DE", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Zuletzt aktualisiert</p>
+                      <p className="mt-1 font-medium text-slate-900">
+                        {new Date(project.updatedAt).toLocaleDateString("de-DE", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <h3 className="font-db-screenhead text-base font-bold text-slate-900">
+                    Aktionen
+                  </h3>
+                  <div className="mt-4 space-y-2">
+                    <button
+                      onClick={async () => {
+                        await actions.updateProject(project.id, {
+                          progress: Math.min(100, project.progress + 10),
+                        });
+                      }}
+                      className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                    >
+                      Fortschritt +10%
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (confirm("Möchten Sie dieses Projekt wirklich löschen?")) {
+                          await actions.deleteProject(project.id);
+                          window.location.href = "/dashboard/projects";
+                        }
+                      }}
+                      className="w-full rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100"
+                    >
+                      Projekt löschen
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Edit Project Sheet */}
+        <Sheet
+          open={showEditSheet}
+          onOpenChange={setShowEditSheet}
+          side="right"
+          size="md"
+        >
+          <SheetHeader>
+            <SheetTitle>Projekt bearbeiten</SheetTitle>
+            <SheetDescription>
+              Aktualisieren Sie die Projekt-Informationen
+            </SheetDescription>
+          </SheetHeader>
+          <form onSubmit={handleUpdateProject}>
+            <SheetContent>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700">
+                    Projektname *
+                  </label>
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    className="mt-1 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700">
+                    Beschreibung
+                  </label>
+                  <textarea
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                    className="mt-1 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    rows={4}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700">
+                    Fortschritt: {editProgress}%
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={editProgress}
+                    onChange={(e) => setEditProgress(parseInt(e.target.value))}
+                    className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200"
+                  />
+                </div>
+              </div>
+            </SheetContent>
+            <SheetFooter>
+              <button
+                type="button"
+                onClick={() => setShowEditSheet(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Abbrechen
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-[#e2001a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c10015]"
+              >
+                Speichern
+              </button>
+            </SheetFooter>
+          </form>
+        </Sheet>
+      </div>
+    </SessionProvider>
+  );
+}
+

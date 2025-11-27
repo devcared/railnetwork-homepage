@@ -16,11 +16,19 @@ export default function ConditionalLayout({
 }: ConditionalLayoutProps) {
   const pathname = usePathname();
   const isSignInPage = pathname === "/signin";
+  const isDashboardPage = pathname?.startsWith("/dashboard");
 
+  // SignIn page has no layout
   if (isSignInPage) {
     return <>{children}</>;
   }
 
+  // Dashboard pages use their own layout with sidebar
+  if (isDashboardPage) {
+    return <>{children}</>;
+  }
+
+  // All other pages use the standard layout with navbar and footer
   return (
     <>
       <DbNavbar session={session} />
