@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 
 const focusNews = [
   {
-    title: "Neues Hallendach für den Dresdner Hauptbahnhof",
+    title: "Neues Test für den Dresdner Hauptbahnhof",
     description:
       "Feierlich eingeweiht: Historische Halle wieder uneingeschränkt erlebbar • RailNetwork saniert deutschlandweit weitere Hallendächer",
     image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070",
