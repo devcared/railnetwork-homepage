@@ -171,6 +171,24 @@ export function useDashboard({ session }: UseDashboardProps) {
     }
   };
 
+  const deleteAlert = async (id: string) => {
+    try {
+      const response = await fetch(`/api/dashboard/alerts/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        await fetchAlerts();
+        await fetchStats();
+        return true;
+      }
+      throw new Error("Failed to delete alert");
+    } catch (error) {
+      console.error("Failed to delete alert:", error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     if (!session?.user) return;
 
@@ -220,6 +238,7 @@ export function useDashboard({ session }: UseDashboardProps) {
       updateProject,
       deleteProject,
       updateAlert,
+      deleteAlert,
     },
   };
 }

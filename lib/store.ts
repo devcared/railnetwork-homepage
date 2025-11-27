@@ -262,6 +262,13 @@ class DataStore {
     return this.alerts[index];
   }
 
+  deleteAlert(id: string): boolean {
+    const index = this.alerts.findIndex((a) => a.id === id);
+    if (index === -1) return false;
+    this.alerts.splice(index, 1);
+    return true;
+  }
+
   // Notifications
   getNotifications(userId: string, unreadOnly?: boolean): Notification[] {
     let notifications = this.notifications.filter((n) => n.userId === userId);
