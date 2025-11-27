@@ -11,6 +11,7 @@ import Sheet, {
   SheetTitle,
   SheetDescription,
 } from "@/components/sheet";
+import { Plus } from "lucide-react";
 
 type ReportsClientProps = {
   session: Session;
