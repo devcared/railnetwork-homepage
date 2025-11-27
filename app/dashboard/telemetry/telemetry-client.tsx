@@ -114,21 +114,21 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-[var(--page-bg)]">
+      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                   {config.title}
                 </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                   {config.description}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <button className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                <button className="flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700">
                   <RefreshCw className="h-4 w-4" />
                   Aktualisieren
                 </button>
@@ -146,16 +146,16 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
                 <button
                   key={metric.id}
                   onClick={() => setSelectedMetric(metric.id)}
-                  className="group rounded-xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all hover:border-slate-300 hover:shadow-md"
+                  className="group rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 text-left shadow-sm transition-all hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                      <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                         {metric.label}
                       </p>
-                      <p className="mt-3 text-3xl font-bold text-slate-900">
+                      <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">
                         {metric.value}
-                        <span className="ml-1 text-lg text-slate-500">{metric.unit}</span>
+                        <span className="ml-1 text-lg text-slate-500 dark:text-slate-400">{metric.unit}</span>
                       </p>
                       <div className="mt-4">
                         <span
@@ -171,9 +171,9 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
                         </span>
                       </div>
                     </div>
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-slate-100">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800">
                       <svg
-                        className="h-6 w-6 text-slate-600"
+                        className="h-6 w-6 text-slate-600 dark:text-slate-400"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -187,7 +187,7 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
                       </svg>
                     </div>
                   </div>
-                  <div className="mt-4 h-2 w-full rounded-full bg-slate-200">
+                  <div className="mt-4 h-2 w-full rounded-full bg-slate-200 dark:bg-slate-700">
                     <div
                       className={`h-2 rounded-full transition-all ${
                         metric.status === "critical"
@@ -205,8 +205,8 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
 
             {/* System Status */}
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 className="font-db-screenhead text-lg font-bold text-slate-900">
+              <div className="rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
+                <h2 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
                   System-Status
                 </h2>
                 <div className="mt-4 space-y-3">
@@ -214,21 +214,21 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
                     (system) => (
                       <div
                         key={system}
-                        className="flex items-center justify-between rounded-lg border border-slate-100 p-3"
+                        className="flex items-center justify-between rounded-lg border border-slate-100 dark:border-slate-700/60 p-3"
                       >
                         <div className="flex items-center gap-3">
                           <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                          <span className="text-sm font-medium text-slate-900">{system}</span>
+                          <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{system}</span>
                         </div>
-                        <span className="text-xs text-slate-500">Online</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Online</span>
                       </div>
                     )
                   )}
                 </div>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 className="font-db-screenhead text-lg font-bold text-slate-900">
+              <div className="rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm">
+                <h2 className="font-db-screenhead text-lg font-bold text-slate-900 dark:text-slate-100">
                   Letzte Updates
                 </h2>
                 <div className="mt-4 space-y-3">
@@ -240,13 +240,13 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
                   ].map((update, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between rounded-lg border border-slate-100 p-3"
+                      className="flex items-center justify-between rounded-lg border border-slate-100 dark:border-slate-700/60 p-3"
                     >
                       <div>
-                        <p className="text-sm font-medium text-slate-900">
+                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
                           {update.metric} - {update.system}
                         </p>
-                        <p className="mt-1 text-xs text-slate-500">{update.time}</p>
+                        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{update.time}</p>
                       </div>
                     </div>
                   ))}
@@ -276,13 +276,13 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
               <div className="space-y-6">
                 <div>
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-600">Aktueller Wert</span>
-                    <span className="text-2xl font-bold text-slate-900">
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Aktueller Wert</span>
+                    <span className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                       {telemetryData.find((m) => m.id === selectedMetric)?.value}
                       {telemetryData.find((m) => m.id === selectedMetric)?.unit}
                     </span>
                   </div>
-                  <div className="h-4 w-full rounded-full bg-slate-200">
+                  <div className="h-4 w-full rounded-full bg-slate-200 dark:bg-slate-700">
                     <div
                       className="h-4 rounded-full bg-[#e2001a] transition-all"
                       style={{
@@ -294,15 +294,15 @@ export default function TelemetryClient({ session }: TelemetryClientProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-slate-200 p-4">
-                  <h3 className="text-sm font-semibold text-slate-900">System</h3>
-                  <p className="mt-1 text-sm text-slate-600">
+                <div className="rounded-lg border border-slate-200 dark:border-slate-700/60 p-4">
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">System</h3>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     {telemetryData.find((m) => m.id === selectedMetric)?.system}
                   </p>
                 </div>
 
-                <div className="rounded-lg border border-slate-200 p-4">
-                  <h3 className="text-sm font-semibold text-slate-900">Status</h3>
+                <div className="rounded-lg border border-slate-200 dark:border-slate-700/60 p-4">
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Status</h3>
                   <p className="mt-1">
                     <span
                       className={`inline-flex rounded-full border px-2.5 py-0.5 text-xs font-semibold ${getStatusColor(

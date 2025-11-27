@@ -208,7 +208,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   </div>
                   {/* Version Badge */}
                   {(currentVersion || serverVersion) && (
-                    <div className="ml-4 flex items-center gap-2 rounded-lg border border-slate-200/60 dark:border-slate-700/60/60 bg-slate-50/50 dark:bg-slate-800/50 px-3 py-1.5">
+                    <div className="ml-4 flex items-center gap-2 rounded-lg border border-slate-200/60 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 px-3 py-1.5">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
                         <span className="text-xs font-medium text-slate-600 dark:text-slate-400">Version</span>
@@ -230,7 +230,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                 />
               <button
                 onClick={() => setShowCreateProject(true)}
-                className="hidden items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
+                className="hidden items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
               >
                 <Plus className="h-4 w-4" />
                 Neues Projekt
@@ -264,7 +264,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     type="text"
                     value={newProjectName}
                     onChange={(e) => setNewProjectName(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                     placeholder="z.B. Hamburg Hbf Modernisierung"
                     required
                   />
@@ -276,7 +276,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   <textarea
                     value={newProjectDescription}
                     onChange={(e) => setNewProjectDescription(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                    className="mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                     placeholder="Optionale Beschreibung..."
                     rows={4}
                   />
@@ -291,7 +291,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   setNewProjectName("");
                   setNewProjectDescription("");
                 }}
-                className="rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
+                className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Abbrechen
               </button>
@@ -409,7 +409,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
             <SheetFooter>
               <button
                 onClick={() => setShowProjectDetails(false)}
-                className="rounded-lg border border-slate-200 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
+                className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Schließen
               </button>
@@ -755,7 +755,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                       <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Alle Services online</p>
                     </div>
                   </div>
-                  <div className="space-y-3.5 border-t border-slate-200/60 dark:border-slate-700/60/60 pt-5">
+                  <div className="space-y-3.5 border-t border-slate-200/60 dark:border-slate-700/60 pt-5">
                     <div className="flex items-center justify-between rounded-lg bg-white/60 dark:bg-slate-800/60 px-3 py-2.5 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
                       <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">API-Status</span>
                       <span className="flex items-center gap-1.5">
@@ -806,7 +806,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                               setSelectedProject(project);
                               setShowProjectDetails(true);
                             }}
-                            className="group block w-full rounded-xl border border-slate-200/60 dark:border-slate-700/60/60 bg-white dark:bg-slate-800 p-4 text-left transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-gradient-to-r hover:from-[#e2001a]/5 dark:hover:from-[#e2001a]/10 hover:to-transparent hover:shadow-sm"
+                            className="group block w-full rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 p-4 text-left transition-all duration-200 hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:bg-gradient-to-r hover:from-[#e2001a]/5 dark:hover:from-[#e2001a]/10 hover:to-transparent hover:shadow-sm"
                           >
                             <div className="mb-3 flex items-center justify-between">
                               <p className="text-sm font-bold text-slate-900 dark:text-slate-100">

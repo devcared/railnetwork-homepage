@@ -122,16 +122,16 @@ export default function AlertsClient({ session }: AlertsClientProps) {
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-[var(--page-bg)]">
+      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                   {config.title}
                 </h1>
-                <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                   {config.description}
                 </p>
               </div>
@@ -156,7 +156,7 @@ export default function AlertsClient({ session }: AlertsClientProps) {
                   className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     filter === filterOption.id
                       ? "border-[#e2001a] bg-[#e2001a] text-white"
-                      : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                      : "border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   {filterOption.label} (
@@ -170,12 +170,12 @@ export default function AlertsClient({ session }: AlertsClientProps) {
 
             {/* Rules View */}
             {view === "rules" && (
-              <div className="rounded-2xl border border-slate-200/60 bg-white p-12 text-center shadow-sm">
-                <Settings className="mx-auto h-12 w-12 text-slate-400" />
-                <p className="mt-4 text-sm font-semibold text-slate-900">
+              <div className="rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-12 text-center shadow-sm">
+                <Settings className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" />
+                <p className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">
                   Alert-Regelwerk
                 </p>
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                   Hier können Sie automatische Alert-Regeln verwalten
                 </p>
                 <button className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#e2001a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c10015]">
@@ -189,9 +189,9 @@ export default function AlertsClient({ session }: AlertsClientProps) {
             {view !== "rules" && (
               <>
                 {filteredAlerts.length === 0 ? (
-                  <div className="rounded-2xl border border-slate-200/60 bg-white p-12 text-center shadow-sm">
-                    <AlertTriangle className="mx-auto h-12 w-12 text-slate-400" />
-                    <p className="mt-4 text-sm font-semibold text-slate-900">
+                  <div className="rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-12 text-center shadow-sm">
+                    <AlertTriangle className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" />
+                    <p className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">
                       Keine Alerts gefunden
                     </p>
                   </div>
@@ -201,7 +201,7 @@ export default function AlertsClient({ session }: AlertsClientProps) {
                   <Link
                     key={alert.id}
                     href={`/dashboard/alerts/${alert.id}`}
-                    className="group block w-full rounded-xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all hover:border-slate-300 hover:shadow-md"
+                    className="group block w-full rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 text-left shadow-sm transition-all hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
                   >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -228,13 +228,13 @@ export default function AlertsClient({ session }: AlertsClientProps) {
                                 </svg>
                               </div>
                               <div className="flex-1">
-                                <h3 className="text-lg font-bold text-slate-900">
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                                   {alert.title}
                                 </h3>
-                                <p className="mt-1 text-sm text-slate-600">
+                                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                                   {alert.message}
                                 </p>
-                                <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
+                                <div className="mt-3 flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                                   <span className="font-medium">{alert.system}</span>
                                   <span>•</span>
                                   <span>
@@ -291,23 +291,23 @@ export default function AlertsClient({ session }: AlertsClientProps) {
             <SheetContent>
               <div className="space-y-6">
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Nachricht
                   </label>
-                  <p className="mt-2 text-sm text-slate-700">{selectedAlert.message}</p>
+                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{selectedAlert.message}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       System
                     </label>
-                    <p className="mt-2 text-sm font-medium text-slate-900">
+                    <p className="mt-2 text-sm font-medium text-slate-900 dark:text-slate-100">
                       {selectedAlert.system}
                     </p>
                   </div>
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Schweregrad
                     </label>
                     <div className="mt-2">
@@ -323,7 +323,7 @@ export default function AlertsClient({ session }: AlertsClientProps) {
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Status
                   </label>
                   <div className="mt-2">
@@ -339,10 +339,10 @@ export default function AlertsClient({ session }: AlertsClientProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Erstellt am
                     </label>
-                    <p className="mt-2 text-sm text-slate-700">
+                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
                       {new Date(selectedAlert.createdAt).toLocaleDateString("de-DE", {
                         day: "2-digit",
                         month: "2-digit",
@@ -354,10 +354,10 @@ export default function AlertsClient({ session }: AlertsClientProps) {
                   </div>
                   {selectedAlert.resolvedAt && (
                     <div>
-                      <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                         Behoben am
                       </label>
-                      <p className="mt-2 text-sm text-slate-700">
+                      <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
                         {new Date(selectedAlert.resolvedAt).toLocaleDateString("de-DE", {
                           day: "2-digit",
                           month: "2-digit",
@@ -374,7 +374,7 @@ export default function AlertsClient({ session }: AlertsClientProps) {
             <SheetFooter>
               <button
                 onClick={() => setShowAlertDetails(false)}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Schließen
               </button>
