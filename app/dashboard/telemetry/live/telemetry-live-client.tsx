@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
+import Breadcrumbs from "@/components/breadcrumbs";
 import { useDashboard } from "@/hooks/useDashboard";
 import {
   TrainFront,
@@ -113,34 +114,22 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
   return (
     <SessionProvider session={session}>
       <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
-        {/* Header mit Live-Indikator */}
-        <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-          <div className="px-6 py-4 lg:px-8 lg:py-5">
+        {/* Header */}
+        <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+          <div className="px-6 py-3 lg:px-8">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e2001a] shadow-lg">
-                  <Activity className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-3">
-                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
-                      Live-Monitoring
-                    </h1>
-                    <div className="flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900/20 px-3 py-1">
-                      <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></div>
-                      <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">LIVE</span>
-                    </div>
-                  </div>
-                  <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
-                    Züge, Energie & Auslastung in Echtzeit
-                  </p>
+              <div className="flex items-center gap-2">
+                <Breadcrumbs />
+                <div className="flex items-center gap-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/20 px-2 py-0.5">
+                  <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500"></div>
+                  <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">LIVE</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="text-right">
-                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Letztes Update</p>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                    {lastUpdate.toLocaleTimeString("de-DE")}
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Update</p>
+                  <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
+                    {lastUpdate.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}
                   </p>
                 </div>
                 <button

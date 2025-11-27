@@ -6,6 +6,7 @@ import type { Session } from "next-auth";
 import { useDashboard } from "@/hooks/useDashboard";
 import { useAppVersion } from "@/hooks/useAppVersion";
 import Notifications from "@/components/notifications";
+import Breadcrumbs from "@/components/breadcrumbs";
 import Sheet, {
   SheetContent,
   SheetHeader,
@@ -193,34 +194,17 @@ export default function DashboardClient({ session }: DashboardClientProps) {
     <SessionProvider session={session}>
       <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
-          <div className="px-6 py-4 lg:px-8 lg:py-5">
+        <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900">
+          <div className="px-6 py-3 lg:px-8">
             <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-3">
-                  <div>
-                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
-                      Übersicht
-                    </h1>
-                    <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
-                      Willkommen zurück
-                    </p>
+              <Breadcrumbs />
+              <div className="flex items-center gap-2">
+                {currentVersion && (
+                  <div className="hidden items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-2 py-1 text-xs font-medium text-slate-600 dark:text-slate-400 sm:flex">
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+                    <span>v{currentVersion.substring(0, 8)}</span>
                   </div>
-                  {/* Version Badge */}
-                  {(currentVersion || serverVersion) && (
-                    <div className="ml-4 flex items-center gap-2 rounded-lg border border-slate-200/60 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-800/50 px-3 py-1.5">
-                      <div className="flex items-center gap-2">
-                        <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-                        <span className="text-xs font-medium text-slate-600 dark:text-slate-400">Version</span>
-                        <span className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-100">
-                          {(serverVersion?.buildId || currentVersion || "—").substring(0, 8)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
+                )}
                 <Notifications
                   initialNotifications={notifications.map((n) => ({
                     ...n,
@@ -228,17 +212,17 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   }))}
                   initialUnreadCount={unreadCount}  
                 />
-              <button
-                onClick={() => setShowCreateProject(true)}
-                className="hidden items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
-              >
-                <Plus className="h-4 w-4" />
-                Neues Projekt
-              </button>
+                <button
+                  onClick={() => setShowCreateProject(true)}
+                  className="hidden items-center gap-1.5 rounded-md border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  Neues Projekt
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
         {/* Create Project Sheet */}
         <Sheet

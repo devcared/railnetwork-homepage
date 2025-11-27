@@ -62,7 +62,7 @@ const socialLinks = [
 export default function DbFooter() {
   const { theme } = useTheme();
   return (
-    <footer className="relative w-full border-t border-slate-200 bg-white font-db-screensans">
+    <footer className="relative w-full border-t border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 font-db-screensans">
       <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Logo & Description */}
@@ -75,20 +75,20 @@ export default function DbFooter() {
                 height={90} 
               />
             </Link>
-            <p className="mt-4 text-sm text-slate-600">
+            <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">
               Moderne Rail Infrastructure Platform für intelligente Schienennetze.
             </p>
           </div>
 
           {/* Company Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">Unternehmen</h3>
+            <h3 className="mb-4 text-sm font-semibold text-slate-900 dark:text-slate-100">Unternehmen</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-600 transition hover:text-slate-900"
+                    className="text-sm text-slate-600 dark:text-slate-400 transition hover:text-slate-900 dark:hover:text-slate-100"
                   >
                     {link.label}
                   </Link>
@@ -99,13 +99,13 @@ export default function DbFooter() {
 
           {/* Services Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">Services</h3>
+            <h3 className="mb-4 text-sm font-semibold text-slate-900 dark:text-slate-100">Services</h3>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-600 transition hover:text-slate-900"
+                    className="text-sm text-slate-600 dark:text-slate-400 transition hover:text-slate-900 dark:hover:text-slate-100"
                   >
                     {link.label}
                   </Link>
@@ -116,13 +116,13 @@ export default function DbFooter() {
 
           {/* Legal & Social */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">Rechtliches</h3>
+            <h3 className="mb-4 text-sm font-semibold text-slate-900 dark:text-slate-100">Rechtliches</h3>
             <ul className="mb-6 space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-600 transition hover:text-slate-900"
+                    className="text-sm text-slate-600 dark:text-slate-400 transition hover:text-slate-900 dark:hover:text-slate-100"
                   >
                     {link.label}
                   </Link>
@@ -132,7 +132,7 @@ export default function DbFooter() {
 
             {/* Social Links */}
             <div>
-              <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Folge uns
               </h4>
               <div className="flex items-center gap-4">
@@ -142,7 +142,7 @@ export default function DbFooter() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-slate-400 transition hover:text-slate-900"
+                    className="text-slate-400 dark:text-slate-500 transition hover:text-slate-900 dark:hover:text-slate-100"
                     aria-label={social.name}
                   >
                     {social.icon}
@@ -154,23 +154,23 @@ export default function DbFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t border-slate-200 pt-8">
+        <div className="mt-12 border-t border-slate-200 dark:border-slate-700/60 pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 © {new Date().getFullYear()} RailNetwork. Alle Rechte vorbehalten.
               </p>
-              <span className="hidden text-slate-300 md:inline">•</span>
+              <span className="hidden text-slate-300 dark:text-slate-600 md:inline">•</span>
               <Link
                 href="/de/entwickler"
-                className="text-sm text-slate-600 transition hover:text-slate-900"
+                className="text-sm text-slate-600 dark:text-slate-400 transition hover:text-slate-900 dark:hover:text-slate-100"
               >
                 Entwickelt von Emil Schröder
               </Link>
             </div>
             <Link
               href="/de/reiseauskunft"
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
             >
               Zur Reiseauskunft auf bahn.de
               <svg

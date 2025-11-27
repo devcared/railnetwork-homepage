@@ -123,9 +123,9 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Hero Section - DB Style */}
-      <section className="bg-white dark:bg-slate-900">
+      <section className="bg-white dark:bg-slate-950">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             {/* Content */}
@@ -224,7 +224,7 @@ export default function Home() {
       </section>
 
       {/* Im Fokus - Slider */}
-      <section className="bg-white dark:bg-slate-900 py-12">
+      <section className="bg-white dark:bg-slate-950 py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <h2 className="font-db-screenhead mb-2 text-2xl font-bold text-slate-900 dark:text-slate-100">Im Fokus</h2>
           <p className="font-db-screensans mb-8 text-sm text-slate-600 dark:text-slate-400">Neues aus den Geschäftsfeldern</p>
@@ -332,7 +332,7 @@ export default function Home() {
       </section>
 
       {/* Newsroom Section */}
-      <section className="bg-slate-50 dark:bg-slate-900 py-16">
+      <section className="bg-slate-50 dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900 dark:text-slate-100">RailNetwork Newsroom</h2>
           <div className="grid gap-6 md:grid-cols-3">
@@ -380,7 +380,7 @@ export default function Home() {
       </section>
 
       {/* Themenwelten */}
-      <section className="bg-slate-50 dark:bg-slate-900 py-16">
+      <section className="bg-slate-50 dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900 dark:text-slate-100">RailNetwork Themenwelten</h2>
           <div className="grid gap-8 md:grid-cols-2">
@@ -427,7 +427,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="bg-white dark:bg-slate-900 py-16">
+      <section className="bg-white dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
             <h2 className="font-db-screenhead text-3xl font-bold text-slate-900 dark:text-slate-100">
@@ -463,7 +463,7 @@ export default function Home() {
               </p>
             </div>
             <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10 dark:bg-[#e2001a]/20">
                 <svg
                   className="h-6 w-6 text-[#e2001a]"
                   fill="none"
@@ -478,16 +478,16 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-900">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
                 Automatisierung
               </h3>
-              <p className="mt-2 text-slate-600">
+              <p className="mt-2 text-slate-600 dark:text-slate-400">
                 Intelligente Steuerungssysteme für optimale Betriebsabläufe und
                 präventive Wartung durch Machine Learning.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10">
+            <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10 dark:bg-[#e2001a]/20">
                 <svg
                   className="h-6 w-6 text-[#e2001a]"
                   fill="none"
@@ -502,10 +502,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-900">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
                 Sicherheit & Compliance
               </h3>
-              <p className="mt-2 text-slate-600">
+              <p className="mt-2 text-slate-600 dark:text-slate-400">
                 Höchste Sicherheitsstandards und vollständige Compliance mit
                 allen regulatorischen Anforderungen.
               </p>
@@ -515,14 +515,14 @@ export default function Home() {
       </section>
 
       {/* Innovation Section */}
-      <section className="bg-slate-50 py-16">
+      <section className="bg-slate-50 dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
-              <h2 className="font-db-screenhead text-3xl font-bold text-slate-900">
+              <h2 className="font-db-screenhead text-3xl font-bold text-slate-900 dark:text-slate-100">
                 Innovation durch Digitalisierung
               </h2>
-              <p className="mt-4 text-lg text-slate-600">
+              <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
                 Wir entwickeln die Zukunft der Schieneninfrastruktur mit
                 datengestützten Lösungen und künstlicher Intelligenz.
               </p>
@@ -540,10 +540,10 @@ export default function Home() {
                     />
                   </svg>
                   <div>
-                    <span className="font-semibold text-slate-900">
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">
                       KI-gestützte Wartung
                     </span>
-                    <p className="text-slate-600">
+                    <p className="text-slate-600 dark:text-slate-400">
                       Reduzierung von Ausfallzeiten um bis zu 40% durch
                       prädiktive Analysen
                     </p>
@@ -562,10 +562,10 @@ export default function Home() {
                     />
                   </svg>
                   <div>
-                    <span className="font-semibold text-slate-900">
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">
                       Echtzeit-Monitoring
                     </span>
-                    <p className="text-slate-600">
+                    <p className="text-slate-600 dark:text-slate-400">
                       Kontinuierliche Überwachung aller kritischen
                       Infrastrukturkomponenten
                     </p>
@@ -584,10 +584,10 @@ export default function Home() {
                     />
                   </svg>
                   <div>
-                    <span className="font-semibold text-slate-900">
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">
                       Cloud-basierte Plattform
                     </span>
-                    <p className="text-slate-600">
+                    <p className="text-slate-600 dark:text-slate-400">
                       Skalierbare Architektur für wachsende Anforderungen
                     </p>
                   </div>
@@ -626,27 +626,27 @@ export default function Home() {
       </section>
 
       {/* Karriere Section */}
-      <section className="bg-white py-16">
+      <section className="bg-white dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12">
             <div className="grid gap-8 md:grid-cols-2 md:items-center">
               <div>
-                <h2 className="font-db-screenhead text-3xl font-bold text-slate-900">
+                <h2 className="font-db-screenhead text-3xl font-bold text-slate-900 dark:text-slate-100">
                   Werde Teil unseres Teams
                 </h2>
-                <p className="mt-4 text-lg text-slate-600">
+                <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
                   Gestalte die Zukunft der Schieneninfrastruktur mit uns. Wir
                   suchen talentierte Menschen, die Innovation vorantreiben
                   wollen.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-4">
-                  <span className="rounded-full bg-[#e2001a]/10 px-4 py-2 text-sm font-semibold text-[#e2001a]">
+                  <span className="rounded-full bg-[#e2001a]/10 dark:bg-[#e2001a]/20 px-4 py-2 text-sm font-semibold text-[#e2001a]">
                     Software Engineering
                   </span>
-                  <span className="rounded-full bg-[#e2001a]/10 px-4 py-2 text-sm font-semibold text-[#e2001a]">
+                  <span className="rounded-full bg-[#e2001a]/10 dark:bg-[#e2001a]/20 px-4 py-2 text-sm font-semibold text-[#e2001a]">
                     Data Science
                   </span>
-                  <span className="rounded-full bg-[#e2001a]/10 px-4 py-2 text-sm font-semibold text-[#e2001a]">
+                  <span className="rounded-full bg-[#e2001a]/10 dark:bg-[#e2001a]/20 px-4 py-2 text-sm font-semibold text-[#e2001a]">
                     DevOps
                   </span>
                 </div>
@@ -684,20 +684,20 @@ export default function Home() {
       </section>
 
       {/* Weitere Themen */}
-      <section className="bg-white py-16">
+      <section className="bg-white dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900">Weitere Themen</h2>
+          <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900 dark:text-slate-100">Weitere Themen</h2>
           <div className="grid gap-6 md:grid-cols-2">
             {weitereThemen.map((thema, index) => (
               <Link
                 key={index}
                 href={thema.href}
-                className="group rounded-lg border border-slate-200 bg-white p-6 transition hover:border-slate-300 hover:shadow-md"
+                className="group rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 transition hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
               >
-                <h3 className="text-lg font-semibold text-slate-900">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {thema.title}
                 </h3>
-                <p className="mt-2 text-sm text-slate-600">{thema.description}</p>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{thema.description}</p>
                 <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#e2001a] group-hover:text-[#c10015]">
                   Weiterlesen
                   <svg
@@ -717,8 +717,8 @@ export default function Home() {
               </Link>
             ))}
           </div>
-    </div>
+        </div>
       </section>
-    </>
+    </div>
   );
 }
