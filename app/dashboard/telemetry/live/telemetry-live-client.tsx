@@ -112,34 +112,34 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
+      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header mit Live-Indikator */}
-        <header className="sticky top-0 z-30 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-sm">
+        <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e2001a] to-[#ff6f61] shadow-lg">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e2001a] shadow-lg">
                   <Activity className="h-6 w-6 text-white" />
                 </div>
                 <div>
                   <div className="flex items-center gap-3">
-                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                    <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                       Live-Monitoring
                     </h1>
-                    <div className="flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1">
+                    <div className="flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-900/20 px-3 py-1">
                       <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></div>
-                      <span className="text-xs font-semibold text-emerald-700">LIVE</span>
+                      <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">LIVE</span>
                     </div>
                   </div>
-                  <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                  <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                     Züge, Energie & Auslastung in Echtzeit
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <p className="text-xs font-medium text-slate-500">Letztes Update</p>
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Letztes Update</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                     {lastUpdate.toLocaleTimeString("de-DE")}
                   </p>
                 </div>
@@ -147,8 +147,8 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
                   onClick={() => setAutoRefresh(!autoRefresh)}
                   className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     autoRefresh
-                      ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                      ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400"
+                      : "border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   <RefreshCw className={`h-4 w-4 ${autoRefresh ? "animate-spin" : ""}`} />
@@ -164,37 +164,37 @@ export default function TelemetryLiveClient({ session }: TelemetryLiveClientProp
           <div className="mx-auto max-w-7xl">
             {/* Energie-Übersicht Cards */}
             <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
-                    <Zap className="h-6 w-6 text-white" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 shadow-md">
+                    <Zap className="h-6 w-6 text-slate-600 dark:text-slate-400" />
                   </div>
-                  <span className="text-xs font-semibold text-blue-600">Gesamt</span>
+                  <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">Gesamt</span>
                 </div>
-                <p className="text-3xl font-bold text-slate-900">2.4 MW</p>
-                <p className="mt-1 text-sm text-slate-600">Aktuelle Leistung</p>
+                <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">2.4 MW</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Aktuelle Leistung</p>
                 <div className="mt-4 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-emerald-600" />
-                  <span className="text-xs font-semibold text-emerald-600">+12%</span>
-                  <span className="text-xs text-slate-500">vs. Vorstunde</span>
+                  <TrendingUp className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+12%</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">vs. Vorstunde</span>
                 </div>
               </div>
 
-              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-gradient-to-br from-amber-50 to-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 shadow-md">
-                    <Gauge className="h-6 w-6 text-white" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 shadow-md">
+                    <Gauge className="h-6 w-6 text-slate-600 dark:text-slate-400" />
                   </div>
-                  <span className="text-xs font-semibold text-amber-600">Auslastung</span>
+                  <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">Auslastung</span>
                 </div>
-                <p className="text-3xl font-bold text-slate-900">87%</p>
-                <p className="mt-1 text-sm text-slate-600">Durchschnitt</p>
-                <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-amber-100">
-                  <div className="h-full w-[87%] rounded-full bg-gradient-to-r from-amber-400 to-amber-500"></div>
+                <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">87%</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Durchschnitt</p>
+                <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-amber-100 dark:bg-amber-900/20">
+                  <div className="h-full w-[87%] rounded-full bg-amber-500 dark:bg-amber-600"></div>
                 </div>
               </div>
 
-              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-md">
                     <TrainFront className="h-6 w-6 text-white" />

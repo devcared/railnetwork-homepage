@@ -106,13 +106,13 @@ export default function WorkshopFleetClient({ session }: WorkshopFleetClientProp
   }, 0) / mockFleet.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
+    <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-sm">
+      <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
         <div className="px-6 py-4 lg:px-8 lg:py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500 shadow-lg">
                 <Truck className="h-6 w-6 text-white" />
               </div>
               <div>

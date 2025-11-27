@@ -102,13 +102,13 @@ export default function NetworkConstructionClient({ session }: NetworkConstructi
   const averageProgress = mockSites.filter((s) => s.status === "active").reduce((sum, s) => sum + s.progress, 0) / activeCount || 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/30 to-slate-50">
+    <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-sm">
+      <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
         <div className="px-6 py-4 lg:px-8 lg:py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500 shadow-lg">
                 <Construction className="h-6 w-6 text-white" />
               </div>
               <div>

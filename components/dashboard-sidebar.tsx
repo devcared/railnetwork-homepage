@@ -526,7 +526,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                                     {item.label}
                                   </Link>
                                   {hasSubItems && item.subItems && (
-                                    <div className="border-t border-slate-100 dark:border-slate-700/60">
+                                    <div className="border-t border-slate-200 dark:border-slate-700/60">
                                       {item.subItems.map((subItem, index) => {
                                         const isSubActive = isSubItemActive(subItem.href);
                                         return (
@@ -587,7 +587,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                           className={`relative block rounded-md px-3 py-2 text-sm font-medium transition ${
                                                 isSubActive
                               ? "bg-gray-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100"
-                              : "text-slate-500 hover:bg-gray-50 hover:text-slate-900"
+                              : "text-slate-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
                                               }`}
                                             >
                                               <div className="flex items-center justify-between">
@@ -776,7 +776,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                           <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-1 h-2 w-2 rotate-45 border-l border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800"></div>
                           
                           {/* User Info Header */}
-                          <div className="border-b border-slate-100 dark:border-slate-700/60 px-3 py-2.5">
+                          <div className="border-b border-slate-200 dark:border-slate-700/60 px-3 py-2.5">
                             <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                               {session.user?.name || "Benutzer"}
                             </p>

@@ -125,23 +125,23 @@ export default function WorkshopClient({ session }: WorkshopClientProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--page-bg)]">
+    <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
+      <header className="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
         <div className="px-6 py-4 lg:px-8 lg:py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+              <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                 {config.title}
               </h1>
-              <p className="font-db-screensans mt-1 text-sm text-slate-600">
+              <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                 {config.description}
               </p>
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowCreateTask(true)}
-                className="hidden items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 sm:flex"
+                className="hidden items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 sm:flex"
               >
                 <Plus className="h-4 w-4" />
                 Aufgabe
@@ -164,15 +164,15 @@ export default function WorkshopClient({ session }: WorkshopClientProps) {
                   placeholder="Fahrzeug suchen..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="w-full rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-10 pr-4 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 />
               </div>
               <div className="flex items-center gap-2">
-                <Filter className="h-4 w-4 text-slate-400" />
+                <Filter className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-[#e2001a] focus:outline-none focus:ring-2 focus:ring-[#e2001a]/20"
                 >
                   <option value="all">Alle Status</option>
                   <option value="scheduled">Geplant</option>
@@ -189,12 +189,12 @@ export default function WorkshopClient({ session }: WorkshopClientProps) {
             {filteredTasks.map((task) => (
               <div
                 key={task.id}
-                className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md"
+                className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-bold text-slate-900">{task.vehicle}</h3>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{task.vehicle}</h3>
                       <span
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${getStatusColor(
                           task.status
@@ -210,11 +210,11 @@ export default function WorkshopClient({ session }: WorkshopClientProps) {
                               : "Überfällig"}
                       </span>
                     </div>
-                    <p className="mt-1 text-sm font-medium text-slate-600">{task.type}</p>
+                    <p className="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">{task.type}</p>
                     {task.description && (
-                      <p className="mt-2 text-sm text-slate-500">{task.description}</p>
+                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{task.description}</p>
                     )}
-                    <div className="mt-4 flex items-center gap-4 text-xs text-slate-500">
+                    <div className="mt-4 flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                       <div className="flex items-center gap-1.5">
                         <Calendar className="h-4 w-4" />
                         <span>Fällig: {new Date(task.dueDate).toLocaleDateString("de-DE")}</span>
@@ -234,8 +234,8 @@ export default function WorkshopClient({ session }: WorkshopClientProps) {
 
           {filteredTasks.length === 0 && (
             <div className="py-16 text-center">
-              <Wrench className="mx-auto h-12 w-12 text-slate-400" />
-              <p className="mt-4 text-sm font-medium text-slate-500">Keine Aufgaben gefunden</p>
+              <Wrench className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" />
+              <p className="mt-4 text-sm font-medium text-slate-500 dark:text-slate-400">Keine Aufgaben gefunden</p>
             </div>
           )}
         </div>
@@ -249,13 +249,13 @@ export default function WorkshopClient({ session }: WorkshopClientProps) {
         </SheetHeader>
         <SheetContent>
           <div className="space-y-4">
-            <p className="text-sm text-slate-600">Aufgabenformular wird hier angezeigt...</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Aufgabenformular wird hier angezeigt...</p>
           </div>
         </SheetContent>
         <SheetFooter>
           <button
             onClick={() => setShowCreateTask(false)}
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
           >
             Abbrechen
           </button>

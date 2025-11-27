@@ -110,9 +110,9 @@ export default function TelemetryAnalyticsClient({ session }: TelemetryAnalytics
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/20 to-slate-50">
+      <div className="min-h-screen bg-[var(--page-bg)] dark:bg-slate-950">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-sm">
+        <header className="sticky top-0 z-30 border-b border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm">
           <div className="px-6 py-4 lg:px-8 lg:py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -120,16 +120,16 @@ export default function TelemetryAnalyticsClient({ session }: TelemetryAnalytics
                   <TrendingUp className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 lg:text-3xl">
+                  <h1 className="font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 lg:text-3xl">
                     Leistungskennzahlen
                   </h1>
-                  <p className="font-db-screensans mt-1 text-sm text-slate-600">
+                  <p className="font-db-screensans mt-1 text-sm text-slate-600 dark:text-slate-400">
                     KPIs & Prognosen für optimale Betriebsführung
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-1">
+                <div className="flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 p-1">
                   {(["day", "week", "month"] as const).map((period) => (
                     <button
                       key={period}
@@ -137,14 +137,14 @@ export default function TelemetryAnalyticsClient({ session }: TelemetryAnalytics
                       className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
                         selectedPeriod === period
                           ? "bg-[#e2001a] text-white"
-                          : "text-slate-600 hover:bg-slate-50"
+                          : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
                       }`}
                     >
                       {period === "day" ? "Tag" : period === "week" ? "Woche" : "Monat"}
                     </button>
                   ))}
                 </div>
-                <button className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                <button className="flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700">
                   <Download className="h-4 w-4" />
                   Export
                 </button>
@@ -166,14 +166,14 @@ export default function TelemetryAnalyticsClient({ session }: TelemetryAnalytics
                 return (
                   <div
                     key={kpi.id}
-                    className="group overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                    className="group overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-300 hover:shadow-lg"
                   >
                     <div className="mb-4 flex items-center justify-between">
-                      <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${bgFrom} ${bgTo} shadow-md`}>
-                        <IconComponent className="h-6 w-6 text-white" />
+                      <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 shadow-md`}>
+                        <IconComponent className="h-6 w-6 text-slate-600 dark:text-slate-400" />
                       </div>
                       <div className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
-                        kpi.trend === "up" ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+                        kpi.trend === "up" ? "bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400" : "bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400"
                       }`}>
                         {kpi.trend === "up" ? (
                           <ArrowUpRight className="h-3 w-3" />
@@ -184,7 +184,7 @@ export default function TelemetryAnalyticsClient({ session }: TelemetryAnalytics
                       </div>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-slate-500">{kpi.label}</p>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{kpi.label}</p>
                       <p className="mt-2 text-3xl font-bold text-slate-900">{kpi.value}</p>
                       <div className="mt-4 flex items-center justify-between">
                         <span className="text-xs text-slate-500">Ziel: {kpi.target}</span>
