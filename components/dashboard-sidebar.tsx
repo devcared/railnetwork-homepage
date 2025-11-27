@@ -27,6 +27,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
+import { useTheme } from "@/contexts/theme-context";
 
 type DashboardSidebarProps = {
   session: Session;
@@ -278,6 +279,7 @@ const dashboardNavItems: DashboardNavItem[] = navSections.flatMap(
 
 export default function DashboardSidebar({ session, onCollapsedChange }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const { theme } = useTheme();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [manualDropdowns, setManualDropdowns] = useState<Set<string>>(new Set());
@@ -395,7 +397,7 @@ export default function DashboardSidebar({ session, onCollapsedChange }: Dashboa
                   aria-label="Zur Startseite"
                 >
                   <Image
-                    src="/Logo.svg"
+                    src={theme === "dark" ? "/Logo_darkmode.svg" : "/Logo.svg"}
                     alt="Railnetwork.app"
                     width={180}
                     height={90}
