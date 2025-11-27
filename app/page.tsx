@@ -125,16 +125,16 @@ export default function Home() {
   return (
     <>
       {/* Hero Section - DB Style */}
-      <section className="bg-white">
+      <section className="bg-white dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             {/* Content */}
             <div>
-              <h1 className="font-db-screenhead text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+              <h1 className="font-db-screenhead text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
                 Intelligente Schienennetze{" "}
                 <span className="text-[#e2001a]">neu gedacht</span>
               </h1>
-              <p className="font-db-screensans mt-6 text-lg leading-8 text-slate-600">
+              <p className="font-db-screensans mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">
                 Die zentrale Plattform für Telemetrie, Automatisierung und
                 datengestütztes Engineering im Schienenverkehr. Modern, sicher,
                 zuverlässig.
@@ -161,7 +161,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/de/presse"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 transition hover:border-slate-400 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700"
                 >
                   Aktuelles
                   <svg
@@ -181,28 +181,28 @@ export default function Home() {
               </div>
 
               {/* Stats */}
-              <div className="mt-12 grid grid-cols-2 gap-8 border-t border-slate-200 pt-8">
+              <div className="mt-12 grid grid-cols-2 gap-8 border-t border-slate-200 dark:border-slate-700 pt-8">
                 <div>
-                  <div className="text-3xl font-bold text-slate-900">525K+</div>
-                  <div className="mt-1 text-sm text-slate-600">
+                  <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">525K+</div>
+                  <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     Aktive Nutzer weltweit
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-slate-900">99.8%</div>
-                  <div className="mt-1 text-sm text-slate-600">
+                  <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">99.8%</div>
+                  <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     Uptime-Garantie
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-slate-900">2.1M</div>
-                  <div className="mt-1 text-sm text-slate-600">
+                  <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">2.1M</div>
+                  <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     Komponenten im Portal
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-slate-900">40+</div>
-                  <div className="mt-1 text-sm text-slate-600">
+                  <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">40+</div>
+                  <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     Rail & Mobility Partner
                   </div>
                 </div>
@@ -224,14 +224,14 @@ export default function Home() {
       </section>
 
       {/* Im Fokus - Slider */}
-      <section className="bg-white py-12">
+      <section className="bg-white dark:bg-slate-900 py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h2 className="font-db-screenhead mb-2 text-2xl font-bold text-slate-900">Im Fokus</h2>
-          <p className="font-db-screensans mb-8 text-sm text-slate-600">Neues aus den Geschäftsfeldern</p>
+          <h2 className="font-db-screenhead mb-2 text-2xl font-bold text-slate-900 dark:text-slate-100">Im Fokus</h2>
+          <p className="font-db-screensans mb-8 text-sm text-slate-600 dark:text-slate-400">Neues aus den Geschäftsfeldern</p>
 
           {/* Slider */}
           <div className="relative">
-            <div className="overflow-hidden rounded-lg border border-slate-200">
+            <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
               <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -250,11 +250,11 @@ export default function Home() {
                           className="object-cover transition-transform group-hover:scale-105"
                         />
                       </div>
-                      <div className="flex flex-col justify-center bg-white p-8 md:w-1/2">
-                        <h3 className="font-db-screenhead text-2xl font-bold text-slate-900">
+                      <div className="flex flex-col justify-center bg-white dark:bg-slate-800 p-8 md:w-1/2">
+                        <h3 className="font-db-screenhead text-2xl font-bold text-slate-900 dark:text-slate-100">
                           {news.title}
                         </h3>
-                        <p className="mt-4 text-slate-600">{news.description}</p>
+                        <p className="mt-4 text-slate-600 dark:text-slate-400">{news.description}</p>
                         <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#e2001a] group-hover:text-[#c10015]">
                           Mehr erfahren
                           <svg
@@ -288,7 +288,7 @@ export default function Home() {
                       (currentSlide - 1 + focusNews.length) % focusNews.length,
                     );
                   }}
-                  className="flex h-10 w-10 items-center justify-center rounded border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-50"
+                  className="flex h-10 w-10 items-center justify-center rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
                   aria-label="Vorheriger Slide"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -300,7 +300,7 @@ export default function Home() {
                   onClick={() => {
                     handleManualSlideChange((currentSlide + 1) % focusNews.length);
                   }}
-                  className="flex h-10 w-10 items-center justify-center rounded border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-50"
+                  className="flex h-10 w-10 items-center justify-center rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700"
                   aria-label="Nächster Slide"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -317,13 +317,13 @@ export default function Home() {
                     className={`h-2 rounded-full transition-all ${
                       currentSlide === index
                         ? "w-8 bg-[#e2001a]"
-                        : "w-2 bg-slate-300"
+                        : "w-2 bg-slate-300 dark:bg-slate-600"
                     }`}
                     aria-label={`Slide ${index + 1}`}
                   />
                 ))}
               </div>
-              <div className="text-sm text-slate-500">
+              <div className="text-sm text-slate-500 dark:text-slate-400">
                 {currentSlide + 1} von {focusNews.length}
               </div>
             </div>
@@ -332,23 +332,23 @@ export default function Home() {
       </section>
 
       {/* Newsroom Section */}
-      <section className="bg-slate-50 py-16">
+      <section className="bg-slate-50 dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900">RailNetwork Newsroom</h2>
+          <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900 dark:text-slate-100">RailNetwork Newsroom</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {newsItems.map((news, index) => (
               <Link
                 key={index}
                 href={news.href}
-                className="group rounded-lg border border-slate-200 bg-white p-6 transition hover:border-slate-300 hover:shadow-md"
+                className="group rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 transition hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
               >
-                <div className="mb-2 text-xs text-slate-500">
+                <div className="mb-2 text-xs text-slate-500 dark:text-slate-400">
                   {news.date}, {news.location}
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-slate-900">
+                <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {news.title}
                 </h3>
-                <p className="text-sm text-slate-600">{news.description}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">{news.description}</p>
                 <div className="mt-4 text-sm font-semibold text-[#e2001a] group-hover:text-[#c10015]">
                   Zur Presseinformation →
                 </div>
@@ -358,7 +358,7 @@ export default function Home() {
           <div className="mt-8">
             <Link
               href="/de/presse"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-slate-900"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100"
             >
               Mehr News anzeigen
               <svg
@@ -380,15 +380,15 @@ export default function Home() {
       </section>
 
       {/* Themenwelten */}
-      <section className="bg-slate-50 py-16">
+      <section className="bg-slate-50 dark:bg-slate-950 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900">RailNetwork Themenwelten</h2>
+          <h2 className="font-db-screenhead mb-8 text-2xl font-bold text-slate-900 dark:text-slate-100">RailNetwork Themenwelten</h2>
           <div className="grid gap-8 md:grid-cols-2">
             {themenwelten.map((thema, index) => (
               <Link
                 key={index}
                 href={thema.href}
-                className="group block overflow-hidden rounded-lg border border-slate-200 bg-white transition hover:border-slate-300 hover:shadow-md"
+                className="group block overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 transition hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
               >
                 <div className="relative h-48">
                   <Image
@@ -399,10 +399,10 @@ export default function Home() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-slate-900">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
                     {thema.title}
                   </h3>
-                  <p className="mt-2 text-sm text-slate-600">{thema.description}</p>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{thema.description}</p>
                   <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#e2001a]">
                     Weiterlesen
                     <svg
@@ -427,19 +427,19 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="bg-white py-16">
+      <section className="bg-white dark:bg-slate-900 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="font-db-screenhead text-3xl font-bold text-slate-900">
+            <h2 className="font-db-screenhead text-3xl font-bold text-slate-900 dark:text-slate-100">
               Unsere Leistungen
             </h2>
-            <p className="mt-4 text-lg text-slate-600">
+            <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
               Innovative Lösungen für die Schieneninfrastruktur von morgen
             </p>
           </div>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
-            <div className="rounded-lg border border-slate-200 bg-white p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10">
+            <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10 dark:bg-[#e2001a]/20">
                 <svg
                   className="h-6 w-6 text-[#e2001a]"
                   fill="none"
@@ -454,15 +454,15 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-900">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
                 Telemetrie & Monitoring
               </h3>
-              <p className="mt-2 text-slate-600">
+              <p className="mt-2 text-slate-600 dark:text-slate-400">
                 Echtzeitüberwachung und Analyse von Schieneninfrastruktur mit
                 modernster Sensorik und KI-gestützter Auswertung.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-6">
+            <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#e2001a]/10">
                 <svg
                   className="h-6 w-6 text-[#e2001a]"
