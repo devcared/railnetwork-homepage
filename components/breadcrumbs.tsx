@@ -2,24 +2,32 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight, Home } from "lucide-react";
+import {
+  BreadcrumbRoot,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbCurrentLink,
+} from "@chakra-ui/react";
+import { Home } from "lucide-react";
 
-type BreadcrumbItem = {
+type BreadcrumbItemType = {
   label: string;
   href?: string;
 };
 
 type BreadcrumbsProps = {
-  items?: BreadcrumbItem[];
+  items?: BreadcrumbItemType[];
 };
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   const pathname = usePathname();
 
   // Auto-generate breadcrumbs from pathname if items not provided
-  const breadcrumbItems: BreadcrumbItem[] = items || (() => {
+  const breadcrumbItems: BreadcrumbItemType[] = items || (() => {
     const segments = pathname.split("/").filter(Boolean);
-    const result: BreadcrumbItem[] = [
+    const result: BreadcrumbItemType[] = [
       { label: "Dashboard", href: "/dashboard" },
     ];
 
@@ -70,36 +78,33 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   })();
 
   return (
-    <nav className="flex items-center gap-1.5 text-sm" aria-label="Breadcrumb">
-      <ol className="flex items-center gap-1.5">
+    <BreadcrumbRoot>
+      <BreadcrumbList>
         {breadcrumbItems.map((item, index) => (
-          <li key={index} className="flex items-center gap-1.5">
-            {index > 0 && (
-              <ChevronRight className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
-            )}
+          <BreadcrumbItem key={index}>
+            {index > 0 && <BreadcrumbSeparator />}
             {item.href ? (
-              <Link
-                href={item.href}
-                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
-              >
-                {index === 0 ? (
-                  <span className="flex items-center gap-1">
-                    <Home className="h-3.5 w-3.5" />
-                    {item.label}
-                  </span>
-                ) : (
-                  item.label
-                )}
-              </Link>
+              <BreadcrumbLink asChild>
+                <Link href={item.href}>
+                  {index === 0 ? (
+                    <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                      <Home size={14} />
+                      {item.label}
+                    </span>
+                  ) : (
+                    item.label
+                  )}
+                </Link>
+              </BreadcrumbLink>
             ) : (
-              <span className="text-slate-900 dark:text-slate-100 font-medium">
+              <BreadcrumbCurrentLink>
                 {item.label}
-              </span>
+              </BreadcrumbCurrentLink>
             )}
-          </li>
+          </BreadcrumbItem>
         ))}
-      </ol>
-    </nav>
+      </BreadcrumbList>
+    </BreadcrumbRoot>
   );
 }
 

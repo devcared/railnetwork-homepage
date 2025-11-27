@@ -1,7 +1,21 @@
 "use client";
 
 import { ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  DrawerRoot,
+  DrawerBackdrop,
+  DrawerPositioner,
+  DrawerContent,
+  DrawerBody,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerCloseTrigger,
+  Box,
+  Flex,
+  IconButton,
+} from "@chakra-ui/react";
 import { X } from "lucide-react";
 
 type SheetProps = {
@@ -13,57 +27,20 @@ type SheetProps = {
   ariaLabel?: string;
 };
 
-const horizontalSizeClasses = {
-  sm: "w-full max-w-md sm:max-w-sm md:max-w-md lg:max-w-lg",
-  md: "w-full max-w-xl sm:max-w-xl lg:max-w-2xl",
-  lg: "w-full max-w-2xl sm:max-w-3xl",
-  xl: "w-full max-w-3xl sm:max-w-4xl",
-  full: "w-full",
-};
-
-const sideClasses = {
-  left: "left-0 top-0 h-full",
-  right: "right-0 top-0 h-full",
-  top: "top-4 left-1/2 -translate-x-1/2 w-full px-4",
-  bottom: "bottom-4 left-1/2 -translate-x-1/2 w-full px-4",
-};
-
-const sideBorderClasses = {
-  left: "border-r",
-  right: "border-l",
-  top: "border-b",
-  bottom: "border-t",
+const sizeMap = {
+  sm: "sm",
+  md: "md",
+  lg: "lg",
+  xl: "xl",
+  full: "full",
 } as const;
 
-const cornerClasses = {
-  left: "rounded-r-3xl",
-  right: "rounded-l-3xl",
-  top: "rounded-b-3xl",
-  bottom: "rounded-t-3xl",
+const placementMap = {
+  left: "start",
+  right: "end",
+  top: "top",
+  bottom: "bottom",
 } as const;
-
-const sideAnimations = {
-  left: {
-    initial: { x: "-100%" },
-    animate: { x: 0 },
-    exit: { x: "-100%" },
-  },
-  right: {
-    initial: { x: "100%" },
-    animate: { x: 0 },
-    exit: { x: "100%" },
-  },
-  top: {
-    initial: { y: "-100%" },
-    animate: { y: 0 },
-    exit: { y: "-100%" },
-  },
-  bottom: {
-    initial: { y: "100%" },
-    animate: { y: 0 },
-    exit: { y: "100%" },
-  },
-};
 
 export default function Sheet({
   open,
@@ -73,59 +50,52 @@ export default function Sheet({
   size = "md",
   ariaLabel,
 }: SheetProps) {
-  const animation = sideAnimations[side];
-  const isVertical = side === "top" || side === "bottom";
-  const verticalHeights = {
-    sm: "max-h-[45vh]",
-    md: "max-h-[60vh]",
-    lg: "max-h-[75vh]",
-    xl: "max-h-[85vh]",
-    full: "h-full",
-  } as const;
-  const sheetWidth = isVertical ? "w-full" : horizontalSizeClasses[size];
-  const sheetHeight = isVertical ? verticalHeights[size] : "h-full";
-
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          {/* Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => onOpenChange(false)}
-            className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm"
-          />
-
-          {/* Sheet */}
-          <motion.div
-            initial={animation.initial}
-            animate={animation.animate}
-            exit={animation.exit}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            role="dialog"
-            aria-modal="true"
-            aria-label={ariaLabel || "Sheet Panel"}
-            data-sheet-side={side}
-            className={`fixed z-50 ${sideClasses[side]} ${sheetWidth} ${sheetHeight} overflow-hidden ${cornerClasses[side]} ${sideBorderClasses[side]} border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-[0_45px_120px_-40px_rgba(15,23,42,0.45)] dark:shadow-[0_45px_120px_-40px_rgba(0,0,0,0.5)] ring-1 ring-slate-200/60 dark:ring-slate-700/60 backdrop-blur-xl`}
-          >
-            <div className="relative flex h-full flex-col bg-white dark:bg-slate-900">
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[#e2001a]" />
-              <button
-                onClick={() => onOpenChange(false)}
-                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 shadow-sm transition hover:border-[#e2001a]/40 dark:hover:border-[#e2001a]/50 hover:text-[#e2001a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e2001a]/40"
+    <DrawerRoot
+      open={open}
+      onOpenChange={(e) => onOpenChange(e.open)}
+      placement={placementMap[side]}
+      size={sizeMap[size]}
+    >
+      <DrawerBackdrop />
+      <DrawerPositioner>
+        <DrawerContent>
+          <Box position="relative" h="100%" display="flex" flexDirection="column" bg="white" className="dark:bg-gray-900">
+            <Box
+              position="absolute"
+              insetX={0}
+              top={0}
+              h={1}
+              bg="brand.500"
+            />
+            <DrawerCloseTrigger asChild>
+              <IconButton
+                position="absolute"
+                right={4}
+                top={4}
+                zIndex={10}
+                size="sm"
+                variant="outline"
+                borderRadius="2xl"
+                borderWidth="1px"
+                borderColor="gray.200"
+                className="dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-brand-500/50"
+                bg="white"
+                color="gray.500"
+                _hover={{ borderColor: "brand.500", color: "brand.500" }}
+                shadow="sm"
                 aria-label="Sheet schließen"
               >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="flex-1 overflow-hidden">{children}</div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+                <X size={20} />
+              </IconButton>
+            </DrawerCloseTrigger>
+            <Box flex={1} overflow="hidden">
+              {children}
+            </Box>
+          </Box>
+        </DrawerContent>
+      </DrawerPositioner>
+    </DrawerRoot>
   );
 }
 
@@ -136,13 +106,13 @@ type SheetContentProps = {
 
 export function SheetContent({ children, className = "" }: SheetContentProps) {
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
-      <div
-        className={`mx-auto w-full max-w-4xl px-6 py-6 sm:px-10 sm:py-8 space-y-6 ${className}`}
-      >
-        {children}
-      </div>
-    </div>
+    <DrawerBody flex={1} overflowY="auto" px={6} py={6} className={className}>
+      <Box mx="auto" w="100%" maxW="4xl">
+        <Flex direction="column" gap={6}>
+          {children}
+        </Flex>
+      </Box>
+    </DrawerBody>
   );
 }
 
@@ -158,13 +128,22 @@ export function SheetHeader({
   sticky = true,
 }: SheetHeaderProps) {
   return (
-    <div
-      className={`flex-shrink-0 border-b border-slate-200/70 dark:border-slate-700/60 bg-white dark:bg-slate-800 px-6 py-5 sm:px-10 ${
-        sticky ? "sticky top-0 z-10" : ""
-      } ${className}`}
+    <DrawerHeader
+      flexShrink={0}
+      borderBottomWidth="1px"
+      borderColor="gray.200"
+      className={`dark:border-gray-700 dark:bg-gray-800 ${className}`}
+      bg="white"
+      px={6}
+      py={5}
+      position={sticky ? "sticky" : "relative"}
+      top={0}
+      zIndex={10}
     >
-      <div className="mx-auto w-full max-w-4xl">{children}</div>
-    </div>
+      <Box mx="auto" w="100%" maxW="4xl">
+        {children}
+      </Box>
+    </DrawerHeader>
   );
 }
 
@@ -175,13 +154,21 @@ type SheetFooterProps = {
 
 export function SheetFooter({ children, className = "" }: SheetFooterProps) {
   return (
-    <div
-      className={`flex-shrink-0 border-t border-slate-200/70 dark:border-slate-700/60 bg-slate-50 dark:bg-slate-800 px-6 py-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:px-10 ${className}`}
+    <DrawerFooter
+      flexShrink={0}
+      borderTopWidth="1px"
+      borderColor="gray.200"
+      className={`dark:border-gray-700 dark:bg-gray-800 ${className}`}
+      bg="gray.50"
+      px={6}
+      py={4}
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-        {children}
-      </div>
-    </div>
+      <Box mx="auto" w="100%" maxW="4xl">
+        <Flex direction="column" gap={3} w="100%" align="flex-end">
+          {children}
+        </Flex>
+      </Box>
+    </DrawerFooter>
   );
 }
 
@@ -192,11 +179,9 @@ type SheetTitleProps = {
 
 export function SheetTitle({ children, className = "" }: SheetTitleProps) {
   return (
-    <h2
-      className={`font-db-screenhead text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 ${className}`}
-    >
+    <DrawerTitle fontSize="2xl" fontWeight="bold" color="gray.900" className={`dark:text-gray-100 ${className}`}>
       {children}
-    </h2>
+    </DrawerTitle>
   );
 }
 
@@ -210,7 +195,8 @@ export function SheetDescription({
   className = "",
 }: SheetDescriptionProps) {
   return (
-    <p className={`mt-1 text-sm text-slate-600 dark:text-slate-400 ${className}`}>{children}</p>
+    <DrawerDescription fontSize="sm" color="gray.600" className={`dark:text-gray-400 ${className}`} mt={1}>
+      {children}
+    </DrawerDescription>
   );
 }
-
