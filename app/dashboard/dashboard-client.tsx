@@ -101,6 +101,11 @@ export default function DashboardClient({ session }: DashboardClientProps) {
   const [projectSort, setProjectSort] = useState<SortType>("updated");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
+  
+  // Alert Filters
+  const [alertFilter, setAlertFilter] = useState<"all" | "open" | "acknowledged" | "resolved">("all");
+  const [alertSeverityFilter, setAlertSeverityFilter] = useState<"all" | "critical" | "high" | "medium" | "low">("all");
+  const [alertSearchQuery, setAlertSearchQuery] = useState("");
 
   // Filtered & Sorted Projects
   const filteredAndSortedProjects = useMemo(() => {
@@ -143,10 +148,47 @@ export default function DashboardClient({ session }: DashboardClientProps) {
   const alertStats = useMemo(() => {
     const critical = alerts.filter((a) => a.severity === "critical" && a.status === "open").length;
     const high = alerts.filter((a) => a.severity === "high" && a.status === "open").length;
+    const medium = alerts.filter((a) => a.severity === "medium" && a.status === "open").length;
+    const low = alerts.filter((a) => a.severity === "low" && a.status === "open").length;
     const open = alerts.filter((a) => a.status === "open").length;
+    const acknowledged = alerts.filter((a) => a.status === "acknowledged").length;
     const resolved = alerts.filter((a) => a.status === "resolved").length;
-    return { critical, high, open, resolved };
+    return { critical, high, medium, low, open, acknowledged, resolved };
   }, [alerts]);
+
+  // Filtered Alerts
+  const filteredAlerts = useMemo(() => {
+    let filtered = alerts;
+
+    // Apply status filter
+    if (alertFilter !== "all") {
+      filtered = filtered.filter((a) => a.status === alertFilter);
+    }
+
+    // Apply severity filter
+    if (alertSeverityFilter !== "all") {
+      filtered = filtered.filter((a) => a.severity === alertSeverityFilter);
+    }
+
+    // Apply search
+    if (alertSearchQuery.trim()) {
+      const query = alertSearchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (a) =>
+          a.title.toLowerCase().includes(query) ||
+          a.message.toLowerCase().includes(query) ||
+          a.system.toLowerCase().includes(query)
+      );
+    }
+
+    // Sort by severity and date
+    return [...filtered].sort((a, b) => {
+      const severityOrder = { critical: 4, high: 3, medium: 2, low: 1 };
+      const severityDiff = (severityOrder[b.severity as keyof typeof severityOrder] || 0) - (severityOrder[a.severity as keyof typeof severityOrder] || 0);
+      if (severityDiff !== 0) return severityDiff;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  }, [alerts, alertFilter, alertSeverityFilter, alertSearchQuery]);
 
   // Activity Statistics
   const activityStats = useMemo(() => {
@@ -298,9 +340,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
         </Box>
 
         {/* Main Content */}
-        <Box px={{ base: 6, lg: 8 }} py={{ base: 6, lg: 8 }}>
+        <Box px={{ base: 4, md: 6, lg: 8 }} py={{ base: 4, md: 6, lg: 8 }}>
           <Box mx="auto" maxW="7xl">
-            <VStack gap={6} align="stretch">
+            <VStack gap={5} align="stretch">
               {/* Tab Navigation */}
               <HStack gap={2} borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60">
                 {[
@@ -330,12 +372,12 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
               {/* Overview Tab */}
               {activeTab === "overview" && (
-                <VStack gap={6} align="stretch">
+                <VStack gap={5} align="stretch">
                   {/* Key Metrics */}
                   <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={4}>
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                      <CardBody p={5}>
-                        <VStack align="flex-start" gap={3}>
+                      <CardBody p={4}>
+                        <VStack align="flex-start" gap={2.5}>
                           <HStack justify="space-between" w="100%">
                             <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                               Aktive Projekte
@@ -372,8 +414,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     </CardRoot>
 
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                      <CardBody p={5}>
-                        <VStack align="flex-start" gap={3}>
+                      <CardBody p={4}>
+                        <VStack align="flex-start" gap={2.5}>
                           <HStack justify="space-between" w="100%">
                             <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                               Offene Alerts
@@ -411,8 +453,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     </CardRoot>
 
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                      <CardBody p={5}>
-                        <VStack align="flex-start" gap={3}>
+                      <CardBody p={4}>
+                        <VStack align="flex-start" gap={2.5}>
                           <HStack justify="space-between" w="100%">
                             <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                               Aktivitäten heute
@@ -453,8 +495,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                     </CardRoot>
 
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                      <CardBody p={5}>
-                        <VStack align="flex-start" gap={3}>
+                      <CardBody p={4}>
+                        <VStack align="flex-start" gap={2.5}>
                           <HStack justify="space-between" w="100%">
                             <Text fontSize="xs" fontWeight="semibold" textTransform="uppercase" letterSpacing="wider" color="gray.500" className="dark:text-gray-400">
                               System-Status
@@ -488,7 +530,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
                   {/* System Performance */}
                   <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={6} py={4}>
+                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
                       <Flex align="center" justify="space-between">
                         <VStack align="flex-start" gap={1}>
                           <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
@@ -510,8 +552,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         </Button>
                       </Flex>
                     </CardHeader>
-                    <CardBody p={6}>
-                      <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={6}>
+                    <CardBody p={5}>
+                      <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={5}>
                         <VStack align="stretch" gap={2}>
                           <HStack justify="space-between">
                             <HStack gap={2}>
@@ -592,10 +634,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   </CardRoot>
 
                   {/* Recent Projects & Alerts */}
-                  <Grid templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }} gap={6}>
+                  <Grid templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }} gap={5}>
                     {/* Recent Projects */}
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                      <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={6} py={4}>
+                      <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
                         <Flex align="center" justify="space-between">
                           <VStack align="flex-start" gap={1}>
                             <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
@@ -650,8 +692,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                     <Box h="1px" bg="gray.200" className="dark:bg-gray-700/60" />
                                   )}
                                   <Box
-                                    px={6}
-                                    py={4}
+                                    px={5}
+                                    py={3.5}
                                     _hover={{ bg: "gray.50" }}
                                     className="dark:hover:bg-gray-800/50"
                                     cursor="pointer"
@@ -703,7 +745,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
                     {/* Recent Alerts */}
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                      <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={6} py={4}>
+                      <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
                         <Flex align="center" justify="space-between">
                           <VStack align="flex-start" gap={1}>
                             <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
@@ -761,8 +803,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                       <Box h="1px" bg="gray.200" className="dark:bg-gray-700/60" />
                                     )}
                                     <Box
-                                      px={6}
-                                      py={4}
+                                      px={5}
+                                      py={3.5}
                                       _hover={{ bg: "gray.50" }}
                                       className="dark:hover:bg-gray-800/50"
                                       cursor="pointer"
@@ -811,10 +853,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
               {/* Projects Tab */}
               {activeTab === "projects" && (
-                <VStack gap={6} align="stretch">
+                <VStack gap={5} align="stretch">
                   {/* Projects Header with Filters */}
                   <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={6} py={4}>
+                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
                       <Flex align="center" justify="space-between" gap={4} flexWrap="wrap">
                         <VStack align="flex-start" gap={1}>
                           <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
@@ -867,10 +909,10 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                         </HStack>
                       </Flex>
                     </CardHeader>
-                    <CardBody p={6}>
+                    <CardBody p={5}>
                       <VStack gap={4} align="stretch">
                         {/* Search & Filters */}
-                        <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+                        <SimpleGrid columns={{ base: 1, md: 3 }} gap={3}>
                           <Box>
                             <HStack gap={2} mb={2}>
                               <Search size={16} color="#9ca3af" />
@@ -1108,22 +1150,118 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
               {/* Alerts Tab */}
               {activeTab === "alerts" && (
-                <VStack gap={6} align="stretch">
+                <VStack gap={5} align="stretch">
+                  {/* Alert Statistics Cards */}
+                  <SimpleGrid columns={{ base: 2, sm: 4, lg: 7 }} gap={3}>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="gray.500" className="dark:text-gray-400">
+                            Gesamt
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
+                            {alerts.length}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="red.200" className="dark:border-red-800/40 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="red.600" className="dark:text-red-400">
+                            Offen
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="red.700" className="dark:text-red-400">
+                            {alertStats.open}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="red.300" className="dark:border-red-800/50 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="red.600" className="dark:text-red-400">
+                            Kritisch
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="red.700" className="dark:text-red-400">
+                            {alertStats.critical}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="orange.200" className="dark:border-orange-800/40 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="orange.600" className="dark:text-orange-400">
+                            Hoch
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="orange.700" className="dark:text-orange-400">
+                            {alertStats.high}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="amber.200" className="dark:border-amber-800/40 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="amber.600" className="dark:text-amber-400">
+                            Mittel
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="amber.700" className="dark:text-amber-400">
+                            {alertStats.medium}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="blue.200" className="dark:border-blue-800/40 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="blue.600" className="dark:text-blue-400">
+                            Bestätigt
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="blue.700" className="dark:text-blue-400">
+                            {alertStats.acknowledged}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                    <CardRoot borderRadius="lg" borderWidth="1px" borderColor="green.200" className="dark:border-green-800/40 dark:bg-gray-900" bg="white" shadow="sm">
+                      <CardBody p={3}>
+                        <VStack align="flex-start" gap={1.5}>
+                          <Text fontSize="xs" fontWeight="semibold" color="green.600" className="dark:text-green-400">
+                            Behoben
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="green.700" className="dark:text-green-400">
+                            {alertStats.resolved}
+                          </Text>
+                        </VStack>
+                      </CardBody>
+                    </CardRoot>
+                  </SimpleGrid>
+
+                  {/* Alerts Management Card */}
                   <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={6} py={4}>
+                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
                       <Flex align="center" justify="space-between" gap={4} flexWrap="wrap">
                         <VStack align="flex-start" gap={1}>
                           <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
                             Störungsmeldungen
                           </Text>
-                          <HStack gap={3} fontSize="xs" color="gray.500" className="dark:text-gray-400">
-                            <Text>{alertStats.open} Offen</Text>
-                            <Text>•</Text>
-                            <Text>{alertStats.resolved} Behoben</Text>
-                            <Text>•</Text>
-                            <Text>{alertStats.critical} Kritisch</Text>
-                          </HStack>
+                          <Text fontSize="xs" color="gray.500" className="dark:text-gray-400">
+                            {filteredAlerts.length} von {alerts.length} Alerts
+                          </Text>
                         </VStack>
+                        <HStack gap={2}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => refresh.alerts()}
+                          >
+                            <HStack gap={1.5}>
+                              <RefreshCw size={14} />
+                              <Text display={{ base: "none", sm: "block" }}>Aktualisieren</Text>
+                            </HStack>
+                          </Button>
                           <Button
                             asChild
                             size="sm"
@@ -1136,108 +1274,198 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                               </HStack>
                             </Link>
                           </Button>
+                        </HStack>
                       </Flex>
                     </CardHeader>
-                    <CardBody p={0}>
-                      {alerts.length === 0 ? (
-                        <Center px={6} py={12}>
-                          <VStack gap={3}>
+                    <CardBody p={5}>
+                      <VStack gap={4} align="stretch">
+                        {/* Search & Filters */}
+                        <SimpleGrid columns={{ base: 1, md: 3 }} gap={3}>
+                          <Box>
+                            <HStack gap={2} mb={2}>
+                              <Search size={16} color="#9ca3af" />
+                              <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-400">
+                                Suche
+                              </Text>
+                            </HStack>
+                            <Input
+                              placeholder="Titel, Nachricht oder System..."
+                              value={alertSearchQuery}
+                              onChange={(e) => setAlertSearchQuery(e.target.value)}
+                              borderRadius="md"
+                              borderWidth="1px"
+                              borderColor="gray.200"
+                              className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
+                              bg="white"
+                            />
+                          </Box>
+                          <Box>
+                            <HStack gap={2} mb={2}>
+                              <Filter size={16} color="#9ca3af" />
+                              <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-400">
+                                Status
+                              </Text>
+                            </HStack>
                             <Box
-                              h={12}
-                              w={12}
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              borderRadius="full"
-                              bg="green.100"
-                              className="dark:bg-green-900/20"
+                              as="select"
+                              defaultValue={alertFilter}
+                              onChange={(e) => {
+                                const target = e.target as HTMLSelectElement;
+                                setAlertFilter(target.value as typeof alertFilter);
+                              }}
+                              borderRadius="md"
+                              borderWidth="1px"
+                              borderColor="gray.200"
+                              className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
+                              bg="white"
+                              px={3}
+                              py={2}
+                              fontSize="sm"
+                              w="100%"
                             >
-                              <CheckCircle2 size={24} color="#10b981" />
+                              <option value="all">Alle Status</option>
+                              <option value="open">Offen</option>
+                              <option value="acknowledged">Bestätigt</option>
+                              <option value="resolved">Behoben</option>
                             </Box>
-                            <Text fontSize="sm" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
-                              Keine Alerts vorhanden
-                            </Text>
-                          </VStack>
-                        </Center>
-                      ) : (
-                        <VStack gap={0} align="stretch">
-                          {alerts.slice(0, 10).map((alert, index) => {
-                            const severityColor = getSeverityColor(alert.severity);
-                            return (
-                              <Box key={alert.id}>
-                                {index > 0 && (
-                                  <Box h="1px" bg="gray.200" className="dark:bg-gray-700/60" />
-                                )}
-                                <Box
-                                  px={6}
-                                  py={4}
-                                  _hover={{ bg: "gray.50" }}
-                                  className="dark:hover:bg-gray-800/50"
-                                  asChild
-                                >
-                                  <Link href={`/dashboard/alerts/${alert.id}`}>
-                                    <Flex align="flex-start" gap={4}>
-                                      <Box
-                                        h={10}
-                                        w={10}
-                                        flexShrink={0}
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="center"
-                                        borderRadius="lg"
-                                        bg={severityColor.bg}
-                                        className={`dark:bg-${severityColor.darkBg}`}
-                                      >
-                                        <AlertTriangle size={20} color={severityColor.color} />
-                                      </Box>
-                                      <VStack align="flex-start" gap={2} flex={1} minW={0}>
-                                        <HStack gap={2} w="100%">
-                                          <Text fontSize="sm" fontWeight="semibold" color="gray.900" className="dark:text-gray-100" flex={1}>
-                                            {alert.title}
-                                          </Text>
-                                          <Badge
-                                            borderRadius="full"
-                                            px={2.5}
-                                            py={1}
-                                            fontSize="xs"
-                                            fontWeight="semibold"
-                                            bg={severityColor.bg}
-                                            className={`dark:bg-${severityColor.darkBg} dark:text-${severityColor.darkColor}`}
-                                            color={severityColor.color}
-                                          >
-                                            {alert.severity}
-                                          </Badge>
-                                          <Badge
-                                            borderRadius="full"
-                                            px={2.5}
-                                            py={1}
-                                            fontSize="xs"
-                                            fontWeight="semibold"
-                                            bg={alert.status === "open" ? "red.50" : alert.status === "resolved" ? "green.50" : "blue.50"}
-                                            className={alert.status === "open" ? "dark:bg-red-900/20 dark:text-red-400" : alert.status === "resolved" ? "dark:bg-green-900/20 dark:text-green-400" : "dark:bg-blue-900/20 dark:text-blue-400"}
-                                            color={alert.status === "open" ? "red.700" : alert.status === "resolved" ? "green.700" : "blue.700"}
-                                          >
-                                            {alert.status === "open" ? "Offen" : alert.status === "resolved" ? "Behoben" : "Bestätigt"}
-                                          </Badge>
-                                        </HStack>
-                                        <Text fontSize="xs" color="gray.500" className="dark:text-gray-400" style={{ overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
-                                          {alert.message}
-                                        </Text>
-                                        <HStack gap={3} fontSize="xs" color="gray.500" className="dark:text-gray-400">
-                                          <Text>{alert.system}</Text>
-                                          <Text>•</Text>
-                                          <Text>{formatTime(alert.createdAt)}</Text>
-                                        </HStack>
-                                      </VStack>
-                                      <ChevronRight size={16} color="#9ca3af" />
-                                    </Flex>
-                                  </Link>
-                                </Box>
+                          </Box>
+                          <Box>
+                            <HStack gap={2} mb={2}>
+                              <AlertTriangle size={16} color="#9ca3af" />
+                              <Text fontSize="xs" fontWeight="semibold" color="gray.600" className="dark:text-gray-400">
+                                Schweregrad
+                              </Text>
+                            </HStack>
+                            <Box
+                              as="select"
+                              defaultValue={alertSeverityFilter}
+                              onChange={(e) => {
+                                const target = e.target as HTMLSelectElement;
+                                setAlertSeverityFilter(target.value as typeof alertSeverityFilter);
+                              }}
+                              borderRadius="md"
+                              borderWidth="1px"
+                              borderColor="gray.200"
+                              className="dark:border-gray-700/60 dark:bg-gray-800 dark:text-gray-100"
+                              bg="white"
+                              px={3}
+                              py={2}
+                              fontSize="sm"
+                              w="100%"
+                            >
+                              <option value="all">Alle Schweregrade</option>
+                              <option value="critical">Kritisch</option>
+                              <option value="high">Hoch</option>
+                              <option value="medium">Mittel</option>
+                              <option value="low">Niedrig</option>
+                            </Box>
+                          </Box>
+                        </SimpleGrid>
+
+                        {/* Alerts List */}
+                        {filteredAlerts.length === 0 ? (
+                          <Center py={12}>
+                            <VStack gap={3}>
+                              <Box
+                                h={12}
+                                w={12}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="full"
+                                bg="green.100"
+                                className="dark:bg-green-900/20"
+                              >
+                                <CheckCircle2 size={24} color="#10b981" />
                               </Box>
-                            );
-                          })}
-                        </VStack>
-                      )}
+                              <Text fontSize="sm" fontWeight="medium" color="gray.500" className="dark:text-gray-400">
+                                {alertSearchQuery || alertFilter !== "all" || alertSeverityFilter !== "all" ? "Keine Alerts gefunden" : "Keine Alerts vorhanden"}
+                              </Text>
+                            </VStack>
+                          </Center>
+                        ) : (
+                          <VStack gap={0} align="stretch">
+                            {filteredAlerts.map((alert, index) => {
+                              const severityColor = getSeverityColor(alert.severity);
+                              return (
+                                <Box key={alert.id}>
+                                  {index > 0 && (
+                                    <Box h="1px" bg="gray.200" className="dark:bg-gray-700/60" />
+                                  )}
+                                  <Box
+                                    px={5}
+                                    py={3.5}
+                                    _hover={{ bg: "gray.50" }}
+                                    className="dark:hover:bg-gray-800/50"
+                                    asChild
+                                  >
+                                    <Link href={`/dashboard/alerts/${alert.id}`}>
+                                      <Flex align="flex-start" gap={3}>
+                                        <Box
+                                          h={12}
+                                          w={12}
+                                          flexShrink={0}
+                                          display="flex"
+                                          alignItems="center"
+                                          justifyContent="center"
+                                          borderRadius="lg"
+                                          bg={severityColor.bg}
+                                          className={`dark:bg-${severityColor.darkBg}`}
+                                        >
+                                          <AlertTriangle size={22} color={severityColor.color} />
+                                        </Box>
+                                        <VStack align="flex-start" gap={1.5} flex={1} minW={0}>
+                                          <HStack gap={2} w="100%" flexWrap="wrap">
+                                            <Text fontSize="sm" fontWeight="semibold" color="gray.900" className="dark:text-gray-100" flex={1} minW="200px">
+                                              {alert.title}
+                                            </Text>
+                                            <Badge
+                                              borderRadius="full"
+                                              px={2.5}
+                                              py={1}
+                                              fontSize="xs"
+                                              fontWeight="semibold"
+                                              bg={severityColor.bg}
+                                              className={`dark:bg-${severityColor.darkBg} dark:text-${severityColor.darkColor}`}
+                                              color={severityColor.color}
+                                            >
+                                              {alert.severity === "critical" ? "Kritisch" : alert.severity === "high" ? "Hoch" : alert.severity === "medium" ? "Mittel" : "Niedrig"}
+                                            </Badge>
+                                            <Badge
+                                              borderRadius="full"
+                                              px={2.5}
+                                              py={1}
+                                              fontSize="xs"
+                                              fontWeight="semibold"
+                                              bg={alert.status === "open" ? "red.50" : alert.status === "resolved" ? "green.50" : "blue.50"}
+                                              className={alert.status === "open" ? "dark:bg-red-900/20 dark:text-red-400" : alert.status === "resolved" ? "dark:bg-green-900/20 dark:text-green-400" : "dark:bg-blue-900/20 dark:text-blue-400"}
+                                              color={alert.status === "open" ? "red.700" : alert.status === "resolved" ? "green.700" : "blue.700"}
+                                            >
+                                              {alert.status === "open" ? "Offen" : alert.status === "resolved" ? "Behoben" : "Bestätigt"}
+                                            </Badge>
+                                          </HStack>
+                                          <Text fontSize="xs" color="gray.500" className="dark:text-gray-400" style={{ overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+                                            {alert.message}
+                                          </Text>
+                                          <HStack gap={3} fontSize="xs" color="gray.500" className="dark:text-gray-400">
+                                            <HStack gap={1}>
+                                              <Box h={1.5} w={1.5} borderRadius="full" bg="gray.400" className="dark:bg-gray-500" />
+                                              <Text fontWeight="medium">{alert.system}</Text>
+                                            </HStack>
+                                            <Text>•</Text>
+                                            <Text>{formatTime(alert.createdAt)}</Text>
+                                          </HStack>
+                                        </VStack>
+                                        <ChevronRight size={16} color="#9ca3af" className="flex-shrink-0" />
+                                      </Flex>
+                                    </Link>
+                                  </Box>
+                                </Box>
+                              );
+                            })}
+                          </VStack>
+                        )}
+                      </VStack>
                     </CardBody>
                   </CardRoot>
                 </VStack>
@@ -1245,9 +1473,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
 
               {/* Activities Tab */}
               {activeTab === "activities" && (
-                <VStack gap={6} align="stretch">
+                <VStack gap={5} align="stretch">
                   <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
-                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={6} py={4}>
+                    <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
                       <Flex align="center" justify="space-between" gap={4} flexWrap="wrap">
                         <VStack align="flex-start" gap={1}>
                           <Text fontSize="lg" fontWeight="bold" color="gray.900" className="dark:text-gray-100">
@@ -1306,8 +1534,8 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                                   <Box h="1px" bg="gray.200" className="dark:bg-gray-700/60" />
                                 )}
                                 <Box
-                                  px={6}
-                                  py={4}
+                                  px={5}
+                                  py={3.5}
                                   _hover={{ bg: "gray.50" }}
                                   className="dark:hover:bg-gray-800/50"
                                 >
