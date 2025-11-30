@@ -44,6 +44,14 @@ import {
   TableCell,
   TableHeader,
   TableColumnHeader,
+  IconButton,
+  Separator,
+  MenuRoot,
+  MenuTrigger,
+  MenuPositioner,
+  MenuContent,
+  MenuItem,
+  MenuSeparator,
 } from "@chakra-ui/react";
 import {
   Plus,
@@ -64,6 +72,10 @@ import {
   Eye,
   Edit,
   Info,
+  MoreVertical,
+  Settings,
+  X,
+  Menu,
 } from "lucide-react";
 
 type DashboardClientProps = {
@@ -106,6 +118,9 @@ export default function DashboardClient({ session }: DashboardClientProps) {
   const [alertFilter, setAlertFilter] = useState<"all" | "open" | "acknowledged" | "resolved">("all");
   const [alertSeverityFilter, setAlertSeverityFilter] = useState<"all" | "critical" | "high" | "medium" | "low">("all");
   const [alertSearchQuery, setAlertSearchQuery] = useState("");
+  
+  // Mobile Menu State
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // Filtered & Sorted Projects
   const filteredAndSortedProjects = useMemo(() => {
@@ -291,13 +306,13 @@ export default function DashboardClient({ session }: DashboardClientProps) {
           className="dark:border-gray-700/60 dark:bg-gray-900"
           bg="white"
         >
-          <Box px={{ base: 6, lg: 8 }} py={4}>
-            <Flex align="center" justify="space-between" gap={4}>
+          <Box px={{ base: 4, md: 6, lg: 8 }} py={{ base: 3, md: 4 }}>
+            <Flex align="center" justify="space-between" gap={3}>
               <Breadcrumbs />
               <HStack gap={2}>
                 {currentVersion && (
                   <Badge
-                    display={{ base: "none", sm: "flex" }}
+                    display={{ base: "none", md: "flex" }}
                     borderRadius="md"
                     px={2}
                     py={1}
@@ -314,13 +329,15 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   </Badge>
                 )}
                 <ThemeToggle />
-                <Notifications
-                  initialNotifications={notifications.map((n) => ({
-                    ...n,
-                    createdAt: typeof n.createdAt === "string" ? n.createdAt : n.createdAt.toISOString(),
-                  }))}
-                  initialUnreadCount={unreadCount}
-                />
+                <Box display={{ base: "none", md: "block" }}>
+                  <Notifications
+                    initialNotifications={notifications.map((n) => ({
+                      ...n,
+                      createdAt: typeof n.createdAt === "string" ? n.createdAt : n.createdAt.toISOString(),
+                    }))}
+                    initialUnreadCount={unreadCount}
+                  />
+                </Box>
                 <Button
                   size="sm"
                   onClick={() => setShowCreateProject(true)}
@@ -328,53 +345,268 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   color="white"
                   _hover={{ bg: "brand.600" }}
                   borderRadius="md"
+                  display={{ base: "none", sm: "flex" }}
                 >
                   <HStack gap={1.5}>
                     <Plus size={14} />
-                    <Text display={{ base: "none", sm: "block" }}>Neues Projekt</Text>
+                    <Text>Neues Projekt</Text>
                   </HStack>
                 </Button>
+                <IconButton
+                  size="sm"
+                  variant="ghost"
+                  display={{ base: "flex", md: "none" }}
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  aria-label="Menu"
+                >
+                  {showMobileMenu ? <X size={20} /> : <Menu size={20} />}
+                </IconButton>
               </HStack>
             </Flex>
           </Box>
+          
+          {/* Mobile Menu */}
+          {showMobileMenu && (
+            <Box
+              display={{ base: "block", md: "none" }}
+              borderTopWidth="1px"
+              borderColor="gray.200"
+              className="dark:border-gray-700/60"
+              bg="white"
+              className="dark:bg-gray-900"
+              px={4}
+              py={3}
+            >
+              <VStack gap={2} align="stretch">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setShowCreateProject(true);
+                    setShowMobileMenu(false);
+                  }}
+                  justifyContent="flex-start"
+                >
+                  <HStack gap={2}>
+                    <Plus size={16} />
+                    <Text>Neues Projekt</Text>
+                  </HStack>
+                </Button>
+                <Separator />
+                <Box>
+                  <Notifications
+                    initialNotifications={notifications.map((n) => ({
+                      ...n,
+                      createdAt: typeof n.createdAt === "string" ? n.createdAt : n.createdAt.toISOString(),
+                    }))}
+                    initialUnreadCount={unreadCount}
+                  />
+                </Box>
+              </VStack>
+            </Box>
+          )}
         </Box>
 
         {/* Main Content */}
         <Box px={{ base: 4, md: 6, lg: 8 }} py={{ base: 4, md: 6, lg: 8 }}>
           <Box mx="auto" maxW="7xl">
             <VStack gap={5} align="stretch">
-              {/* Tab Navigation */}
-              <HStack gap={2} borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60">
-                {[
-                  { id: "overview", label: "Übersicht" },
-                  { id: "projects", label: "Projekte" },
-                  { id: "alerts", label: "Alerts" },
-                  { id: "activities", label: "Aktivitäten" },
-                ].map((tab) => (
-                  <Button
-                    key={tab.id}
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setActiveTab(tab.id)}
-                    borderRadius="none"
-                    borderBottomWidth="2px"
-                    borderColor={activeTab === tab.id ? "brand.500" : "transparent"}
-                    color={activeTab === tab.id ? "brand.500" : "gray.600"}
-                    className={activeTab === tab.id ? "dark:text-brand-400" : "dark:text-gray-400 dark:hover:bg-gray-800"}
-                    _hover={{ bg: "gray.50" }}
-                    px={4}
-                    py={2}
+              {/* Tab Navigation with Action Bar */}
+              <VStack gap={3} align="stretch">
+                {/* Action Bar */}
+                <Box
+                  borderRadius="lg"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  className="dark:border-gray-700/60 dark:bg-gray-900"
+                  bg="white"
+                  px={{ base: 3, md: 4 }}
+                  py={{ base: 2.5, md: 3 }}
+                >
+                  <Flex
+                    align="center"
+                    justify="space-between"
+                    gap={3}
+                    flexWrap="wrap"
+                    direction={{ base: "column", sm: "row" }}
                   >
-                    {tab.label}
-                  </Button>
-                ))}
-              </HStack>
+                    <HStack gap={2} flexWrap="wrap" flex={1}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          if (activeTab === "projects") {
+                            refresh.projects();
+                          } else if (activeTab === "alerts") {
+                            refresh.alerts();
+                          } else if (activeTab === "activities") {
+                            refresh.activities();
+                          } else {
+                            refresh.stats();
+                          }
+                        }}
+                      >
+                        <HStack gap={1.5}>
+                          <RefreshCw size={14} />
+                          <Text display={{ base: "none", sm: "block" }}>Aktualisieren</Text>
+                        </HStack>
+                      </Button>
+                      {activeTab === "projects" && (
+                        <>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              const csv = [
+                                ["Name", "Status", "Fortschritt", "Erstellt", "Aktualisiert"],
+                                ...filteredAndSortedProjects.map((p) => [
+                                  p.name,
+                                  p.status,
+                                  `${p.progress}%`,
+                                  new Date(p.createdAt).toLocaleDateString("de-DE"),
+                                  new Date(p.updatedAt).toLocaleDateString("de-DE"),
+                                ]),
+                              ].map((row) => row.join(",")).join("\n");
+                              const blob = new Blob([csv], { type: "text/csv" });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement("a");
+                              a.href = url;
+                              a.download = `projekte-${new Date().toISOString().split("T")[0]}.csv`;
+                              a.click();
+                            }}
+                          >
+                            <HStack gap={1.5}>
+                              <Download size={14} />
+                              <Text display={{ base: "none", sm: "block" }}>Export</Text>
+                            </HStack>
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={() => setShowCreateProject(true)}
+                            bg="brand.500"
+                            color="white"
+                            _hover={{ bg: "brand.600" }}
+                          >
+                            <HStack gap={1.5}>
+                              <Plus size={14} />
+                              <Text>Neues Projekt</Text>
+                            </HStack>
+                          </Button>
+                        </>
+                      )}
+                      {activeTab === "alerts" && (
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="outline"
+                        >
+                          <Link href="/dashboard/alerts">
+                            <HStack gap={1.5}>
+                              <Text>Alle anzeigen</Text>
+                              <ChevronRight size={14} />
+                            </HStack>
+                          </Link>
+                        </Button>
+                      )}
+                    </HStack>
+                    <MenuRoot>
+                      <MenuTrigger asChild>
+                        <IconButton
+                          size="sm"
+                          variant="ghost"
+                          aria-label="Weitere Aktionen"
+                        >
+                          <MoreVertical size={16} />
+                        </IconButton>
+                      </MenuTrigger>
+                      <MenuPositioner>
+                        <MenuContent>
+                          <MenuItem onClick={() => refresh.stats()}>
+                            <HStack gap={2}>
+                              <RefreshCw size={14} />
+                              <Text>Alle aktualisieren</Text>
+                            </HStack>
+                          </MenuItem>
+                          <MenuSeparator />
+                          <MenuItem asChild>
+                            <Link href="/dashboard/settings">
+                              <HStack gap={2}>
+                                <Settings size={14} />
+                                <Text>Einstellungen</Text>
+                              </HStack>
+                            </Link>
+                          </MenuItem>
+                        </MenuContent>
+                      </MenuPositioner>
+                    </MenuRoot>
+                  </Flex>
+                </Box>
+
+                {/* Tab Navigation */}
+                <Box
+                  overflowX="auto"
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      height: "4px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      background: "transparent",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#cbd5e1",
+                      borderRadius: "2px",
+                    },
+                    "&::-webkit-scrollbar-thumb:hover": {
+                      background: "#94a3b8",
+                    },
+                  }}
+                >
+                  <HStack
+                    gap={2}
+                    borderBottomWidth="1px"
+                    borderColor="gray.200"
+                    className="dark:border-gray-700/60"
+                    minW="max-content"
+                  >
+                    {[
+                      { id: "overview", label: "Übersicht", icon: BarChart3 },
+                      { id: "projects", label: "Projekte", icon: FolderKanban },
+                      { id: "alerts", label: "Alerts", icon: AlertTriangle },
+                      { id: "activities", label: "Aktivitäten", icon: ActivityIcon },
+                    ].map((tab) => {
+                      const Icon = tab.icon;
+                      return (
+                        <Button
+                          key={tab.id}
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setActiveTab(tab.id)}
+                          borderRadius="none"
+                          borderBottomWidth="2px"
+                          borderColor={activeTab === tab.id ? "brand.500" : "transparent"}
+                          color={activeTab === tab.id ? "brand.500" : "gray.600"}
+                          className={activeTab === tab.id ? "dark:text-brand-400" : "dark:text-gray-400 dark:hover:bg-gray-800"}
+                          _hover={{ bg: "gray.50" }}
+                          px={{ base: 3, md: 4 }}
+                          py={2}
+                          whiteSpace="nowrap"
+                        >
+                          <HStack gap={1.5}>
+                            <Icon size={16} />
+                            <Text>{tab.label}</Text>
+                          </HStack>
+                        </Button>
+                      );
+                    })}
+                  </HStack>
+                </Box>
+              </VStack>
 
               {/* Overview Tab */}
               {activeTab === "overview" && (
                 <VStack gap={5} align="stretch">
                   {/* Key Metrics */}
-                  <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={4}>
+                  <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={{ base: 3, md: 4 }}>
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
                       <CardBody p={4}>
                         <VStack align="flex-start" gap={2.5}>
@@ -634,7 +866,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                   </CardRoot>
 
                   {/* Recent Projects & Alerts */}
-                  <Grid templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }} gap={5}>
+                  <Grid templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }} gap={{ base: 4, md: 5 }}>
                     {/* Recent Projects */}
                     <CardRoot borderRadius="xl" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
                       <CardHeader borderBottomWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60" px={5} py={3.5}>
@@ -866,7 +1098,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             {filteredAndSortedProjects.length} von {projects.length} Projekten
                           </Text>
                         </VStack>
-                        <HStack gap={2}>
+                        <HStack gap={2} display={{ base: "none", md: "flex" }}>
                           <Button
                             size="sm"
                             variant="outline"
@@ -1152,7 +1384,22 @@ export default function DashboardClient({ session }: DashboardClientProps) {
               {activeTab === "alerts" && (
                 <VStack gap={5} align="stretch">
                   {/* Alert Statistics Cards */}
-                  <SimpleGrid columns={{ base: 2, sm: 4, lg: 7 }} gap={3}>
+                  <Box
+                    overflowX="auto"
+                    css={{
+                      "&::-webkit-scrollbar": {
+                        height: "4px",
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        background: "transparent",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        background: "#cbd5e1",
+                        borderRadius: "2px",
+                      },
+                    }}
+                  >
+                    <SimpleGrid columns={{ base: 2, sm: 4, lg: 7 }} gap={3} minW="max-content">
                     <CardRoot borderRadius="lg" borderWidth="1px" borderColor="gray.200" className="dark:border-gray-700/60 dark:bg-gray-900" bg="white" shadow="sm">
                       <CardBody p={3}>
                         <VStack align="flex-start" gap={1.5}>
@@ -1251,7 +1498,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                             {filteredAlerts.length} von {alerts.length} Alerts
                           </Text>
                         </VStack>
-                        <HStack gap={2}>
+                        <HStack gap={2} display={{ base: "none", md: "flex" }}>
                           <Button
                             size="sm"
                             variant="outline"
@@ -1259,7 +1506,7 @@ export default function DashboardClient({ session }: DashboardClientProps) {
                           >
                             <HStack gap={1.5}>
                               <RefreshCw size={14} />
-                              <Text display={{ base: "none", sm: "block" }}>Aktualisieren</Text>
+                              <Text>Aktualisieren</Text>
                             </HStack>
                           </Button>
                           <Button
